@@ -86,7 +86,7 @@
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="edit_expendituretype_name">Expenditure Category Type Name</label>
+            <label for="expendituretype_name">Expenditure Category Type Name</label>
             <input type="text" class="form-control" id="expendituretype_name" name="expendituretype_name" placeholder="Enter expenditure name"  autocomplete="off">
           </div>
         </div>
@@ -234,13 +234,9 @@ $(document).ready(function() {
               '<strong> <span class="glyphicon glyphicon-exclamation-sign"></span> </strong>'+response.messages+
             '</div>');
           }
-          if (response.close_notification) {
-            setTimeout(function() {
-                $('.alert-success').fadeOut();
-            }, 3000);
+          autoCloseAlert();
         }
-        }
-        autoCloseAlert();
+        
       }
     }); 
 

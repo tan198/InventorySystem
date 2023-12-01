@@ -76,8 +76,6 @@ class Model_orders extends CI_Model
     		$qty = (int) $product_data['qty'] - (int) $this->input->post('qty')[$x];
 
     		$update_product = array('qty' => $qty);
-
-
     		$this->model_products->update($update_product, $this->input->post('product')[$x]);
     	}
 

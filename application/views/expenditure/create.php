@@ -48,11 +48,46 @@
                 <div class="form-group">
                   <label for="expenditurecategory">Expenditure Category</label>
                   <select class="form-control select_group" id="expenditurecategory" name="expenditurecategory">
+                      <option value=" ">Select Expenditure Category</option>
                     <?php foreach ($expenditurecategory as $k => $v): ?>
                       <option value="<?php echo $v['idHangMucChi'] ?>"><?php echo $v['tenHangMucChi'] ?></option>
                     <?php endforeach ?>
                   </select>
                 </div>
+                
+                <div class= "project">
+                <?php if(in_array('createExpenditureType', $user_permission)): ?>
+                      <!-- create brand modal -->
+                      <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title">Add Expenditure Category Type</h4>
+                            </div>
+
+                            <form role="form" action="<?php echo base_url('expendituretype/create') ?>" method="post" id="createForm">
+
+                              <div class="modal-body">
+
+                                <div class="form-group">
+                                  <label for="edit_expendituretype_name">Expenditure Category Type Name</label>
+                                  <input type="text" class="form-control" id="expendituretype_name" name="expendituretype_name" placeholder="Enter expenditure name"  autocomplete="off">
+                                </div>
+                              </div>
+
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                              </div>
+
+                            </form>
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div><!-- /.modal -->
+                      <?php endif; ?>
+                </div>
+
 
                 <div class="form-group">
                   <label for="fund">Fund Name</label>
@@ -105,6 +140,22 @@
   $(document).ready(function() {
     $(".select_group").select2();
     $("#description").wysihtml5();
+
+  
+ //$(".project").hide();
+
+  $("#expenditurecategory").on("change", function(){
+    var selectedID = $("#expenditurecategory option:selected").text();
+    
+    if(selectedID == "Dự án"){
+      $("#addModal").modal('show');
+      
+     
+    }else{
+      $("#addModal").modal('hide');
+    }
+  
+  });
 
     $("#mainExpenditureNav").addClass('active');
     $("#addExpenditureNav").addClass('active');
@@ -195,5 +246,8 @@ function formatCurrency(input, blur) {
   caret_pos = updated_len - original_len + caret_pos;
   input[0].setSelectionRange(caret_pos, caret_pos);
 }
+
+
   });
+
 </script>

@@ -15,6 +15,8 @@ class Expenditure extends Admin_Controller
 		$this->load->model('model_expenditure');
         $this->load->model('model_expenditurecategory');
 		$this->load->model('model_fund');
+        $this->load->model('model_project');
+        $this->load->model('model_expendituretype');
 	}
 
     /* 
@@ -52,8 +54,7 @@ class Expenditure extends Admin_Controller
 
             if(in_array('deleteExpenditure', $this->permission)) { 
     			$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idBangChi'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
-            }
-            //$currency_unit = number_format((float)$value['soTienThu'],2,'.',','); 
+            } 
 
 			$result['data'][$key] = array(
                 $expenditurecategory_data['tenHangMucChi'],
