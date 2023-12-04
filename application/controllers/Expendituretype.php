@@ -94,14 +94,14 @@ class Expendituretype extends Admin_Controller
 		$response = array();
 
 		$this->form_validation->set_rules('expendituretype_name', 'Expenditure category type name', 'trim|required');
-		// $this->form_validation->set_rules('', 'Active', 'trim|required');
+		
 
 		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 
         if ($this->form_validation->run() == TRUE) {
         	$data = array(
         		'tenLoaiHangMucChi' => $this->input->post('expendituretype_name'),
-        		// 'active' => $this->input->post('active'),	
+    	
         	);
 
         	$create = $this->model_expendituretype->create($data);
@@ -120,7 +120,6 @@ class Expendituretype extends Admin_Controller
         		$response['messages'][$key] = form_error($key);
         	}
 			
-			$response['close_notification'] = true;
         }
 
         echo json_encode($response);
