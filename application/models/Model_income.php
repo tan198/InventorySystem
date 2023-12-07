@@ -51,7 +51,7 @@ class Model_income extends CI_Model
 	public function remove($id)
 	{
 		if($id) {
-			$this->db->where('idBangTHu', $id);
+			$this->db->where('idBangThu', $id);
 			$delete = $this->db->delete('taobangthu');
 			return ($delete == true) ? true : false;
 		}

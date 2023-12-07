@@ -120,6 +120,8 @@
               </a>
             </li>
           <?php endif; ?>
+
+    
           
           <?php if(in_array('createExpenditureCategory', $user_permission) || in_array('updateExpenditureCategory', $user_permission) || in_array('viewExpenditureCategory', $user_permission) || in_array('deleteExpenditureCategory', $user_permission)): ?>
             <li class="treeview" id="mainExpenditureCategoryNav">
@@ -196,6 +198,37 @@
               </a>
             </li>
           <?php endif; ?>
+
+
+          <?php if(in_array('createProjectExpend', $user_permission) || in_array('updateProjectExpend', $user_permission) || in_array('viewProjectExpend', $user_permission) || in_array('deleteProjectExpend', $user_permission)): ?>
+            <li class="treeview" id="mainProjectExpendNav">
+              <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>Dự Án Chi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <?php if(in_array('createProjectExpend', $user_permission)): ?>
+                  <li id="addProjectExpendNav"><a href="<?php echo base_url('projectexpend/create') ?>"><i class="fa fa-circle-o"></i> Thêm Dự Án Chi</a></li>
+                <?php endif; ?>
+                <?php if(in_array('updateProjectExpend', $user_permission) || in_array('viewProjectExpend', $user_permission) || in_array('deleteProjectExpend', $user_permission)): ?>
+                <li id="manageProjectExpendNav"><a href="<?php echo base_url('projectexpend') ?>"><i class="fa fa-circle-o"></i> Quản Lý Dự Án Chi</a></li>
+                <?php endif; ?>
+              </ul>
+            </li>
+          <?php endif; ?>
+
+
+          <?php if(in_array('createMaterials', $user_permission) || in_array('updateMaterials', $user_permission) || in_array('viewMaterials', $user_permission) || in_array('deleteMaterials', $user_permission)): ?>
+            <li id="materialsNav">
+              <a href="<?php echo base_url('materials/') ?>">
+                <i class="fa fa-files-o"></i> <span> Vật tư chi</span>
+              </a>
+            </li>
+          <?php endif; ?>
+
 
           <?php if(in_array('createStore', $user_permission) || in_array('updateStore', $user_permission) || in_array('viewStore', $user_permission) || in_array('deleteStore', $user_permission)): ?>
             <li id="storeNav">

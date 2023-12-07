@@ -34,10 +34,10 @@ class Model_incomecategory extends CI_Model {
         if($data && $idLoaiHangMucThu) {
 			$create = $this->db->insert('hangmucthu', $data);
 
-			$idHangMucChi = $this->db->insert_id();
+			$idHangMucThu = $this->db->insert_id();
 
 			$incomecategorytype_data = array(
-				'idHangMucThu' => $idHangMucChi,
+				'idHangMucThu' => $idHangMucThu,
 				'idLoaiHangMucThu' => $idLoaiHangMucThu
 			);
 
