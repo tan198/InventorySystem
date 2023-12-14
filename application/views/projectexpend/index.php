@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Quản Lý
-      <small>Dự Án Chi</small>
+    <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Project Expenditure')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Trang Chủ</a></li>
-      <li class="active">Dự Án Chi</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Project Expenditure')?></li>
     </ol>
   </section>
 
@@ -35,25 +35,25 @@
         <?php endif; ?>
 
         <?php if(in_array('createProjectExpend', $user_permission)): ?>
-          <a href="<?php echo base_url('projectexpend/create') ?>" class="btn btn-primary">Thêm Dự Án Chi</a>
+          <a href="<?php echo base_url('projectexpend/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Project Expenditure')?></a>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Quản Lý Dự Án Chi</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Project Expenditure')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-			  	      <th>Tên Dự Án</th>
-                <th>Vật tư</th>
-				        <th>Ship</th>
-				        <th>Thuê Ngoài</th>
+			  	      <th><?php echo $this->lang->line('Project Expenditure Name')?></th>
+                <th><?php echo $this->lang->line('Materials')?></th>
+				        <th><?php echo $this->lang->line('Ship')?></th>
+				        <th><?php echo $this->lang->line('Outsource')?></th>
                 <?php if(in_array('updateProjectExpend', $user_permission) || in_array('deleteProjectExpend', $user_permission)): ?>
-                  <th>Action</th>
+                  <th><?php echo $this->lang->line('Action')?></th>
                 <?php endif; ?>
               </tr>
               </thead>
@@ -81,16 +81,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Xoá Dự Án Chi</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Project Expenditure')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('projectexpend/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-          <p>Bạn có muốn xoá nó không?</p>
+          <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
       </form>
 

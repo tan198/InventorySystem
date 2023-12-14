@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Quản Lý
-      <small>Dự Án Chi</small>
+    <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Project Expenditure')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Trang Chủ</a></li>
-      <li class="active">Dự Án Chi</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Project Expenditure')?></li>
     </ol>
   </section>
 
@@ -37,7 +37,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Cập Nhật Dự Án Chi</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Edit Project Expenditure')?></h3>
           </div>
           <!-- /.box-header -->
           <form role="form" action="<?php base_url('projectexpend/update') ?>" method="post" enctype="multipart/form-data">
@@ -46,12 +46,12 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="project_name">Tên Dự Án</label>
-                  <input type="text" class="form-control" id="project_name" name="project_name" placeholder="Nhập tên dự án" value="<?php echo $projectexpend_data['tenDuAn']; ?>" autocomplete="off" />
+                  <label for="project_name"><?php echo $this->lang->line('Project Expenditure Name')?></label>
+                  <input type="text" class="form-control" id="project_name" name="project_name" placeholder="<?php echo $this->lang->line('Enter Project Expenditure Name')?>" value="<?php echo $projectexpend_data['tenDuAn']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="material">Vật Tư</label>
+                  <label for="material"><?php echo $this->lang->line('Materials')?></label>
                   <select class="form-control select_group" id="material" name="material">
                     <?php foreach ($material as $k => $v): ?>
                       <option value="<?php echo $v['idVatTuChi'] ?>" <?php if($projectexpend_data['idVatTuChi'] == $v['idVatTuChi']) { echo "selected='selected'"; } ?> ><?php echo $v['tenVatTu'] ?></option>
@@ -60,13 +60,13 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="ship">Ship</label>
-                  <input type="text" class="form-control" id="ship" name="ship" placeholder="Nhập Ship" value="<?php echo $projectexpend_data['ship']; ?>" autocomplete="off" />
+                  <label for="ship"><?php echo $this->lang->line('Ship')?></label>
+                  <input type="text" class="form-control" id="ship" name="ship" placeholder="<?php echo $this->lang->line('Enter Ship')?>" value="<?php echo $projectexpend_data['ship']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="rent">Thuê Ngoài</label>
-                  <input type="text" class="form-control" id="rent" name="rent" placeholder="Nhập thuê ngoài" value="<?php echo $projectexpend_data['thueNgoai']; ?>" autocomplete="off" />
+                  <label for="rent"><?php echo $this->lang->line('Outsource')?></label>
+                  <input type="text" class="form-control" id="rent" name="rent" placeholder="<?php echo $this->lang->line('Enter Outsource')?>" value="<?php echo $projectexpend_data['thueNgoai']; ?>" autocomplete="off" />
                 </div>
 
 
@@ -74,8 +74,8 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="<?php echo base_url('projectexpend/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+                <a href="<?php echo base_url('projectexpend/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           <!-- /.box-body -->

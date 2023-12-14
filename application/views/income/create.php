@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage
-      <small>Income</small>
+    <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Income')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Income</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i><?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Income')?></li>
     </ol>
   </section>
 
@@ -37,7 +37,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Add Income</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Add Income')?></h3>
           </div>
           <!-- /.box-header -->
           <form role="form" action="<?php base_url('income/create') ?>" method="post" enctype="multipart/form-data">
@@ -46,7 +46,7 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="incomecategory">Income Category</label>
+                  <label for="incomecategory"><?php echo $this->lang->line('Income Category')?></label>
                   <select class="form-control select_group" id="incomecategory" name="incomecategory">
                     <?php foreach ($incomecategory as $k => $v): ?>
                       <option value="<?php echo $v['idHangMucThu'] ?>"><?php echo $v['tenHangMucThu'] ?></option>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="fund">Fund Name</label>
+                  <label for="fund"><?php echo $this->lang->line('Payment Type')?></label>
                   <select class="form-control select_group" id="fund" name="fund">
                     <?php foreach ($fund as $k => $v): ?>
                       <option value="<?php echo $v['idTaiKhoan'] ?>"><?php echo $v['tenTaiKhoan'] ?></option>
@@ -64,17 +64,17 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="receiver_name">Receiver</label>
+                  <label for="receiver_name"><?php echo $this->lang->line('Receiver')?></label>
                   <input type="text" class="form-control" id="receiver_name" name="receiver_name" placeholder="Enter receiver name" autocomplete="off"/>
                 </div>
 
                 <div class="form-group">
-                  <label for="date_income">Date Income</label>
+                  <label for="date_income"><?php echo $this->lang->line('Date Income')?></label>
                   <input type="date" class="form-control" id="date_income" name="date_income" placeholder="Enter date income" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="amountt">Amount</label>
+                  <label for="amountt"><?php echo $this->lang->line('Amount')?></label>
                   <input type="text"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" value="" data-type="currency"  class="form-control" id="amountt" name="amountt" placeholder="Enter amount" autocomplete="off" />
                 </div>
 
@@ -83,8 +83,8 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="<?php echo base_url('income/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+                <a href="<?php echo base_url('income/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           <!-- /.box-body -->

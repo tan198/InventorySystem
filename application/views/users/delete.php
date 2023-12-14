@@ -5,13 +5,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Manage
-        <small>Groups</small>
+      <?php echo $this->lang->line('Manage')?>
+        <small><?php echo $this->lang->line('Groups')?></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="<?php echo base_url('users/') ?>">Users</a></li>
-        <li class="active">Delete</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+        <li><a href="<?php echo base_url('users/') ?>"><?php echo $this->lang->line('Users')?></a></li>
+        <li class="active"><?php echo $this->lang->line('Delete')?></li>
       </ol>
     </section>
 
@@ -33,11 +33,12 @@
             </div>
           <?php endif; ?>
 
-          <h1>Do you really want to remove ?</h1>
+          <h1><?php echo $this->lang->line('Do you really want to remove ?')?></h1>
 
           <form action="<?php echo base_url('users/delete/'.$id) ?>" method="post">
-            <input type="submit" class="btn btn-primary" name="confirm" value="Confirm">
-            <a href="<?php echo base_url('users') ?>" class="btn btn-warning">Cancel</a>
+            <input type="submit" class="btn btn-primary" name="confirm" value="<?php echo $this->lang->line('Confirm')?>">
+            <a href="<?php echo base_url('users') ?>" class="btn btn-warning"><?php echo $this->lang->line('Cancel')?>
+</a>
           </form>
 
         </div>

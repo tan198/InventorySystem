@@ -5,12 +5,13 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage
-      <small>Category</small>
+    <?php echo $this->lang->line('Manage')?>
+
+      <small><?php echo $this->lang->line('Category')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Category</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Category')?></li>
     </ol>
   </section>
 
@@ -35,23 +36,23 @@
         <?php endif; ?>
 
         <?php if(in_array('createCategory', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Category</button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Category')?></button>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Manage Categories</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Categories')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th>Category Name</th>
-                <th>Status</th>
+                <th><?php echo $this->lang->line('Category Name')?></th>
+                <th><?php echo $this->lang->line('Status')?></th>
                 <?php if(in_array('updateCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
-                  <th>Action</th>
+                  <th><?php echo $this->lang->line('Action')?></th>
                 <?php endif; ?>
               </tr>
               </thead>
@@ -79,7 +80,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Add Category</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Category')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('category/create') ?>" method="post" id="createForm">
@@ -87,21 +88,21 @@
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="brand_name">Category Name</label>
-            <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter category name" autocomplete="off">
+            <label for="brand_name"><?php echo $this->lang->line('Category Name')?></label>
+            <input type="text" class="form-control" id="category_name" name="category_name" placeholder="<?php echo $this->lang->line('Enter Category Name')?>" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="active">Status</label>
+            <label for="active"><?php echo $this->lang->line('Status')?></label>
             <select class="form-control" id="active" name="active">
-              <option value="1">Active</option>
-              <option value="2">Inactive</option>
+              <option value="1"><?php echo $this->lang->line('Active')?></option>
+              <option value="2"><?php echo $this->lang->line('Inactive')?></option>
             </select>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -119,7 +120,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Edit Category</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Category')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('category/update') ?>" method="post" id="updateForm">
@@ -128,21 +129,21 @@
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_brand_name">Category Name</label>
+            <label for="edit_brand_name"><?php echo $this->lang->line('Category Name')?></label>
             <input type="text" class="form-control" id="edit_category_name" name="edit_category_name" placeholder="Enter category name" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="edit_active">Status</label>
+            <label for="edit_active"><?php echo $this->lang->line('Status')?></label>
             <select class="form-control" id="edit_active" name="edit_active">
-              <option value="1">Active</option>
-              <option value="2">Inactive</option>
+              <option value="1"><?php echo $this->lang->line('Active')?></option>
+              <option value="2"><?php echo $this->lang->line('Inactive')?></option>
             </select>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -160,16 +161,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Remove Category</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Category')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('category/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-          <p>Do you really want to remove?</p>
+          <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
       </form>
 

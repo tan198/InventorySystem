@@ -5,12 +5,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Manage
-        <small>Expenditure Category</small>
+        <?php echo $this->lang->line('Manage')?>
+        <small><?php echo $this->lang->line('Expenditure Category')?></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Expenditure Category</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+        <li class="active"><?php echo $this->lang->line('Expenditure Category')?></li>
       </ol>
     </section>
 
@@ -34,7 +34,7 @@
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Add Expenditure Category</h3>
+              <h3 class="box-title"><?php echo $this->lang->line('Add Expenditure Category')?></h3>
             </div>
             <form role="form" action="<?php base_url('expenditurecategory/create') ?>" method="post">
               <div class="box-body">
@@ -42,9 +42,9 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="expendituretype">Expenditure Category Type</label>
+                  <label for="expendituretype"><?php echo $this->lang->line('Expenditure Category Type')?></label>
                   <select class="form-control" id="expendituretype" name="expendituretype">
-                    <option value="">Select Expenditure Category Type</option>
+                    <option value=""><?php echo $this->lang->line('Select Expenditure Category Type')?></option>
                     <?php foreach ($expendituretype_data as $k => $v): ?>
                       <option value="<?php echo $v['idLoaiHangMucChi'] ?>"><?php echo $v['tenLoaiHangMucChi'] ?></option>
                     <?php endforeach ?>
@@ -52,15 +52,16 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="expenditurecategory_name">Expenditure Category</label>
-                  <input type="text" class="form-control" id="expenditurecategory_name" name="expenditurecategory_name" placeholder="expenditure category name" autocomplete="off">
+                  <label for="expenditurecategory_name"><?php echo $this->lang->line('Expenditure Category')?></label>
+                  <input type="text" class="form-control" id="expenditurecategory_name" name="expenditurecategory_name" placeholder="<?php echo $this->lang->line('Expenditure Category Name')?>" autocomplete="off">
                 </div>
               </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="<?php echo base_url('expenditurecategory/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?>
+</button>
+                <a href="<?php echo base_url('expenditurecategory/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           </div>

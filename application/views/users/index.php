@@ -5,12 +5,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Manage
-        <small>Users</small>
+      <?php echo $this->lang->line('Manage')?>
+        <small><?php echo $this->lang->line('Users')?></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Users</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+        <li class="active"><?php echo $this->lang->line('Users')?></li>
       </ol>
     </section>
 
@@ -33,28 +33,28 @@
           <?php endif; ?>
           
           <?php if(in_array('createUser', $user_permission)): ?>
-            <a href="<?php echo base_url('users/create') ?>" class="btn btn-primary">Add User</a>
+            <a href="<?php echo base_url('users/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add User')?></a>
             <br /> <br />
           <?php endif; ?>
 
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Manage Users</h3>
+              <h3 class="box-title"><?php echo $this->lang->line('Manage Users')?></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="userTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Name</th>
-                  <th>Phone</th>
-                  <th>Group</th>
+                  <th><?php echo $this->lang->line('Username')?></th>
+                  <th><?php echo $this->lang->line('Email')?></th>
+                  <th><?php echo $this->lang->line('Name')?></th>
+                  <th><?php echo $this->lang->line('Phone')?></th>
+                  <th><?php echo $this->lang->line('Groups')?></th>
 
                   <?php if(in_array('updateUser', $user_permission) || in_array('deleteUser', $user_permission)): ?>
-                  <th>Action</th>
+                  <th><?php echo $this->lang->line('Action')?></th>
                   <?php endif; ?>
                 </tr>
                 </thead>

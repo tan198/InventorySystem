@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage
-      <small>Expenditure Category Type</small>
+      <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Expenditure Category Type')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Expenditure Category Type</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Expenditure Category Type')?></li>
     </ol>
   </section>
 
@@ -35,21 +35,21 @@
         <?php endif; ?>
 
         <?php if(in_array('createExpenditureType', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Expenditure</button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Expenditure Category Type')?></button>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Manage Expenditure Category Type</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Expenditure Category Type')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th>Expenditure Category Type Name</th>
-                <th>Action</th>
+                <th><?php echo $this->lang->line('Expenditure Category Type Name')?></th>
+                <th><?php echo $this->lang->line('Action')?></th>
                 <?php if(in_array('updateExpenditureType', $user_permission) || in_array('deleteExpenditureType', $user_permission)): ?>
                 <?php endif; ?>
               </tr>
@@ -78,7 +78,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Add Expenditure Category Type</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Expenditure Category Type')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('expendituretype/create') ?>" method="post" id="createForm">
@@ -86,14 +86,14 @@
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="edit_expendituretype_name">Expenditure Category Type Name</label>
-            <input type="text" class="form-control" id="expendituretype_name" name="expendituretype_name" placeholder="Enter expenditure name"  autocomplete="off">
+            <label for="expendituretype_name"><?php echo $this->lang->line('Expenditure Category Type Name')?></label>
+            <input type="text" class="form-control" id="expendituretype_name" name="expendituretype_name" placeholder="<?php echo $this->lang->line(' Enter Expenditure Category Type Name')?>"  autocomplete="off">
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -109,7 +109,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Edit Expenditure</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Expenditure Category Type')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('expendituretype/update') ?>" method="post" id="updateForm">
@@ -118,14 +118,14 @@
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_brand_name">Expenditure Category Type Name</label>
-            <input type="text" class="form-control" id="edit_expendituretype_name" name="edit_expendituretype_name" placeholder="Enter expenditure category type name"  autocomplete="off">
+            <label for="edit_brand_name"><?php echo $this->lang->line('Expenditure Category Type Name')?></label>
+            <input type="text" class="form-control" id="edit_expendituretype_name" name="edit_expendituretype_name" placeholder="<?php echo $this->lang->line(' Enter Expenditure Category Type Name')?>"  autocomplete="off">
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -141,16 +141,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Remove Expenditure Category Type</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Expenditure Category Type')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('expendituretype/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-          <p>Do you really want to remove?</p>
+          <p><?php echo $this->lang->line('Do you really want to remove?')?>
+</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
       </form>
 

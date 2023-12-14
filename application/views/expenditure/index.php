@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage
-      <small>Expenditure</small>
+    <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Expenditure')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Expenditure</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Expenditure')?></li>
     </ol>
   </section>
 
@@ -35,26 +35,26 @@
         <?php endif; ?>
 
         <?php if(in_array('createExpenditure', $user_permission)): ?>
-          <a href="<?php echo base_url('expenditure/create') ?>" class="btn btn-primary">Add Expenditure</a>
+          <a href="<?php echo base_url('expenditure/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Expenditure')?></a>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Manage Expenditure</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manager Expenditure')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th>Expenditure Category</th>
-                <th>Fund Name</th>
-                <th>Payer</th>
-                <th>Date Expenditure</th>
-                <th>Amount</th>
+                <th><?php echo $this->lang->line('Expenditure Category')?></th>
+                <th><?php echo $this->lang->line('Payment Type')?></th>
+                <th><?php echo $this->lang->line('Payer')?></th>
+                <th><?php echo $this->lang->line('Date Expenditure')?></th>
+                <th><?php echo $this->lang->line('Amount')?></th>
                 <?php if(in_array('updateExpenditure', $user_permission) || in_array('deleteExpenditure', $user_permission)): ?>
-                  <th>Action</th>
+                  <th><?php echo $this->lang->line('Action')?></th>
                 <?php endif; ?>
               </tr>
               </thead>
@@ -82,16 +82,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Remove Expenditure</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Expenditure')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('expenditure/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-          <p>Do you really want to remove?</p>
+          <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
       </form>
 

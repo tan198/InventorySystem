@@ -5,12 +5,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Manage
-        <small>Groups</small>
+      <?php echo $this->lang->line('Manage')?>
+        <small><?php echo $this->lang->line('Groups')?></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">groups</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+        <li class="active"><?php echo $this->lang->line('Groups')?></li>
       </ol>
     </section>
 
@@ -33,22 +33,22 @@
           <?php endif; ?>
 
           <?php if(in_array('createGroup', $user_permission)): ?>
-            <a href="<?php echo base_url('groups/create') ?>" class="btn btn-primary">Add Group</a>
+            <a href="<?php echo base_url('groups/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Group')?></a>
             <br /> <br />
           <?php endif; ?>
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Manage Groups</h3>
+              <h3 class="box-title"><?php echo $this->lang->line('Manage Groups')?></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="groupTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Group Name</th>
+                  <th><?php echo $this->lang->line('Group Name')?></th>
                   <?php if(in_array('updateGroup', $user_permission) || in_array('deleteGroup', $user_permission)): ?>
-                    <th>Action</th>
+                    <th><?php echo $this->lang->line('Action')?></th>
                   <?php endif; ?>
                 </tr>
                 </thead>

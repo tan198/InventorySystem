@@ -5,12 +5,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Manage
-        <small>Expenditure Category</small>
+        <?php echo $this->lang->line('Manage')?>
+        <small><?php echo $this->lang->line('Expenditure Category')?></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Expenditure Category</li>
+        <li class="active"><?php echo $this->lang->line('Expenditure Category')?></li>
       </ol>
     </section>
 
@@ -33,24 +33,24 @@
           <?php endif; ?>
           
           <?php if(in_array('createExpenditureCategory', $user_permission)): ?>
-            <a href="<?php echo base_url('expenditurecategory/create') ?>" class="btn btn-primary">Add Expenditure Category</a>
+            <a href="<?php echo base_url('expenditurecategory/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Expenditure Category')?></a>
             <br /> <br />
           <?php endif; ?>
 
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Manage Expenditure Category</h3>
+              <h3 class="box-title"><?php echo $this->lang->line('Manage Expenditure Category')?></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="expenditurecategoryTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Expenditure Category Name</th>
-                  <th>ExpenditureCategory Type</th>
+                  <th><?php echo $this->lang->line('Expenditure Category Name')?></th>
+                  <th><?php echo $this->lang->line('Expenditure Category Type')?></th>
                   <?php if(in_array('updateExpenditureCategory', $user_permission) || in_array('deleteExpenditureCategory', $user_permission)): ?>
-                  <th>Action</th>
+                  <th><?php echo $this->lang->line('Action')?></th>
                   <?php endif; ?>
                 </tr>
                 </thead>

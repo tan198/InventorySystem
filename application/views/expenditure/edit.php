@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage
-      <small>Expenditure</small>
+      <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Expenditure')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Expenditure</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Expenditure')?></li>
     </ol>
   </section>
 
@@ -37,7 +37,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Edit Expenditure</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Edit Expenditure')?></h3>
           </div>
           <!-- /.box-header -->
           <form role="form" action="<?php base_url('expenditure/update') ?>" method="post" enctype="multipart/form-data">
@@ -46,7 +46,7 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="expenditurecategory">Expenditure Category</label>
+                  <label for="expenditurecategory"><?php echo $this->lang->line('Expenditure Category')?></label>
                   <select class="form-control select_group" id="expenditurecategory" name="expenditurecategory">
                     <?php foreach ($expenditurecategory as $k => $v): ?>
                       <option value="<?php echo $v['idHangMucChi'] ?>" <?php if($expenditure_data['idHangMucChi'] == $v['idHangMucChi']) { echo "selected='selected'"; } ?> ><?php echo $v['tenHangMucChi'] ?></option>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="fund">Fund Name</label>
+                  <label for="fund"><?php echo $this->lang->line('Payment Type')?></label>
                   <select class="form-control select_group" id="fund" name="fund">
                     <?php foreach ($fund as $k => $v): ?>
                       <option value="<?php echo $v['idTaiKhoan'] ?>" <?php if($expenditure_data['idTaiKhoan'] == $v['idTaiKhoan']) { echo "selected='selected'"; } ?> ><?php echo $v['tenTaiKhoan'] ?></option>
@@ -65,16 +65,16 @@
 
                 <div class="form-group">
                   <label for="payer_name">Payer</label>
-                  <input type="text" class="form-control" id="payer_name" name="payer_name" placeholder="Enter payer name" value="<?php echo $expenditure_data['nguoiChi']; ?>" autocomplete="off" />
+                  <input type="text" class="form-control" id="<?php echo $this->lang->line('Payer')?>_name" name="payer_name" placeholder="Enter payer name" value="<?php echo $expenditure_data['nguoiChi']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="date_expenditure">Date Expenditure</label>
+                  <label for="date_expenditure"><?php echo $this->lang->line('Date Expenditure')?></label>
                   <input type="date" class="form-control" id="date_expenditure" name="date_expenditure" placeholder="Enter date expenditure" value="<?php echo $expenditure_data['ngayChi']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="amount">Amount</label>
+                  <label for="amount"><?php echo $this->lang->line('Amount')?></label>
                   <input type="text"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" id="amount" name="amount" placeholder="Enter amount" value="<?php echo $expenditure_data['soTien']; ?>" autocomplete="off" />
                 </div>
 
@@ -82,8 +82,8 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="<?php echo base_url('expenditure/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+                <a href="<?php echo base_url('expenditure/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           <!-- /.box-body -->
@@ -107,7 +107,7 @@
     $("#description").wysihtml5();
 
     $("#mainExpenditureNav").addClass('active');
-    $("#manageExpenditureNav").addClass('active');
+    $("#<?php echo $this->lang->line('Manage')?>ExpenditureNav").addClass('active');
     
     $("input[data-type='currency']").on({
       keyup: function() {

@@ -6,11 +6,11 @@
   <section class="content-header">
     <h1>
       Manage
-      <small>Income</small>
+      <small>Expenditure</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Income</li>
+      <li class="active">Expenditure</li>
     </ol>
   </section>
 
@@ -37,53 +37,53 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title"><?php echo $this->lang->line('Edit Income')?></h3>
+            <h3 class="box-title">Edit Expenditure</h3>
           </div>
           <!-- /.box-header -->
-          <form role="form" action="<?php base_url('income/update') ?>" method="post" enctype="multipart/form-data">
+          <form role="form" action="<?php base_url('expenditure/update') ?>" method="post" enctype="multipart/form-data">
               <div class="box-body">
 
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="incomecategory"><?php echo $this->lang->line('Income Category')?></label>
-                  <select class="form-control select_group" id="incomecategory" name="incomecategory">
-                    <?php foreach ($incomecategory as $k => $v): ?>
-                      <option value="<?php echo $v['idHangMucThu'] ?>" <?php if($income_data['idHangMucThu'] == $v['idHangMucThu']) { echo "selected='selected'"; } ?> ><?php echo $v['tenHangMucThu'] ?></option>
+                  <label for="expenditurecategory">Expenditure Category</label>
+                  <select class="form-control select_group" id="expenditurecategory" name="expenditurecategory">
+                    <?php foreach ($expenditurecategory as $k => $v): ?>
+                      <option value="<?php echo $v['idHangMucChi'] ?>" <?php if($expenditure_data['idHangMucChi'] == $v['idHangMucChi']) { echo "selected='selected'"; } ?> ><?php echo $v['tenHangMucChi'] ?></option>
                     <?php endforeach ?>
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <label for="fund"><?php echo $this->lang->line('Payment Type')?></label>
+                  <label for="fund">Fund Name</label>
                   <select class="form-control select_group" id="fund" name="fund">
                     <?php foreach ($fund as $k => $v): ?>
-                      <option value="<?php echo $v['idTaiKhoan'] ?>" <?php if($income_data['idTaiKhoan'] == $v['idTaiKhoan']) { echo "selected='selected'"; } ?> ><?php echo $v['tenTaiKhoan'] ?></option>
+                      <option value="<?php echo $v['idTaiKhoan'] ?>" <?php if($expenditure_data['idTaiKhoan'] == $v['idTaiKhoan']) { echo "selected='selected'"; } ?> ><?php echo $v['tenTaiKhoan'] ?></option>
                     <?php endforeach ?>
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <label for="receiver_name"><?php echo $this->lang->line('Receiver')?></label>
-                  <input type="text" class="form-control" id="receiver_name" name="receiver_name" placeholder="Enter receiver name" value="<?php echo $income_data['nguoiThu']; ?>" autocomplete="off" />
+                  <label for="payer_name">Payer</label>
+                  <input type="text" class="form-control" id="payer_name" name="payer_name" placeholder="Enter payer name" value="<?php echo $expenditure_data['nguoiChi']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="date_income"><?php echo $this->lang->line('Date Income')?></label>
-                  <input type="date" class="form-control" id="date_income" name="date_income" placeholder="Enter date income" value="<?php echo $income_data['ngayThu']; ?>" autocomplete="off" />
+                  <label for="date_expenditure">Date Expenditure</label>
+                  <input type="date" class="form-control" id="date_expenditure" name="date_expenditure" placeholder="Enter date expenditure" value="<?php echo $expenditure_data['ngayChi']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="amountt"><?php echo $this->lang->line('Amount')?></label>
-                  <input type="text" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" id="amountt" name="amountt" placeholder="Enter amount" value="<?php echo $income_data['soTienThu'];?>" autocomplete="off" />
+                  <label for="amount">Amount</label>
+                  <input type="text"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" id="amount" name="amount" placeholder="Enter amount" value="<?php echo $expenditure_data['soTien']; ?>" autocomplete="off" />
                 </div>
 
               </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
-                <a href="<?php echo base_url('income/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="<?php echo base_url('expenditure/') ?>" class="btn btn-warning">Back</a>
               </div>
             </form>
           <!-- /.box-body -->
@@ -106,14 +106,9 @@
     $(".select_group").select2();
     $("#description").wysihtml5();
 
-    $("#mainIncomeNav").addClass('active');
-    $("#manageIncomeNav").addClass('active');
+    $("#mainExpenditureNav").addClass('active');
+    $("#manageExpenditureNav").addClass('active');
     
-    var btnCust = '<button type="button" class="btn btn-secondary" title="Add picture tags" ' + 
-        'onclick="alert(\'Call your custom code here.\')">' +
-        '<i class="glyphicon glyphicon-tag"></i>' +
-        '</button>';
-
     $("input[data-type='currency']").on({
       keyup: function() {
         formatCurrency($(this));

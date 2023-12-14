@@ -3,12 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Manage
-        <small>Income Category</small>
+      <?php echo $this->lang->line('Manage')?>
+        <small><?php echo $this->lang->line('Income Category')?></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Income Category</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+        <li class="active"><?php echo $this->lang->line('Income Category')?></li>
       </ol>
     </section>
 
@@ -32,7 +32,7 @@
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Edit Income Category</h3>
+              <h3 class="box-title"><?php echo $this->lang->line('Edit Income Category')?></h3>
             </div>
             <form role="form" action="<?php base_url('incomecategory/create') ?>" method="post">
               <div class="box-body">
@@ -40,14 +40,14 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="incomecategory_name">Income Category</label>
+                  <label for="incomecategory_name"><?php echo $this->lang->line('Income Category')?></label>
                   <input type="text" class="form-control" id="incomecategory_name" name="incomecategory_name" placeholder="income category name" value="<?php echo isset($incomecategory_data['tenHangMucThu']) ? $incomecategory_data['tenHangMucThu'] : '' ?>"  autocomplete="off">
                 </div>
 
                 <div class="form-group">
-                  <label for="incometype">Income Category Type</label>
+                  <label for="incometype"><?php echo $this->lang->line('Income Category Type')?></label>
                   <select class="form-control" id="incometype" name="incometype">
-                    <option value="">Select Income Category Type</option>
+                    <option value=""><?php echo $this->lang->line('Select Income Category Type')?></option>
                     <?php foreach ($incometype_data as $k => $v): ?>
                       <option value="<?php echo $v['idLoaiHangMucThu'] ?>" <?php if($loai_hangthu['idLoaiHangMucThu'] == $v['idLoaiHangMucThu']) { echo 'selected'; } ?> ><?php echo $v['tenLoaiHangMucThu'] ?></option> 
                     <?php endforeach ?>
@@ -58,8 +58,8 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="<?php echo base_url('incomecategory/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+                <a href="<?php echo base_url('incomecategory/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           </div>

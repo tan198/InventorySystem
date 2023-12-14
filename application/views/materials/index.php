@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Quản lý
-      <small>Vật Tư Chi</small>
+    <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Materials Expenditure')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-      <li class="active">Vật tư chi</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Materials Expenditure')?></li>
     </ol>
   </section>
 
@@ -35,24 +35,24 @@
         <?php endif; ?>
 
         <?php if(in_array('createMaterials', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Thêm Vật Tư Chi</button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Materials Expenditure')?></button>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Quản lý vật tư chi</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Materials Expenditure')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th>Tên Vật Tư</th>
-				        <th>Số Lượng</th>
-				        <th>Giá Tiền</th>
-				        <th>Tổng Tiền</th>
-                <th>Action</th>
+                <th><?php echo $this->lang->line('Materials Expenditure Name')?></th>
+				        <th><?php echo $this->lang->line('Quantity')?></th>
+				        <th><?php echo $this->lang->line('Price')?></th>
+				        <th><?php echo $this->lang->line('Total Amount')?></th>
+                <th><?php echo $this->lang->line('Action')?></th>
                 <?php if(in_array('updateMaterials', $user_permission) || in_array('deleteMaterials', $user_permission)): ?>
                 <?php endif; ?>
               </tr>
@@ -81,7 +81,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Thêm Vật Tư Chi</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Materials Expenditure')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('materials/create') ?>" method="post" id="createForm">
@@ -89,32 +89,33 @@
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="materials_name">Tên Vật Tư</label>
-            <input type="text" class="form-control" id="materials_name" name="materials_name" placeholder="Nhập tên vật tư chi" autocomplete="off">
+            <label for="materials_name"><?php echo $this->lang->line('Materials Expenditure Name')?></label>
+            <input type="text" class="form-control" id="materials_name" name="materials_name" placeholder="<?php echo $this->lang->line('Enter Materials Expenditure Name')?>" autocomplete="off">
           </div>
         
 
 			<div class="form-group">
-				<label for="quantity">Số Lượng</label>
-				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="Nhập số lượng vật tư chi" autocomplete="off">
+				<label for="quantity"><?php echo $this->lang->line('Quantity')?></label>
+				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="<?php echo $this->lang->line('Enter Quantity')?>" autocomplete="off">
 			</div>
         
 
 			<div class="form-group">
-				<label for="amount">Giá tiền</label>
-				<input type="text" class="form-control" id="amount" name="amount" placeholder="Nhập giá tiền vật tư" autocomplete="off">
+				<label for="amount"><?php echo $this->lang->line('Price')?></label>
+				<input type="text" class="form-control" id="amount" name="amount" placeholder="<?php echo $this->lang->line('Enter Price')?>" autocomplete="off">
 			</div>
 
 			<div class="form-group">
-				<label for="total">Tổng Tiền</label>
+				<label for="total"><?php echo $this->lang->line('Total Amount')?></label>
 				<input type="text" class="form-control" id="total" name="total" disabled autocomplete="off">
 				<input type="hidden" class="form-control" id="hiddenTotal" name="hiddenTotal" autocomplete="off">
 			</div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?>
+</button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -130,7 +131,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Cập nhật vật tư chi</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Materials Expenditure')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('materials/update') ?>" method="post" id="updateForm">
@@ -139,23 +140,23 @@
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_materials_name">Tên Vật Tư</label>
-            <input type="text" class="form-control" id="edit_materials_name" name="edit_materials_name" placeholder="Nhập tên vật tư chi" autocomplete="off">
+            <label for="edit_materials_name"><?php echo $this->lang->line('Materials Expenditure Name')?></label>
+            <input type="text" class="form-control" id="edit_materials_name" name="edit_materials_name" placeholder="<?php echo $this->lang->line('Enter Materials Expenditure Name')?>" autocomplete="off">
           </div>
 
 		  
 		  <div class="form-group">
-            <label for="edit_quantity">Số Lượng</label>
-            <input type="text" class="form-control" id="edit_quantity" name="edit_quantity" placeholder="Nhập số lượng vật tư chi" autocomplete="off">
+            <label for="edit_quantity"><?php echo $this->lang->line('Quantity')?></label>
+            <input type="text" class="form-control" id="edit_quantity" name="edit_quantity" placeholder="<?php echo $this->lang->line('Enter Quantity')?>" autocomplete="off">
           </div>
 
 			<div class="form-group">
-				<label for="edit_amount">Giá tiền</label>
-				<input type="text" class="form-control" id="edit_amount" name="edit_amount" placeholder="Nhập giá tiền vật tư" autocomplete="off">
+				<label for="edit_amount"><?php echo $this->lang->line('Price')?></label>
+				<input type="text" class="form-control" id="edit_amount" name="edit_amount" placeholder="<?php echo $this->lang->line('Enter Price')?>" autocomplete="off">
 			</div>
 
 			<div class="form-group">
-				<label for="total">Tổng Tiền</label>
+				<label for="total"><?php echo $this->lang->line('Total Amount')?></label>
 				<input type="text" class="form-control" id="edit_total" name="edit_total" disabled autocomplete="off">
 				
 				<input type="hidden" class="form-control" id="edit_hiddenTotal" name="edit_hiddenTotal"  autocomplete="off">
@@ -165,8 +166,8 @@
 		
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -184,12 +185,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Xoá Vật Tư Chi</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Materials Expenditure')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('materials/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-          <p>Bạn có muốn xoá nó không</p>
+          <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

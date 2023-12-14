@@ -37,7 +37,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Add Expenditure</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Add Expenditure')?></h3>
           </div>
           <!-- /.box-header -->
           <form role="form" action="<?php base_url('expenditure/create') ?>" method="post" enctype="multipart/form-data">
@@ -46,7 +46,7 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="expenditurecategory">Expenditure Category</label>
+                  <label for="expenditurecategory"><?php echo $this->lang->line('Expenditure Category')?></label>
                   <select class="form-control select_group" id="expenditurecategory" name="expenditurecategory">
                     <?php foreach ($expenditurecategory as $k => $v): ?>
                       <option value="<?php echo $v['idHangMucChi'] ?>"><?php echo $v['tenHangMucChi'] ?></option>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="fund">Fund Name</label>
+                  <label for="fund"><?php echo $this->lang->line('Payment Type')?></label>
                   <select class="form-control select_group" id="fund" name="fund">
                     <?php foreach ($fund as $k => $v): ?>
                       <option value="<?php echo $v['idTaiKhoan'] ?>"><?php echo $v['tenTaiKhoan'] ?></option>
@@ -64,18 +64,18 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="payer_name">Payer</label>
-                  <input type="text" class="form-control" id="payer_name" name="payer_name" placeholder="Enter payer name" autocomplete="off"/>
+                  <label for="payer_name"><?php echo $this->lang->line('Payer')?></label>
+                  <input type="text" class="form-control" id="payer_name" name="payer_name" placeholder="<?php echo $this->lang->line('Enter payer name')?>" autocomplete="off"/>
                 </div>
 
                 <div class="form-group">
-                  <label for="date_expenditure">Date Expenditure</label>
-                  <input type="date" class="form-control" id="date_expenditure" name="date_expenditure" placeholder="Enter date expenditure" autocomplete="off" />
+                  <label for="date_expenditure"><?php echo $this->lang->line('Date Expenditure')?></label>
+                  <input type="date" class="form-control" id="date_expenditure" name="date_expenditure" placeholder="<?php echo $this->lang->line('Enter date expenditure')?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="amount">Amount</label>
-                  <input type="text" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" value="" data-type="currency" class="form-control" id="amount" name="amount" placeholder="Enter amount" autocomplete="off" />
+                  <label for="amount"><?php echo $this->lang->line('Amount')?></label>
+                  <input type="text" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" value="" data-type="currency" class="form-control" id="amount" name="amount" placeholder="<?php echo $this->lang->line('Enter amount')?>" autocomplete="off" />
                 </div>
 
 
@@ -83,8 +83,8 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="<?php echo base_url('expenditure/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+                <a href="<?php echo base_url('expenditure/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           <!-- /.box-body -->

@@ -6,11 +6,11 @@
   <section class="content-header">
     <h1>
     <?php echo $this->lang->line('Manage')?>
-      <small><?php echo $this->lang->line('Income Category Type')?></small>
+      <small><?php echo $this->lang->line('Invest Expenditure')?> </small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
-      <li class="active"><?php echo $this->lang->line('Income Category Type')?></li>
+      <li class="active"><?php echo $this->lang->line('Invest Expenditure')?> </li>
     </ol>
   </section>
 
@@ -34,23 +34,24 @@
           </div>
         <?php endif; ?>
 
-        <?php if(in_array('createIncomeType', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Income Category Type</button>
+        <?php if(in_array('createInvestExp', $user_permission)): ?>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Invest Expnediture')?> </button>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title"><?php echo $this->lang->line('Manage Income Category Type')?> </h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Invest Expenditure')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th><?php echo $this->lang->line('Income Category Type Name')?></th>
+                <th><?php echo $this->lang->line('Invest Name')?> </th>
+				        <th><?php echo $this->lang->line('Receiver')?></th>
                 <th><?php echo $this->lang->line('Action')?></th>
-                <?php if(in_array('updateIncomeType', $user_permission) || in_array('deleteIncomeType', $user_permission)): ?>
+                <?php if(in_array('updateInvestExp', $user_permission) || in_array('deleteInvestExp', $user_permission)): ?>
                 <?php endif; ?>
               </tr>
               </thead>
@@ -71,29 +72,36 @@
 </div>
 <!-- /.content-wrapper -->
 
-<?php if(in_array('createIncomeType', $user_permission)): ?>
+<?php if(in_array('createInvestExp', $user_permission)): ?>
 <!-- create brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Add Income Category Type</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Invest Expnediture')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('incometype/create') ?>" method="post" id="createForm">
+      <form role="form" action="<?php echo base_url('investexp/create') ?>" method="post" id="createForm">
 
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="brand_name">Income Category Type Name</label>
-            <input type="text" class="form-control" id="incometype_name" name="incometype_name" placeholder="Enter income category type name" autocomplete="off">
+            <label for="invest_name"><?php echo $this->lang->line('Invest Name')?> </label>
+            <input type="text" class="form-control" id="invest_name" name="invest_name" placeholder="<?php echo $this->lang->line('Enter Invest Expenditure')?>" autocomplete="off">
           </div>
+        
+
+			<div class="form-group">
+				<label for="receiver"><?php echo $this->lang->line('Receiver')?></label>
+				<input type="text" class="form-control" id="receiver" name="receiver" placeholder="<?php echo $this->lang->line('Enter Receiver')?> " autocomplete="off">
+			</div>
+        
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -102,30 +110,38 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-<?php if(in_array('updateIncomeType', $user_permission)): ?>
+<?php if(in_array('updateInvestExp', $user_permission)): ?>
 <!-- edit brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Edit Income Category Type</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Invest Expenditure')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('incometype/update') ?>" method="post" id="updateForm">
+      <form role="form" action="<?php echo base_url('investexp/update') ?>" method="post" id="updateForm">
 
         <div class="modal-body">
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_brand_name">Income Category Type Name</label>
-            <input type="text" class="form-control" id="edit_incometype_name" name="edit_incometype_name" placeholder="Enter income category type name" autocomplete="off">
+            <label for="edit_invest_name"><?php echo $this->lang->line('Invest Name')?></label>
+            <input type="text" class="form-control" id="edit_invest_name" name="edit_invest_name" placeholder="<?php echo $this->lang->line('Enter Invest Expenditure')?> " autocomplete="off">
+          </div>
+
+		  
+		  <div class="form-group">
+            <label for="edit_receiver"><?php echo $this->lang->line('Receiver')?></label>
+            <input type="text" class="form-control" id="edit_receiver" name="edit_receiver" placeholder="Nhập người nhận" autocomplete="off">
           </div>
         </div>
 
+		
+
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -136,23 +152,23 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-<?php if(in_array('deleteIncomeType', $user_permission)): ?>
+<?php if(in_array('deleteInvestExp', $user_permission)): ?>
 <!-- remove brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="removeModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Remove Income Category Type</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Invest Expenditure')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('incometype/remove') ?>" method="post" id="removeForm">
+      <form role="form" action="<?php echo base_url('investexp/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-          <p>Do you really want to remove?</p>
+          <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
       </form>
 
@@ -167,30 +183,32 @@
 var manageTable;
 
 $(document).ready(function() {
-  $("#incometypeNav").addClass('active');
-  
+  $("#investexpNav").addClass('active');
+ 
+
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
-    'ajax': 'fetchIncomeTypeData',
+    'ajax': 'fetchInvestExpData',
     'order': []
   });
 
   // submit the create from 
   $("#createForm").unbind('submit').on('submit', function() {
     var form = $(this);
+	
 
     // remove the text-danger
     $(".text-danger").remove();
 
+	
     $.ajax({
       url: form.attr('action'),
       type: form.attr('method'),
       data: form.serialize(), // /converting the form data into array and sending it to server
       dataType: 'json',
       success:function(response) {
-
+		
         manageTable.ajax.reload(null, false); 
-
         if(response.success === true) {
           $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
@@ -204,6 +222,8 @@ $(document).ready(function() {
           // reset the form
           $("#createForm")[0].reset();
           $("#createForm .form-group").removeClass('has-error').removeClass('has-success');
+		  	
+		  
 
         } else {
 
@@ -228,28 +248,27 @@ $(document).ready(function() {
         }
       }
     }); 
-
     return false;
   });
 
 });
 
+
 // edit function
 function editFunc(id)
 { 
   $.ajax({
-    url: 'fetchIncomeTypeDataById/'+id,
+    url: 'fetchInvestExpDataById/'+id,
     type: 'post',
     dataType: 'json',
     success:function(response) {
-
-      $("#edit_incometype_name").val(response.tenLoaiHangMucThu);
-    //   $("#edit_active").val(response.active);
-
+      $("#edit_invest_name").val(response.tenDauTuChi);
+	  $("#edit_receiver").val(response.tenNguoiNhan);
+	  
       // submit the edit from 
       $("#updateForm").unbind('submit').bind('submit', function() {
         var form = $(this);
-
+		
         // remove the text-danger
         $(".text-danger").remove();
 
@@ -300,7 +319,6 @@ function editFunc(id)
 
         return false;
       });
-
     }
   });
 }
@@ -319,7 +337,7 @@ function removeFunc(id)
       $.ajax({
         url: form.attr('action'),
         type: form.attr('method'),
-        data: { idLoaiHangMucThu:id }, 
+        data: { idDauTuChi:id }, 
         dataType: 'json',
         success:function(response) {
 

@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage
-      <small>Funds</small>
+      <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Funds')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Funds</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Funds')?></li>
     </ol>
   </section>
 
@@ -37,7 +37,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Add Funds</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Add Funds')?></h3>
           </div>
           <!-- /.box-header -->
           <form role="form" action="<?php base_url('fund/create') ?>" method="post" enctype="multipart/form-data">
@@ -46,14 +46,14 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="account_name">Balance Name</label>
-                  <input type="text" class="form-control" id="account_name" name="account_name" placeholder="Enter account name" autocomplete="off"/>
+                  <label for="account_name"><?php echo $this->lang->line('Account Name')?></label>
+                  <input type="text" class="form-control" id="account_name" name="account_name" placeholder="<?php echo $this->lang->line('Enter account name')?>" autocomplete="off"/>
                 </div>
 
                 <div class="form-group">
-                  <label for="accounttype">Balance Type</label>
+                  <label for="accounttype"><?php echo $this->lang->line('Payment Type')?></label>
                   <select class="form-control select_group" id="accounttype" name="accounttype">
-                  <option value="">Select Balance Type</option>
+                  <option value=""><?php echo $this->lang->line('Select Payment Type')?></option>
                     <?php foreach ($accounttype as $k => $v): ?>
                       <option value="<?php echo $v['id'] ?>"><?php echo $v['loaiThanhToan'] ?></option>
                     <?php endforeach ?>
@@ -61,12 +61,12 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="currency">Currency</label>
-                  <input type="text" class="form-control" id="currency" name="currency" placeholder="Enter currency" autocomplete="off"/>
+                  <label for="currency"><?php echo $this->lang->line('Currency')?></label>
+                  <input type="text" class="form-control" id="currency" name="currency" placeholder="<?php echo $this->lang->line('Enter currency')?>" autocomplete="off"/>
                 </div>
 
                 <div class="form-group">
-                  <label for="initial_amount">Amount</label>
+                  <label for="initial_amount"><?php echo $this->lang->line('Amount')?></label>
                   <input type="text"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" id="initial_amount" name="initial_amount" placeholder="Enter amount" autocomplete="off"/>
                 </div>
 
@@ -74,8 +74,8 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="<?php echo base_url('fund/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+                <a href="<?php echo base_url('fund/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           <!-- /.box-body -->

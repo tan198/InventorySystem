@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-    <?php echo $this->lang->line('Manage')?>
-      <small><?php echo $this->lang->line('Orders')?></small>
+      Manage
+      <small>Expenditure</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
-      <li class="active"><?php echo $this->lang->line('Orders')?></li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Expenditure</li>
     </ol>
   </section>
 
@@ -34,29 +34,27 @@
           </div>
         <?php endif; ?>
 
-        <?php if(in_array('createOrder', $user_permission)): ?>
-          <a href="<?php echo base_url('orders/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Order')?></a>
+        <?php if(in_array('createExpenditure', $user_permission)): ?>
+          <a href="<?php echo base_url('expenditure/create') ?>" class="btn btn-primary">Add Expenditure</a>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title"><?php echo $this->lang->line('Manage Orders')?></h3>
+            <h3 class="box-title">Manage Expenditure</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th><?php echo $this->lang->line('Bill no')?></th>
-                <th><?php echo $this->lang->line('Customer Name')?></th>
-                <th><?php echo $this->lang->line('Customer Phone')?></th>
-                <th><?php echo $this->lang->line('Date Time')?></th>
-                <th><?php echo $this->lang->line('Total Products')?></th>
-                <th><?php echo $this->lang->line('Total Amount')?></th>
-                <th><?php echo $this->lang->line('Paid status')?></th>
-                <?php if(in_array('updateOrder', $user_permission) || in_array('viewOrder', $user_permission) || in_array('deleteOrder', $user_permission)): ?>
-                  <th><?php echo $this->lang->line('Action')?></th>
+                <th>Expenditure Category</th>
+                <th>Fund Name</th>
+                <th>Payer</th>
+                <th>Date Expenditure</th>
+                <th>Amount</th>
+                <?php if(in_array('updateExpenditure', $user_permission) || in_array('deleteExpenditure', $user_permission)): ?>
+                  <th>Action</th>
                 <?php endif; ?>
               </tr>
               </thead>
@@ -77,23 +75,23 @@
 </div>
 <!-- /.content-wrapper -->
 
-<?php if(in_array('deleteOrder', $user_permission)): ?>
+<?php if(in_array('deleteExpenditure', $user_permission)): ?>
 <!-- remove brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="removeModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Remove Orders')?></h4>
+        <h4 class="modal-title">Remove Expenditure</h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('orders/remove') ?>" method="post" id="removeForm">
+      <form role="form" action="<?php echo base_url('expenditure/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-          <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
+          <p>Do you really want to remove?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
-          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
       </form>
 
@@ -111,12 +109,11 @@ var base_url = "<?php echo base_url(); ?>";
 
 $(document).ready(function() {
 
-  $("#mainOrdersNav").addClass('active');
-  $("#manageOrdersNav").addClass('active');
+  $("#mainExpendituretNav").addClass('active');
 
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
-    'ajax': base_url + 'orders/fetchOrdersData',
+    'ajax': base_url + 'expenditure/fetchExpenditureData',
     'order': []
   });
 
@@ -136,7 +133,7 @@ function removeFunc(id)
       $.ajax({
         url: form.attr('action'),
         type: form.attr('method'),
-        data: { order_id:id }, 
+        data: { idBangChi:id }, 
         dataType: 'json',
         success:function(response) {
 

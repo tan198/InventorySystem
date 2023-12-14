@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage
-      <small>Brands</small>
+    <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Brands')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Brands</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Brands')?></li>
     </ol>
   </section>
 
@@ -35,23 +35,23 @@
         <?php endif; ?>
 
         <?php if(in_array('createBrand', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addBrandModal">Add Brand</button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addBrandModal"><?php echo $this->lang->line('Add Brand')?></button>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Manage Brands</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Brands')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th>Brand Name</th>
-                <th>Status</th>
+                <th><?php echo $this->lang->line('Brands Name')?></th>
+                <th><?php echo $this->lang->line('Status')?></th>
                 <?php if(in_array('updateBrand', $user_permission) || in_array('deleteBrand', $user_permission)): ?>
-                  <th>Action</th>
+                  <th><?php echo $this->lang->line('Action')?></th>
                 <?php endif; ?>
               </tr>
               </thead>
@@ -79,7 +79,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Add Brand</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Brand')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('brands/create') ?>" method="post" id="createBrandForm">
@@ -87,21 +87,21 @@
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="brand_name">Brand Name</label>
-            <input type="text" class="form-control" id="brand_name" name="brand_name" placeholder="Enter brand name" autocomplete="off">
+            <label for="brand_name"><?php echo $this->lang->line('Brand Name')?></label>
+            <input type="text" class="form-control" id="brand_name" name="brand_name" placeholder="<?php echo $this->lang->line('Enter Brand Name')?>" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="active">Status</label>
+            <label for="active"><?php echo $this->lang->line('Status')?></label>
             <select class="form-control" id="active" name="active">
-              <option value="1">Active</option>
-              <option value="2">Inactive</option>
+              <option value="1"><?php echo $this->lang->line('Active')?></option>
+              <option value="2"><?php echo $this->lang->line('Inactive')?></option>
             </select>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -119,7 +119,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Edit Brand</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Brand')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('brands/update') ?>" method="post" id="updateBrandForm">
@@ -128,21 +128,21 @@
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_brand_name">Brand Name</label>
-            <input type="text" class="form-control" id="edit_brand_name" name="edit_brand_name" placeholder="Enter brand name" autocomplete="off">
+            <label for="edit_brand_name"><?php echo $this->lang->line('Brand Name')?></label>
+            <input type="text" class="form-control" id="edit_brand_name" name="edit_brand_name" placeholder="<?php echo $this->lang->line('Enter Brand Name')?>" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="edit_active">Status</label>
+            <label for="edit_active"><?php echo $this->lang->line('Status')?></label>
             <select class="form-control" id="edit_active" name="edit_active">
-              <option value="1">Active</option>
-              <option value="2">Inactive</option>
+              <option value="1"><?php echo $this->lang->line('Active')?></option>
+              <option value="2"><?php echo $this->lang->line('Inactive')?></option>
             </select>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -160,16 +160,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Remove Brand</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Brand')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('brands/remove') ?>" method="post" id="removeBrandForm">
         <div class="modal-body">
-          <p>Do you really want to remove?</p>
+          <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
       </form>
 

@@ -37,7 +37,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Edit Product</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Edit Products')?></h3>
           </div>
           <!-- /.box-header -->
           <form role="form" action="<?php base_url('users/update') ?>" method="post" enctype="multipart/form-data">
@@ -46,12 +46,12 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label>Image Preview: </label>
+                  <label><?php echo $this->lang->line('Image Preview')?>: </label>
                   <img src="<?php echo base_url() . $product_data['image'] ?>" width="150" height="150" class="img-circle">
                 </div>
 
                 <div class="form-group">
-                  <label for="product_image">Update Image</label>
+                  <label for="product_image"><?php echo $this->lang->line('Update Image')?></label>
                   <div class="kv-avatar">
                       <div class="file-loading">
                           <input id="product_image" name="product_image" type="file">
@@ -60,29 +60,28 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="product_name">Product name</label>
-                  <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter product name" value="<?php echo $product_data['name']; ?>"  autocomplete="off"/>
+                  <label for="product_name"><?php echo $this->lang->line('Products Name')?></label>
+                  <input type="text" class="form-control" id="product_name" name="product_name" placeholder="<?php echo $this->lang->line('Enter Products Name')?>" value="<?php echo $product_data['name']; ?>"  autocomplete="off"/>
                 </div>
 
                 <div class="form-group">
-                  <label for="sku">SKU</label>
-                  <input type="text" class="form-control" id="sku" name="sku" placeholder="Enter sku" value="<?php echo $product_data['sku']; ?>" autocomplete="off" />
+                  <label for="sku"><?php echo $this->lang->line('SKU')?></label>
+                  <input type="text" class="form-control" id="sku" name="sku" placeholder="<?php echo $this->lang->line('Enter SKU')?>" value="<?php echo $product_data['sku']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="price">Price</label>
-                  <input type="text" class="form-control" id="price" name="price" placeholder="Enter price" value="<?php echo $product_data['price']; ?>" autocomplete="off" />
+                  <label for="price"><?php echo $this->lang->line('Price')?></label>
+                  <input type="text" class="form-control" id="price" name="price" placeholder="<?php echo $this->lang->line('Enter Price')?>" value="<?php echo $product_data['price']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="qty">Qty</label>
-                  <input type="text" class="form-control" id="qty" name="qty" placeholder="Enter Qty" value="<?php echo $product_data['qty']; ?>" autocomplete="off" />
+                  <label for="qty"><?php echo $this->lang->line('Quantity')?></label>
+                  <input type="text" class="form-control" id="qty" name="qty" placeholder="<?php echo $this->lang->line('Enter Quantity')?>" value="<?php echo $product_data['qty']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea type="text" class="form-control" id="description" name="description" placeholder="Enter 
-                  description" autocomplete="off">
+                  <label for="description"><?php echo $this->lang->line('Description')?></label>
+                  <textarea type="text" class="form-control" id="description" name="description" placeholder="<?php echo $this->lang->line('Enter Description')?>" autocomplete="off">
                     <?php echo $product_data['description']; ?>
                   </textarea>
                 </div>
@@ -102,7 +101,7 @@
                 <?php endif; ?>
 
                 <div class="form-group">
-                  <label for="brands">Brands</label>
+                  <label for="brands"><?php echo $this->lang->line('Brands')?></label>
                   <?php $brand_data = json_decode($product_data['brand_id']); ?>
                   <select class="form-control select_group" id="brands" name="brands[]" multiple="multiple">
                     <?php foreach ($brands as $k => $v): ?>
@@ -112,7 +111,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="category">Category</label>
+                  <label for="category"><?php echo $this->lang->line('Category')?></label>
                   <?php $category_data = json_decode($product_data['category_id']); ?>
                   <select class="form-control select_group" id="category" name="category[]" multiple="multiple">
                     <?php foreach ($category as $k => $v): ?>
@@ -131,10 +130,10 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="store">Availability</label>
+                  <label for="store"><?php echo $this->lang->line('Availability')?></label>
                   <select class="form-control" id="availability" name="availability">
-                    <option value="1" <?php if($product_data['availability'] == 1) { echo "selected='selected'"; } ?>>Yes</option>
-                    <option value="2" <?php if($product_data['availability'] != 1) { echo "selected='selected'"; } ?>>No</option>
+                    <option value="1" <?php if($product_data['availability'] == 1) { echo "selected='selected'"; } ?>><?php echo $this->lang->line('Yes')?></option>
+                    <option value="2" <?php if($product_data['availability'] != 1) { echo "selected='selected'"; } ?>><?php echo $this->lang->line('No')?></option>
                   </select>
                 </div>
 
@@ -144,8 +143,8 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="<?php echo base_url('users/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+                <a href="<?php echo base_url('users/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           <!-- /.box-body -->
