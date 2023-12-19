@@ -6,35 +6,35 @@
 		
 		public function getLoansData($id = null){
 			if ($id != null) {
-				$sql = "SELECT * FROM `chovaychi` WHERE idChoVayChi=?";
+				$sql = "SELECT * FROM `chomuonchi` WHERE idChoMuonChi=?";
 				$query = $this->db->query($sql, array($id));
-				return $query->array_row();
+				return $query->row_array();
 			}
 
-			$sql = "SELECT * FROM `chovaychi` ORDER BY idChoVayChi DESC";
+			$sql = "SELECT * FROM `chomuonchi` ORDER BY idChoMuonChi DESC";
 			$query = $this->db->query($sql);
 			return $query->result_array();
 		}
 
 		public function create($data){
 			if($data){
-				$insert = $this->db->insert('chovaychi', $data);
+				$insert = $this->db->insert('chomuonchi', $data);
 				return ($insert == true) ? true : false;
 			}
 		}
 
-		public function update($id,$data){
+		public function update($data,$id){
 			if($data && $id){
-				$this->db->where('idChoVayChi',$id);
-				$update = $this->db->update('chovaychi',$data);
+				$this->db->where('idChoMuonChi',$id);
+				$update = $this->db->update('chomuonchi',$data);
 				return ($update == true) ? true : false;
 			}
 		}
 
 		public function remove($id){
 			if($id){
-				$this->db->where('idChoVayChi',$id);
-				$delete = $this->db->delete('chovaychi');
+				$this->db->where('idChoMuonChi',$id);
+				$delete = $this->db->delete('chomuonchi');
 				return ($delete == true) ? true : false;
 			}
 		}

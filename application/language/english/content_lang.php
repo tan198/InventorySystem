@@ -241,6 +241,17 @@ $lang['Enter Country']='Enter Country';
 $lang['Message']='Message';
 $lang['Currency']='Currency';
 $lang['~~SELECT~~']='~~SELECT~~';
-
-
+$lang['Repayment Period'] = 'Repayment Period';
+$lang['Loans'] = 'Loans';
+$lang['Lending Unit'] = 'Lending Unit';
+$lang['Add Loans'] = 'Add Loans';
+$lang['Edit Loans'] = 'Edit Loans';
+$lang['Add Payment Type'] = 'Add Payment Type';
+$lang['Remove Loans'] = 'Remove Loans';
+$lang['Taxs'] = 'Taxs';
+$lang['Add Taxs'] = 'Add Taxs';
+$lang['Edit Taxs'] = 'Edit Taxs';
+$lang['Remove Taxs'] = 'Remove Taxs';
+$lang['Tax Name'] = 'Tax Name';
+$lang['Enter Tax Name'] = 'Enter Tax Name'
 ?>

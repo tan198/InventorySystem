@@ -6,11 +6,11 @@
   <section class="content-header">
     <h1>
     <?php echo $this->lang->line('Manage')?>
-      <small><?php echo $this->lang->line('Payment Type')?></small>
+      <small><?php echo $this->lang->line('Taxs')?></small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
-      <li class="active"><?php echo $this->lang->line('Payment Type')?></li>
+      <li class="active"><?php echo $this->lang->line('Taxs')?></li>
     </ol>
   </section>
 
@@ -34,23 +34,23 @@
           </div>
         <?php endif; ?>
 
-        <?php if(in_array('createPayment', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Payment Type')?></button>
+        <?php if(in_array('createTaxs', $user_permission)): ?>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Taxs')?></button>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title"><?php echo $this->lang->line('Manage Payment Type')?></h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Taxs')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th><?php echo $this->lang->line('Payment Type Name')?></th>
+                <th><?php echo $this->lang->line('Tax Name')?></th>
                 <th><?php echo $this->lang->line('Action')?></th>
-                <?php if(in_array('updatePayment', $user_permission) || in_array('deletePayment', $user_permission)): ?>
+                <?php if(in_array('updateTaxs', $user_permission) || in_array('deleteTaxs', $user_permission)): ?>
                 <?php endif; ?>
               </tr>
               </thead>
@@ -71,23 +71,23 @@
 </div>
 <!-- /.content-wrapper -->
 
-<?php if(in_array('createPayment', $user_permission)): ?>
+<?php if(in_array('createTaxs', $user_permission)): ?>
 <!-- create brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Add Payment Type')?></h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Taxs')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('payment/create') ?>" method="post" id="createForm">
+      <form role="form" action="<?php echo base_url('taxs/create') ?>" method="post" id="createForm">
 
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="payment_name"><?php echo $this->lang->line('Payment Type Name')?></label>
-            <input type="text" class="form-control" id="payment_name" name="payment_name" placeholder="<?php echo $this->lang->line('Enter Payment Type ')?>" autocomplete="off">
+            <label for="tax_name"><?php echo $this->lang->line('Tax Name')?></label>
+            <input type="text" class="form-control" id="tax_name" name="tax_name" placeholder="<?php echo $this->lang->line('Enter Tax Name ')?>" autocomplete="off">
           </div>
         </div>
 
@@ -102,24 +102,24 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-<?php if(in_array('updatePayment', $user_permission)): ?>
+<?php if(in_array('updateTaxs', $user_permission)): ?>
 <!-- edit brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Edit Payment Type')?></h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Taxs')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('payment/update') ?>" method="post" id="updateForm">
+      <form role="form" action="<?php echo base_url('taxs/update') ?>" method="post" id="updateForm">
 
         <div class="modal-body">
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_payment_name"><?php echo $this->lang->line('Payment Type')?> </label>
-            <input type="text" class="form-control" id="edit_payment_name" name="edit_payment_name" placeholder="<?php echo $this->lang->line('Enter Payment Type ')?>" autocomplete="off">
+            <label for="edit_tax_name"><?php echo $this->lang->line('Tax Name')?> </label>
+            <input type="text" class="form-control" id="edit_tax_name" name="edit_tax_name" placeholder="<?php echo $this->lang->line('Enter Tax Name ')?>" autocomplete="off">
           </div>
         </div>
 
@@ -134,17 +134,17 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-<?php if(in_array('deletePayment', $user_permission)): ?>
+<?php if(in_array('deleteTaxs', $user_permission)): ?>
 <!-- remove brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="removeModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Remove Payment Type')?></h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Taxs')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('payment/remove') ?>" method="post" id="removeForm">
+      <form role="form" action="<?php echo base_url('taxs/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
           <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
@@ -165,11 +165,11 @@
 var manageTable;
 
 $(document).ready(function() {
-  $("#paymentNav").addClass('active');
+  $("#taxsNav").addClass('active');
   
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
-    'ajax': 'fetchPaymentData',
+    'ajax': 'fetchTaxsData',
     'order': []
   });
 
@@ -236,12 +236,12 @@ $(document).ready(function() {
 function editFunc(id)
 { 
   $.ajax({
-    url: 'fetchPaymentDataById/'+id,
+    url: 'fetchTaxsDataById/'+id,
     type: 'post',
     dataType: 'json',
     success:function(response) {
 
-      $("#edit_payment_name").val(response.loaiThanhToan);
+      $("#edit_tax_name").val(response.tenThue);
     //   $("#edit_active").val(response.active);
 
       // submit the edit from 
@@ -317,7 +317,7 @@ function removeFunc(id)
       $.ajax({
         url: form.attr('action'),
         type: form.attr('method'),
-        data: { id:id }, 
+        data: { idThue:id }, 
         dataType: 'json',
         success:function(response) {
 

@@ -57,21 +57,29 @@
           <?php endif; ?>
 
 
-          <?php if(in_array('createBrand', $user_permission) || in_array('updateBrand', $user_permission) || in_array('viewBrand', $user_permission) || in_array('deleteBrand', $user_permission)): ?>
+          <?php if(in_array('createLoans', $user_permission) || in_array('updateLoans', $user_permission) || in_array('viewLoans', $user_permission) || in_array('deleteLoans', $user_permission)): ?>
+            <li id="loansNav">
+              <a href="<?php echo base_url('loans/') ?>">
+                <i class="glyphicon glyphicon-tags"></i> <span><?php echo $this->lang->line('Loans')?></span>
+              </a>
+            </li>
+          <?php endif; ?>
+
+          <!--<?php if(in_array('createBrand', $user_permission) || in_array('updateBrand', $user_permission) || in_array('viewBrand', $user_permission) || in_array('deleteBrand', $user_permission)): ?>
             <li id="brandNav">
               <a href="<?php echo base_url('brands/') ?>">
                 <i class="glyphicon glyphicon-tags"></i> <span><?php echo $this->lang->line('Brands')?></span>
               </a>
             </li>
-          <?php endif; ?>
+          <?php endif; ?>-->
 
-          <?php if(in_array('createCategory', $user_permission) || in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
+          <!--<?php if(in_array('createCategory', $user_permission) || in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
             <li id="categoryNav">
               <a href="<?php echo base_url('category/') ?>">
                 <i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Category')?>  </span>
               </a>
             </li>
-          <?php endif; ?>
+          <?php endif; ?>-->
 
           <?php if(in_array('createFund', $user_permission) || in_array('updateFund', $user_permission) || in_array('viewFund', $user_permission) || in_array('deleteFund', $user_permission)): ?>
             <li class="treeview" id="mainFundNav">
@@ -240,22 +248,29 @@
             </li>
           <?php endif; ?>
 
+          <?php if(in_array('createTaxs',$user_permission) || in_array('updateTaxs',$user_permission) || in_array('viewTaxs',$user_permission) || in_array('deleteTaxs', $user_permission)): ?>
+           <li id="taxsNav">
+            <a href="<?php echo base_url('taxs/')?>">
+              <i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Taxs')?></span>
+            </a>
+           </li>
+           <?php endif;?>
 
-          <?php if(in_array('createStore', $user_permission) || in_array('updateStore', $user_permission) || in_array('viewStore', $user_permission) || in_array('deleteStore', $user_permission)): ?>
+          <!--<?php if(in_array('createStore', $user_permission) || in_array('updateStore', $user_permission) || in_array('viewStore', $user_permission) || in_array('deleteStore', $user_permission)): ?>
             <li id="storeNav">
               <a href="<?php echo base_url('stores/') ?>">
                 <i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Stores')?></span>
               </a>
             </li>
-          <?php endif; ?>
+          <?php endif; ?>-->
 
-          <?php if(in_array('createAttribute', $user_permission) || in_array('updateAttribute', $user_permission) || in_array('viewAttribute', $user_permission) || in_array('deleteAttribute', $user_permission)): ?>
+          <!--<?php if(in_array('createAttribute', $user_permission) || in_array('updateAttribute', $user_permission) || in_array('viewAttribute', $user_permission) || in_array('deleteAttribute', $user_permission)): ?>
           <li id="attributeNav">
             <a href="<?php echo base_url('attributes/') ?>">
               <i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Attributes')?> </span>
             </a>
           </li>
-          <?php endif; ?>
+          <?php endif; ?>-->
 
           <?php if(in_array('createProduct', $user_permission) || in_array('updateProduct', $user_permission) || in_array('viewProduct', $user_permission) || in_array('deleteProduct', $user_permission)): ?>
             <li class="treeview" id="mainProductNav">

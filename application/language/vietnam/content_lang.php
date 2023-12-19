@@ -241,8 +241,17 @@
 	$lang['Message'] =  'Thông Điệp';
 	$lang['Currency'] =  'Tiền Tệ';
 	$lang['~~SELECT~~'] =  '~~Chọn~~';
-	$lang[''] =  '';
-	$lang[''] =  '';
-	$lang[''] =  '';
-
+	$lang['Lending Unit'] =  'Đơn Vị Cho Vay';
+	$lang['Loans'] =  'Cho Vay';
+	$lang['Add Loans'] = 'Tạo Khoản Cho Vay';
+	$lang['Repayment Period'] =  'Thời Hạn Trả';
+	$lang['Add Payment Type'] = 'Taoj Loại Thanh Toán';
+	$lang['Edit Loans'] = 'Cập Nhật Khoản Cho Vay';
+	$lang['Remove Loans'] = 'Xoá Khoản Cho Vay';
+	$lang['Taxs'] = 'Thuế';
+	$lang['Add Taxs'] = 'Tạo Thuế';
+	$lang['Edit Taxs'] = 'Cập Nhật Thuế';
+	$lang['Remove Taxs'] = 'Xoá Thuế';
+	$lang['Tax Name'] = 'Tên Thuế';
+	$lang['Enter Tax Name'] = 'Nhập Tên Thuế';
 ?>

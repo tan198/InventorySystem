@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Expendituretype extends Admin_Controller 
+class Taxs extends Admin_Controller 
 {
 	public function __construct()
 	{
@@ -10,9 +10,9 @@ class Expendituretype extends Admin_Controller
 
 		$this->not_logged_in();
 
-		$this->data['page_title'] = 'Expenditure Category Type';
+		$this->data['page_title'] = 'Taxs';
 
-		$this->load->model('model_expendituretype');
+		$this->load->model('model_tax');
 	}
 
 	/* 
@@ -21,11 +21,11 @@ class Expendituretype extends Admin_Controller
 	public function index()
 	{
 
-		if(!in_array('viewExpenditureType', $this->permission)) {
+		if(!in_array('viewTaxs', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
 
-		$this->render_template('expendituretype/index', $this->data);	
+		$this->render_template('taxs/index', $this->data);	
 	}	
 
 	/*
@@ -34,10 +34,10 @@ class Expendituretype extends Admin_Controller
 	* returns the data into json format. 
 	* This function is invoked from the view page.
 	*/
-	public function fetchExpenditureTypeDataById($id) 
+	public function fetchTaxsDataById($id) 
 	{
 		if($id) {
-			$data = $this->model_expendituretype->getExpenditureTypeData($id);
+			$data = $this->model_tax->getTaxsData($id);
 			echo json_encode($data);
 		}
 
@@ -48,30 +48,30 @@ class Expendituretype extends Admin_Controller
 	* Fetches the category value from the category table 
 	* this function is called from the datatable ajax function
 	*/
-	public function fetchExpenditureTypeData()
+	public function fetchTaxsData()
 	{
 		$result = array('data' => array());
 
-		$data = $this->model_expendituretype->getExpenditureTypeData();
+		$data = $this->model_tax->getTaxsData();
 
 		foreach ($data as $key => $value) {
 
 			// button
 			$buttons = '';
 
-			if(in_array('updateExpenditureType', $this->permission)) {
-				$buttons .= '<button type="button" class="btn btn-default" onclick="editFunc('.$value['idLoaiHangMucChi'].')" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i></button>';
+			if(in_array('updateTaxs', $this->permission)) {
+				$buttons .= '<button type="button" class="btn btn-default" onclick="editFunc('.$value['idThue'].')" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i></button>';
 			}
 
-			if(in_array('deleteExpenditureType', $this->permission)) {
-				$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idLoaiHangMucChi'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
+			if(in_array('deleteTaxs', $this->permission)) {
+				$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idThue'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
 			}
 				
 
 			//$status = ($value['active'] == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-warning">Inactive</span>';
 
 			$result['data'][$key] = array(
-				$value['tenLoaiHangMucChi'],
+				$value['tenThue'],
 				//$status,
 				$buttons
 			);
@@ -87,31 +87,31 @@ class Expendituretype extends Admin_Controller
 	*/
 	public function create()
 	{
-		if(!in_array('createExpenditureType', $this->permission)) {
+		if(!in_array('createTaxs', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
 
 		$response = array();
 
-		$this->form_validation->set_rules('expendituretype_name', 'Expenditure category type name', 'trim|required');
+		$this->form_validation->set_rules('tax_name', 'Tax name', 'trim|required');
 		// $this->form_validation->set_rules('', 'Active', 'trim|required');
 
 		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 
         if ($this->form_validation->run() == TRUE) {
         	$data = array(
-        		'tenLoaiHangMucChi' => $this->input->post('expendituretype_name'),
+        		'tenThue' => $this->input->post('tax_name'),
         		// 'active' => $this->input->post('active'),	
         	);
 
-        	$create = $this->model_expendituretype->create($data);
+        	$create = $this->model_tax->create($data);
         	if($create == true) {
         		$response['success'] = true;
         		$response['messages'] = 'Succesfully created';
         	}
         	else {
         		$response['success'] = false;
-        		$response['messages'] = 'Error in the database while creating the brand information';			
+        		$response['messages'] = 'Error in the database while creating the tax information';			
         	}
         }
         else {
@@ -119,8 +119,6 @@ class Expendituretype extends Admin_Controller
         	foreach ($_POST as $key => $value) {
         		$response['messages'][$key] = form_error($key);
         	}
-			
-			$response['close_notification'] = true;
         }
 
         echo json_encode($response);
@@ -134,32 +132,32 @@ class Expendituretype extends Admin_Controller
 	public function update($id)
 	{
 
-		if(!in_array('updateExpenditureType', $this->permission)) {
+		if(!in_array('updateTaxs', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
 
 		$response = array();
 
 		if($id) {
-			$this->form_validation->set_rules('edit_expendituretype_name', 'tenLoaiHangMucChi', 'trim|required');
+			$this->form_validation->set_rules('edit_tax_name', 'Edit Tax Name', 'trim|required');
 			// $this->form_validation->set_rules('edit_active', 'Active', 'trim|required');
 
 			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 
 	        if ($this->form_validation->run() == TRUE) {
 	        	$data = array(
-	        		'tenLoaiHangMucChi' => $this->input->post('edit_expendituretype_name'),
+	        		'tenThue' => $this->input->post('edit_tax_name'),
 	        		// 'active' => $this->input->post('edit_active'),	
 	        	);
 
-	        	$update = $this->model_expendituretype->update($data, $id);
+	        	$update = $this->model_tax->update($data, $id);
 	        	if($update == true) {
 	        		$response['success'] = true;
 	        		$response['messages'] = 'Succesfully updated';
 	        	}
 	        	else {
 	        		$response['success'] = false;
-	        		$response['messages'] = 'Error in the database while updated the brand information';			
+	        		$response['messages'] = 'Error in the database while updated the tax type information';			
 	        	}
 	        }
 	        else {
@@ -167,14 +165,12 @@ class Expendituretype extends Admin_Controller
 	        	foreach ($_POST as $key => $value) {
 	        		$response['messages'][$key] = form_error($key);
 	        	}
-				
 	        }
 		}
 		else {
 			$response['success'] = false;
     		$response['messages'] = 'Error please refresh the page again!!';
 		}
-
 
 		echo json_encode($response);
 	}
@@ -185,22 +181,22 @@ class Expendituretype extends Admin_Controller
 	*/
 	public function remove()
 	{
-		if(!in_array('deleteExpenditureType', $this->permission)) {
+		if(!in_array('deleteTaxs', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
 		
-		$idLoaiHangMucChi = $this->input->post('idLoaiHangMucChi');
+		$id = $this->input->post('idThue');
 
 		$response = array();
-		if($idLoaiHangMucChi) {
-			$delete = $this->model_expendituretype->remove($idLoaiHangMucChi);
+		if($id) {
+			$delete = $this->model_tax->remove($id);
 			if($delete == true) {
 				$response['success'] = true;
 				$response['messages'] = "Successfully removed";	
 			}
 			else {
 				$response['success'] = false;
-				$response['messages'] = "Error in the database while removing the expenditure category type information";
+				$response['messages'] = "Error in the database while removing the tax information";
 			}
 		}
 		else {
