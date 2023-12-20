@@ -8,7 +8,7 @@
 			if($id != null){
 				$sql = "SELECT * FROM `thue` WHERE idThue =?";
 				$query = $this->db->query($sql,array($id));
-				return $query->array_row();
+				return $query->row_array();
 			}
 			
 			$sql = "SELECT * FROM `thue` ORDER BY idThue DESC";

@@ -57,10 +57,20 @@
           <?php endif; ?>
 
 
+
+
           <?php if(in_array('createLoans', $user_permission) || in_array('updateLoans', $user_permission) || in_array('viewLoans', $user_permission) || in_array('deleteLoans', $user_permission)): ?>
             <li id="loansNav">
               <a href="<?php echo base_url('loans/') ?>">
                 <i class="glyphicon glyphicon-tags"></i> <span><?php echo $this->lang->line('Loans')?></span>
+              </a>
+            </li>
+          <?php endif; ?>
+
+          <?php if(in_array('createDebts', $user_permission) || in_array('updateDebts', $user_permission) || in_array('viewDebts', $user_permission) || in_array('deleteDebts', $user_permission)): ?>
+            <li id="debtsNav">
+              <a href="<?php echo base_url('debts/') ?>">
+                <i class="glyphicon glyphicon-tags"></i> <span><?php echo $this->lang->line('Debts')?></span>
               </a>
             </li>
           <?php endif; ?>
@@ -118,6 +128,26 @@
                 <?php endif; ?>
                 <?php if(in_array('updateExpenditure', $user_permission) || in_array('viewExpenditure', $user_permission) || in_array('deleteExpenditure', $user_permission)): ?>
                 <li id="manageExpenditureNav"><a href="<?php echo base_url('expenditure') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Expenditure')?></a></li>
+                <?php endif; ?>
+              </ul>
+            </li>
+          <?php endif; ?>
+
+          <?php if(in_array('createExpenditure1', $user_permission) || in_array('updateExpenditure1', $user_permission) || in_array('viewExpenditure1', $user_permission) || in_array('deleteExpenditure1', $user_permission)): ?>
+            <li class="treeview" id="mainExpenditure1Nav">
+              <a href="#">
+                <i class="fa fa-cube"></i>
+                <span><?php echo $this->lang->line('Expenditure1')?></span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <?php if(in_array('createExpenditure1', $user_permission)): ?>
+                  <li id="addExpenditure1Nav"><a href="<?php echo base_url('expenditure1/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Expenditure1')?></a></li>
+                <?php endif; ?>
+                <?php if(in_array('updateExpenditure1', $user_permission) || in_array('viewExpenditure1', $user_permission) || in_array('deleteExpenditure1', $user_permission)): ?>
+                <li id="manageExpenditure1Nav"><a href="<?php echo base_url('expenditure1') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Expenditure1')?></a></li>
                 <?php endif; ?>
               </ul>
             </li>

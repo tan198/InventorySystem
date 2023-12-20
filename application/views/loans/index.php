@@ -114,7 +114,7 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-<?php if(in_array('updatePayment', $user_permission)): ?>
+<?php if(in_array('updateLoans', $user_permission)): ?>
 <!-- edit brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
   <div class="modal-dialog" role="document">

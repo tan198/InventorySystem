@@ -114,7 +114,7 @@ class Loans extends Admin_Controller
         	}
         	else {
         		$response['success'] = false;
-        		$response['messages'] = 'Error in the database while creating the brand information';			
+        		$response['messages'] = 'Error in the database while creating the loán information';			
         	}
         }
         else {

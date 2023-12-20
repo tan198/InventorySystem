@@ -254,4 +254,11 @@
 	$lang['Remove Taxs'] = 'Xoá Thuế';
 	$lang['Tax Name'] = 'Tên Thuế';
 	$lang['Enter Tax Name'] = 'Nhập Tên Thuế';
+	$lang['Debts'] = 'Khoản Nợ';
+	$lang['Manage Debts'] = 'Quản Lý Khoản Nợ';
+	$lang['Debt Unit'] = 'Đơn vị Cho Mượn';
+	$lang['Add Debts'] = 'Tạo Khoản Nợ';
+	$lang['Edit Debt'] = 'Cập Nhật Khoản Nợ';
+	$lang['Remove Debt'] = 'Xoá Khoản Nợ';
+	$lang['Payment Period'] = 'Thời Hạn Trả';
 ?>
