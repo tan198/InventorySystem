@@ -16,6 +16,12 @@
 			return $query->result_array();
 		}
 
+		public function isLowestQuantity($materialid,$qtyinput){
+			$material_data = $this->getMaterialsData($materialid);
+    		$currentQuantity = (int) $material_data['soLuong'];
+			return ($qtyinput >$currentQuantity);
+		}
+
 		public function create($data)
 	{
 		if($data) {

@@ -297,7 +297,7 @@
   // calculate the total amount of the order
   function subAmount() {
     var service_charge = <?php echo ($company_data['service_charge_value'] > 0) ? $company_data['service_charge_value']:0; ?>;
-    var vat_charge = <?php echo ($company_data['vat_charge_value'] > 0) ? $company_data['vat_charge_value']:0; ?>;
+    var   vat_charge = <?php echo ($company_data['vat_charge_value'] > 0) ? $company_data['vat_charge_value']:0; ?>;
 
     var tableProductLength = $("#product_info_table tbody tr").length;
     var totalSubAmount = 0;

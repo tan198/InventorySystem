@@ -132,6 +132,7 @@ class Orders extends Admin_Controller
 	* It checks retrieves the particular product data from the product id 
 	* and return the data into the json format.
 	*/
+
 	public function getProductValueById()
 	{
 		$product_id = $this->input->post('product_id');
