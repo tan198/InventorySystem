@@ -50,16 +50,24 @@
               <thead>
               <tr>
                 <th><?php echo $this->lang->line('Income Category')?></th>
+                <th><?php echo $this->lang->line('Income Name')?></th>
                 <th><?php echo $this->lang->line('Payment Type')?></th>
+                <th><?php echo $this->lang->line('Material Status')?></th>
                 <th><?php echo $this->lang->line('Receiver')?></th>
                 <th><?php echo $this->lang->line('Date Income')?></th>
                 <th><?php echo $this->lang->line('Amount')?></th>
+                <th><?php echo $this->lang->line('Total Amount')?></th>
                 <?php if(in_array('updateIncome', $user_permission) || in_array('deleteIncome', $user_permission)): ?>
                   <th><?php echo $this->lang->line('Action')?></th>
                 <?php endif; ?>
               </tr>
               </thead>
-
+              <tfoot>
+                <tr>
+                  <th colspan="7" style="text-align:right">Total:</th>
+                  <th></th>
+                </tr>
+              </tfoot>
             </table>
           </div>
           <!-- /.box-body -->
@@ -115,7 +123,35 @@ $(document).ready(function() {
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
     'ajax': base_url + 'income/fetchIncomeData',
-    'order': []
+    'order': [],
+    'footerCallback':function(row,data,start,end,display){
+      var api = this.api(),data;
+
+      var intVal =function(i){
+        return typeof i === 'string' ?
+        i.replace(/[\$,]/g, '')*1 :
+        typeof i === 'number' ?
+          i : 0;
+      };
+
+      total = api
+      .column( 7 )
+      .data()
+      .reduce( function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0 );
+
+      pageTotal = api
+      .column( 7, { page: 'current'} )
+      .data()
+      .reduce( function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0 );
+
+      $( api.column( 7 ).footer() ).html(
+      pageTotal.toLocaleString('en-US')
+    );
+    }
   });
 
 });

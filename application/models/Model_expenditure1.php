@@ -18,7 +18,8 @@
 		}
 
 		public function getMaterialDetail(){
-			
+			$sql = "SELECT taobangchi1.idBangChi, material_item.idVatTuChi, material_item.tenVatTu FROM material_item LEFT JOIN taobangchi1
+			ON taobangchi1.idBangChi = material_item.idBangChi GROUP BY material_item.idBangChi ";
 		}
 
 		public function getMaterialItemData($idBangChi = null){
@@ -86,8 +87,8 @@
 					$material_id = $value['idVatTuChi'];
 					$qty_materials = $value['soLuong'];
 					$material_data = $this->model_materials->getMaterialsData($material_id);
-					$update_qty_materials = (int) $qty_materials + (int)$material_data['soLuong'];
-					$update_material_data = array('soLuong' => $update_qty_materials);
+					$update_qty = (int)$qty_materials + (int)$material_data['soLuong'];
+					$update_material_data = array('soLuong' => $update_qty);
 
 					$this->model_materials->update($update_material_data,$material_id);
 				}
@@ -96,6 +97,7 @@
 				$this->db->delete('material_item');
 
 				$count_material = count($this->input->post('material'));
+				
 				for($x = 0; $x < $count_material;$x++){
 					$items = array(
 						'idBangChi' => $id,
@@ -107,7 +109,7 @@
 					$this->db->insert('material_item',$items);
 
 					$material_data = $this->model_materials->getMaterialsData($this->input->post('material')[$x]);
-					$qty_materials_remain = (int) $material_data['soLuong'] - (int)$this->input->post('quantity')[$x];
+					$qty_materials_remain = (int)$material_data['soLuong'] - (int)$this->input->post('quantity')[$x];
 					$update_material =array('soLuong'=>$qty_materials_remain);
 					$this->model_materials->update($update_material,$this->input->post('material')[$x]);
 				}

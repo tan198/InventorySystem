@@ -1,5 +1,13 @@
 
-
+<style>
+  .dataTable .row-details{
+    margin-top: 3px;
+    display: inline-block;
+    cursor: pointer;
+    width:14px;
+    height: 14px;
+  }
+</style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -45,7 +53,7 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <table id="manageTable" class="table table-bordered table-striped">
+            <table id="manageTable" class="table table-bordered table-hover">
               <thead>
               <tr>
                 <th>Expenditure Category</th>
@@ -57,11 +65,20 @@
                 <th>Date Expenditure</th>
                 <th>Amount</th>
                 <th>Total Amount</th>
+                
                 <?php if(in_array('updateExpenditure1', $user_permission) || in_array('deleteExpenditure1', $user_permission)): ?>
                   <th>Action</th>
                 <?php endif; ?>
+                <th></th>
               </tr>
               </thead>
+
+              <tfoot>
+                <tr>
+                  <th colspan="7" style="text-align:right">Total:</th>
+                  <th></th>
+                </tr>
+              </tfoot>
 
             </table>
           </div>
@@ -117,11 +134,108 @@ $(document).ready(function() {
 
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
-    'ajax': base_url + 'expenditure1/fetchExpenditureData1',
-    'order': []
+    ajax: base_url + 'expenditure1/fetchExpenditureData1',
+    order: [],
+    deferRender: true, 
+    columnDefs: [
+      //{
+      //  targets: -1, // First column
+      //  render: function(data, type, row, meta) {
+      //    return '<i class="row-details fa fa-plus"></i>';
+      //  }
+      //},
+      {
+        //targets: -2,
+        //className: 'dt-control'
+      }
+    ],
+    'language': {
+      
+    },
+
+    'footerCallback':function(row,data,start,end,display){
+      var api = this.api(),data;
+
+      var intVal =function(i){
+        return typeof i === 'string' ?
+        i.replace(/[\$,]/g, '')*1 :
+        typeof i === 'number' ?
+          i : 0;
+      };
+
+      total = api
+      .column( 7 )
+      .data()
+      .reduce( function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0 );
+
+      pageTotal = api
+      .column( 7, { page: 'current'} )
+      .data()
+      .reduce( function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0 );
+
+      $( api.column( 7 ).footer() ).html(
+      pageTotal.toLocaleString('en-US')
+    );
+  } 
   });
 
 });
+
+//table details
+
+function format(d) {
+    return (
+        '<dl>' +
+        '<dt>Full name:</dt>' +
+        '<dd>' +
+        d.tenVatTu
+    );
+}
+manageTable = ("#manageTable").DataTable({
+  ajax: 'expenditure1/fetchDataExpenditureDetails',
+  data: { idBangChi:idBangChi }, 
+  dataType: 'json',
+  columnDefs: [
+      {
+        targets: -1, // First column
+        render: function(data, type, row, meta) {
+          return '<i class="row-details fa fa-plus"></i>';
+        }
+      },
+      //{
+      //  //targets: -2,
+      //  //className: 'dt-control'
+      //}
+    ],
+  columns: [
+    {
+      className: 'dt-control',
+      orderable: false,
+      data: null,
+      defaultContent: ''
+    },
+    {data: 'tenVatTu'}
+  ],
+  'order': [[1,'asc']]
+});
+
+('$manageTable tbody').on('click', 'td.dt-control',function(){
+    var tr = $(this).closest('tr');
+    var row = manageTable.row(tr);
+ 
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+    }
+    else {
+        // Open this row
+        row.child(format(row.data())).show();
+    }
+})
 
 // remove functions 
 function removeFunc(id)
@@ -165,6 +279,10 @@ function removeFunc(id)
       return false;
     });
   }
+}
+
+function rowDetails(id){
+
 }
 
 

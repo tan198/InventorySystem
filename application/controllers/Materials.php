@@ -73,7 +73,7 @@ class Materials extends Admin_Controller
 				$value['tenVatTu'],
 				$value['soLuong'],
 				$value['giaTien'],
-				$value['tongTien'],
+				//$value['tongTien'],
 				//$status,
 				$buttons
 			);
@@ -98,7 +98,6 @@ class Materials extends Admin_Controller
 		$this->form_validation->set_rules('materials_name', 'Materials name', 'trim|required');
 		$this->form_validation->set_rules('quantity', 'Quantity', 'trim|required');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required');
-		$this->form_validation->set_rules('total', 'Total', 'trim');
 
 		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 
@@ -106,8 +105,7 @@ class Materials extends Admin_Controller
         	$data = array(
         		'tenVatTu' => $this->input->post('materials_name'),
 				'soLuong' => $this->input->post('quantity'),
-				'giaTien' => $this->input->post('amount'),
-        		'tongTien' => $this->input->post('hiddenTotal'),	
+				'giaTien' => $this->input->post('amount'),	
         	);
 
         	$create = $this->model_materials->create($data);
@@ -148,7 +146,6 @@ class Materials extends Admin_Controller
 			$this->form_validation->set_rules('edit_materials_name', 'Edit material name', 'trim|required');
 			$this->form_validation->set_rules('edit_quantity', 'Edit Quantity', 'trim|required');
 			$this->form_validation->set_rules('edit_amount', 'Edit amount', 'trim|required');
-			$this->form_validation->set_rules('edit_total', 'Edit total', 'trim');
 			
 
 			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
@@ -158,7 +155,6 @@ class Materials extends Admin_Controller
 	        		'tenVatTu' => $this->input->post('edit_materials_name'),
 	        		'soLuong' => $this->input->post('edit_quantity'),
 					'giaTien' => $this->input->post('edit_amount'),
-					'tongTien' => $this->input->post('edit_hiddenTotal')
 	        	);
 
 	        	$update = $this->model_materials->update($data, $id);

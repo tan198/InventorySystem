@@ -60,6 +60,7 @@ class Expenditure1 extends Admin_Controller
             //$currency_unit = number_format((float)$value['soTienThu'],2,'.',','); 
 
 			$result['data'][$key] = array(
+                
                 $expenditurecategory_data['tenHangMucChi'],
                 $value['tenHangMuc'],
                 $material_status,
@@ -78,8 +79,20 @@ class Expenditure1 extends Admin_Controller
 	}
 
     public function fetchDataExpenditureDetails(){
-        $result = array('data' => array());
-        $data = $this->model_expenditure1->getExpenditureData1();
+        $result = array();
+        $data = $this->model_expenditure1->getMaterialDetail();
+        foreach ($data as $v){
+            $idBangChi = $v['idBangChi'];
+            if (!isset($result[$idBangChi])) {
+                $result[$idBangChi] = array(
+                    'material_info' => $v,
+                    'material_items' => array()
+                );
+            }
+            $result[$idBangChi]['material_item'][] = $v['tenVatTu'];
+        }
+        $this->data['expenditure_data'] = $result;
+        $this->load->view('expenditure1/index',$this->data);
     }
 
     /*
@@ -221,7 +234,7 @@ class Expenditure1 extends Admin_Controller
 		$this->form_validation->set_rules('tamount', 'Amount', 'trim|required');
         $this->form_validation->set_rules('amountt', 'Amountt','trim');
         $this->form_validation->set_rules('material[]', 'Material Name', 'trim|callback_material_require');
-        $this->form_validation->set_rules('quantity[]', 'Quantity', 'trim|callback_quantity_require');
+        //$this->form_validation->set_rules('quantity[]', 'Quantity', 'trim|callback_quantity_require');
 
         if ($this->form_validation->run() == TRUE) {
             // true case

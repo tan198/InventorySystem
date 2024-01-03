@@ -40,7 +40,7 @@
             <h3 class="box-title">Edit Expenditure 1</h3>
           </div>
           <!-- /.box-header -->
-          <form role="form" action="<?php base_url('expenditure1/update') ?>" method="post" enctype="multipart/form-data">
+          <form role="form" action="<?php base_url('expenditure/update') ?>" method="post" enctype="multipart/form-data">
               <div class="box-body">
 
                 <?php echo validation_errors(); ?>
@@ -176,8 +176,8 @@
     $(".select_group").select2();
     $("#description").wysihtml5();
 
-    $("#mainExpenditure1Nav").addClass('active');
-    $("#manageExpenditure1Nav").addClass('active');
+    $("#mainExpenditureNav").addClass('active');
+    $("#manageExpenditureNav").addClass('active');
     //show table checked yes
     var table = $("#material_info_table");
     var count_table_tbody_tr = $("#material_info_table tbody tr").length;
@@ -208,7 +208,7 @@
       var row_id =count_table_tbody_tr + 1;
 
       $.ajax({
-        url: base_url + '/expenditure1/getTableMaterialRow/',
+        url: base_url + '/expenditure/getTableMaterialRow/',
         type: 'post',
         dataType: 'json',
         success:function(response){
@@ -346,7 +346,7 @@ function formatCurrency(input, blur) {
       $("#amount_value_" + row_id).val("");
     }else{
       $.ajax({
-        url:base_url + 'expenditure1/getMaterialValueById',
+        url:base_url + 'expenditure/getMaterialValueById',
         type: 'post',
         data:{idVatTuChi:material_id},
         dataType:'json',

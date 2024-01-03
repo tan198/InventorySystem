@@ -178,7 +178,7 @@
         }else{
           $("#material_info_table").hide();
           $('#material_info_table input[type="text"]').val('');
-          $('#material_'+row_id).val('').change();
+          $('#material_1').val('').change();
           removeRow(row_id);
         }
     });
@@ -197,6 +197,7 @@
           $.ajax({
             url: base_url + '/expenditure1/getTableMaterialRow/',
             type: 'post',
+            deferRender: true,
             dataType: 'json',
             success:function(response){
               var html = '<tr id="row_' + row_id +'">' +

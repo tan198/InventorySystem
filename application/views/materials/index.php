@@ -51,7 +51,6 @@
                 <th><?php echo $this->lang->line('Materials Expenditure Name')?></th>
 				        <th><?php echo $this->lang->line('Quantity')?></th>
 				        <th><?php echo $this->lang->line('Price')?></th>
-				        <th><?php echo $this->lang->line('Total Amount')?></th>
                 <th><?php echo $this->lang->line('Action')?></th>
                 <?php if(in_array('updateMaterials', $user_permission) || in_array('deleteMaterials', $user_permission)): ?>
                 <?php endif; ?>
@@ -104,12 +103,6 @@
 				<label for="amount"><?php echo $this->lang->line('Price')?></label>
 				<input type="text" class="form-control" id="amount" name="amount" placeholder="<?php echo $this->lang->line('Enter Price')?>" autocomplete="off">
 			</div>
-
-			<div class="form-group">
-				<label for="total"><?php echo $this->lang->line('Total Amount')?></label>
-				<input type="text" class="form-control" id="total" name="total" disabled autocomplete="off">
-				<input type="hidden" class="form-control" id="hiddenTotal" name="hiddenTotal" autocomplete="off">
-			</div>
         </div>
 
         <div class="modal-footer">
@@ -153,13 +146,6 @@
 			<div class="form-group">
 				<label for="edit_amount"><?php echo $this->lang->line('Price')?></label>
 				<input type="text" class="form-control" id="edit_amount" name="edit_amount" placeholder="<?php echo $this->lang->line('Enter Price')?>" autocomplete="off">
-			</div>
-
-			<div class="form-group">
-				<label for="total"><?php echo $this->lang->line('Total Amount')?></label>
-				<input type="text" class="form-control" id="edit_total" name="edit_total" disabled autocomplete="off">
-				
-				<input type="hidden" class="form-control" id="edit_hiddenTotal" name="edit_hiddenTotal"  autocomplete="off">
 			</div>
         </div>
 
