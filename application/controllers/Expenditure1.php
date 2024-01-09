@@ -41,7 +41,8 @@ class Expenditure1 extends Admin_Controller
 		$data = $this->model_expenditure1->getExpenditureData1();
 
 		foreach ($data as $key => $value) {
-            
+            $material_info = $this->model_expenditure1->getMaterialInfo($value['idBangChi']);
+            //var_dump($material_info);
             $date_expenditure = date('d/m/Y',  strtotime($value['ngayChi']));
             $expenditurecategory_data = $this -> model_expenditurecategory->getExpenditureCategoryData($value['idHangMucChi']);
             $fund_data = $this -> model_fund->getFundData($value['idTaiKhoan']);
@@ -60,39 +61,38 @@ class Expenditure1 extends Admin_Controller
             //$currency_unit = number_format((float)$value['soTienThu'],2,'.',','); 
 
 			$result['data'][$key] = array(
-                
-                $expenditurecategory_data['tenHangMucChi'],
-                $value['tenHangMuc'],
-                $material_status,
-                $fund_data['tenTaiKhoan'],
-				$value['nguoiChi'],
-                //$material['tenVatTu'],
-				$date_expenditure,
-                $value['soTien'],
-                $value['tongTien'],
-                
-				$buttons
+                'idBangChi' => $value['idBangChi'],
+                'idHangMucChi'=>$expenditurecategory_data['tenHangMucChi'],
+                'tenHangMuc'=>$value['tenHangMuc'],
+                'materialStatus'=>$material_status,
+                'idTaiKhoan'=>$fund_data['tenTaiKhoan'],
+				'nguoiChi'=>$value['nguoiChi'],
+				'ngayChi'=>$date_expenditure,
+                'soTien'=>$value['soTien'],
+                'tongTien'=>$value['tongTien'],
+				'action'=>$buttons
 			);
 		} // /foreach
     
 		echo json_encode($result);
 	}
 
-    public function fetchDataExpenditureDetails(){
-        $result = array();
-        $data = $this->model_expenditure1->getMaterialDetail();
-        foreach ($data as $v){
-            $idBangChi = $v['idBangChi'];
-            if (!isset($result[$idBangChi])) {
-                $result[$idBangChi] = array(
-                    'material_info' => $v,
-                    'material_items' => array()
-                );
-            }
-            $result[$idBangChi]['material_item'][] = $v['tenVatTu'];
+
+    public function getMaterialName($idBangChi) {
+        // Kiểm tra nếu không có idBangChi, trả về thông báo lỗi hoặc giá trị mặc định
+        if (!$idBangChi) {
+            echo json_encode(array('tenVatTu' => 'Material not found'));
+            return;
         }
-        $this->data['expenditure_data'] = $result;
-        $this->load->view('expenditure1/index',$this->data);
+    
+        $material_info = $this->model_expenditure1->getMaterialInfo($idBangChi);
+        $materialName = null;
+    
+        foreach ($material_info as $v) {
+            $materialName[] = $v['tenVatTu'];
+        }
+    
+        echo json_encode(array('tenVatTu' => $materialName));
     }
 
     /*

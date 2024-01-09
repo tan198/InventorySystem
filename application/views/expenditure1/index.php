@@ -1,13 +1,5 @@
 
-<style>
-  .dataTable .row-details{
-    margin-top: 3px;
-    display: inline-block;
-    cursor: pointer;
-    width:14px;
-    height: 14px;
-  }
-</style>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -69,7 +61,6 @@
                 <?php if(in_array('updateExpenditure1', $user_permission) || in_array('deleteExpenditure1', $user_permission)): ?>
                   <th>Action</th>
                 <?php endif; ?>
-                <th></th>
               </tr>
               </thead>
 
@@ -95,6 +86,25 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<!-- Detail Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="detailModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Expenditure Details</h4>
+      </div>
+      <div class="modal-body">
+        <!-- Details content will be displayed here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <?php if(in_array('deleteExpenditure1', $user_permission)): ?>
 <!-- remove brand modal -->
@@ -122,120 +132,126 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-
-
 <script type="text/javascript">
 var manageTable;
 var base_url = "<?php echo base_url(); ?>";
 
 $(document).ready(function() {
 
+
+
   $("#mainExpenditure1tNav").addClass('active');
-
   // initialize the datatable 
-  manageTable = $('#manageTable').DataTable({
-    ajax: base_url + 'expenditure1/fetchExpenditureData1',
-    order: [],
-    deferRender: true, 
-    columnDefs: [
-      //{
-      //  targets: -1, // First column
-      //  render: function(data, type, row, meta) {
-      //    return '<i class="row-details fa fa-plus"></i>';
-      //  }
-      //},
-      {
-        //targets: -2,
-        //className: 'dt-control'
-      }
-    ],
-    'language': {
-      
+  var manageTable = $('#manageTable').DataTable({
+    ajax: {
+        url: base_url + 'expenditure1/fetchExpenditureData1',
+        type: 'GET',
+        dataType: 'json',
+        dataSrc: 'data',
     },
+    columns: [
+        { data: 'idHangMucChi' },
+        { data: 'tenHangMuc' },
+        { data: 'materialStatus' },
+        { data: 'idTaiKhoan' },
+        { data: 'nguoiChi' },
+        { data: 'ngayChi' },
+        { data: 'soTien' },
+        { data: 'tongTien' },
+        { data: 'action' }
+    ],
+    order: [],
+    processing: true,
+    serverSide: true,
+    'drawCallback': function(settings) {
+        var api = new $.fn.dataTable.Api(settings);
 
-    'footerCallback':function(row,data,start,end,display){
-      var api = this.api(),data;
+        // Check if there are no records
+        if (api.page.info().recordsDisplay === 0) {
+            // Show a custom message when there are no entries
+            $('.dataTables_info').html('<p>No entries found.</p>');
+        }else{
+          $('.dataTables_info').html('');
+        }
+    },
+    'footerCallback': function(row, data, start, end, display) {
+        var api = this.api(), data;
 
-      var intVal =function(i){
-        return typeof i === 'string' ?
-        i.replace(/[\$,]/g, '')*1 :
-        typeof i === 'number' ?
-          i : 0;
-      };
+        var intVal = function(i) {
+            return typeof i === 'string' ?
+                i.replace(/[\$,]/g, '') * 1 :
+                typeof i === 'number' ?
+                    i : 0;
+        };
 
-      total = api
-      .column( 7 )
-      .data()
-      .reduce( function (a, b) {
-        return intVal(a) + intVal(b);
-      }, 0 );
+        total = api
+            .column(7)
+            .data()
+            .reduce(function(a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
 
-      pageTotal = api
-      .column( 7, { page: 'current'} )
-      .data()
-      .reduce( function (a, b) {
-        return intVal(a) + intVal(b);
-      }, 0 );
+        pageTotal = api
+            .column(7, { page: 'current' })
+            .data()
+            .reduce(function(a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
 
-      $( api.column( 7 ).footer() ).html(
-      pageTotal.toLocaleString('en-US')
-    );
-  } 
-  });
+        $(api.column(7).footer()).html(
+            pageTotal.toLocaleString('en-US')
+        );
+    }
+});
+
+$('#manageTable tbody').on('click', 'tr', function() {
+    var data = manageTable.row(this).data();
+    showDetailModal(data); // Custom function to display details
+});
 
 });
 
 //table details
+function showDetailModal(data) {
+    var modalBody = $('#detailModal .modal-body');
+    modalBody.empty();
 
-function format(d) {
-    return (
-        '<dl>' +
-        '<dt>Full name:</dt>' +
-        '<dd>' +
-        d.tenVatTu
-    );
-}
-manageTable = ("#manageTable").DataTable({
-  ajax: 'expenditure1/fetchDataExpenditureDetails',
-  data: { idBangChi:idBangChi }, 
-  dataType: 'json',
-  columnDefs: [
-      {
-        targets: -1, // First column
-        render: function(data, type, row, meta) {
-          return '<i class="row-details fa fa-plus"></i>';
+    modalBody.append('<p><strong>Expenditure Name:</strong> ' + data.tenHangMuc + '</p>');
+    modalBody.append('<p><strong>Material Status:</strong> ' + data.materialStatus + '</p>');
+    console.log('ID from DataTable:', data.idBangChi);
+    showMaterialsData(data.idBangChi, function(tenVatTu) {
+        if (tenVatTu) {
+            modalBody.append('<p><strong>Material Name:</strong> ' + tenVatTu + '</p>');
+        } else {
+            modalBody.append('<p><strong>Material Name:</strong> Not available</p>');
         }
-      },
-      //{
-      //  //targets: -2,
-      //  //className: 'dt-control'
-      //}
-    ],
-  columns: [
-    {
-      className: 'dt-control',
-      orderable: false,
-      data: null,
-      defaultContent: ''
-    },
-    {data: 'tenVatTu'}
-  ],
-  'order': [[1,'asc']]
-});
+    });
 
-('$manageTable tbody').on('click', 'td.dt-control',function(){
-    var tr = $(this).closest('tr');
-    var row = manageTable.row(tr);
- 
-    if (row.child.isShown()) {
-        // This row is already open - close it
-        row.child.hide();
-    }
-    else {
-        // Open this row
-        row.child(format(row.data())).show();
-    }
-})
+    $('#detailModal').modal('show');
+}
+
+var base_url = "<?php echo base_url(); ?>";
+
+function showMaterialsData(idBangChi, callback) {
+    $.ajax({
+        url: base_url + 'expenditure1/getMaterialName/'+ idBangChi,
+        type: 'GET',
+        dataType: 'json',
+        //data: { idBangChi:idBangChi }, 
+        success: function(response) {
+          console.log('ID sent to server:',idBangChi);
+          console.log('Response from server:', response);
+          if (response.tenVatTu !== undefined) {
+            // Truyền trực tiếp tenVatTu vào callback
+            callback(response.tenVatTu);
+          } else {
+              console.error('Error: Invalid response structure');
+          }
+        }
+    });
+}
+
+
 
 // remove functions 
 function removeFunc(id)
@@ -280,10 +296,5 @@ function removeFunc(id)
     });
   }
 }
-
-function rowDetails(id){
-
-}
-
 
 </script>

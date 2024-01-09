@@ -17,22 +17,28 @@
 			return $query->result_array();
 		}
 
-		public function getMaterialDetail(){
-			$sql = "SELECT taobangchi1.idBangChi, material_item.idVatTuChi, material_item.tenVatTu FROM material_item LEFT JOIN taobangchi1
-			ON taobangchi1.idBangChi = material_item.idBangChi GROUP BY material_item.idBangChi ";
+		public function getMaterialInfo($idBangChi = null){
+		$sql = "SELECT taobangchi1.idBangChi, vattuchi.tenVatTu, material_item.idVatTuChi, material_item.idVatTuChi AS materialId
+				FROM taobangchi1
+				LEFT JOIN material_item ON taobangchi1.idBangChi = material_item.idBangChi
+				LEFT JOIN vattuchi ON material_item.idVatTuChi = vattuchi.idVatTuChi
+				WHERE taobangchi1.idBangChi = ?";
+        $query = $this->db->query($sql, array($idBangChi));
+        $result = $query->result_array();
+        return $result;
 		}
 
 		public function getMaterialItemData($idBangChi = null){
 			if(!$idBangChi){
 				return false;
 			}
-			$sql = "SELECT * FROM `material_item` WHERE idBangChi = ?";
+			$sql = "SELECT * FROM `material_item` WHERE idBangChi=?";
 			$query = $this->db->query($sql, array($idBangChi));
 			return $query->result_array();
 		}
 
 		public function getStatusMaterial(){
-			$sql = "SELECT * FROM `taoobangchi1` WHERE material_status=? ORDER BY idBangChi DESC";
+			$sql = "SELECT * FROM `taobangchi1` WHERE material_status=? ORDER BY idBangChi DESC";
 			$query = $this->db->query($sql,array(0));
 			return $query->result_array();
 		}

@@ -190,7 +190,7 @@
         $("#material_info_table").hide();
         $('#material_info_table input[type="text"]').val('');
         $('#material_'+row_id).val('').change();
-        removeRow(row_id);
+        
       }
     });
 
@@ -199,6 +199,7 @@
       $("#material_info_table").show();
     } else {
       $("#material_info_table").hide();
+      $('#material_'+row_id).val('').change();
       removeRow(row_id);
     }
 
@@ -208,7 +209,7 @@
       var row_id =count_table_tbody_tr + 1;
 
       $.ajax({
-        url: base_url + '/expenditure/getTableMaterialRow/',
+        url: base_url + '/expenditure1/getTableMaterialRow/',
         type: 'post',
         dataType: 'json',
         success:function(response){
@@ -346,7 +347,7 @@ function formatCurrency(input, blur) {
       $("#amount_value_" + row_id).val("");
     }else{
       $.ajax({
-        url:base_url + 'expenditure/getMaterialValueById',
+        url:base_url + 'expenditure1/getMaterialValueById',
         type: 'post',
         data:{idVatTuChi:material_id},
         dataType:'json',
