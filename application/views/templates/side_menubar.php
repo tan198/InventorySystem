@@ -133,7 +133,7 @@
             </li>
           <?php endif; ?>
 
-          <?php if(in_array('createExpenditure1', $user_permission) || in_array('updateExpenditure1', $user_permission) || in_array('viewExpenditure1', $user_permission) || in_array('deleteExpenditure1', $user_permission)): ?>
+          <!--<?php if(in_array('createExpenditure1', $user_permission) || in_array('updateExpenditure1', $user_permission) || in_array('viewExpenditure1', $user_permission) || in_array('deleteExpenditure1', $user_permission)): ?>
             <li class="treeview" id="mainExpenditure1Nav">
               <a href="#">
                 <i class="fa fa-cube"></i>
@@ -151,7 +151,7 @@
                 <?php endif; ?>
               </ul>
             </li>
-          <?php endif; ?>
+          <?php endif; ?>-->
 
           
           <?php if(in_array('createExpenditureType', $user_permission) || in_array('updateExpenditureType', $user_permission) || in_array('viewExpenditureType', $user_permission) || in_array('deleteExpenditureType', $user_permission)): ?>

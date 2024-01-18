@@ -41,7 +41,6 @@ class Expenditure1 extends Admin_Controller
 		$data = $this->model_expenditure1->getExpenditureData1();
 
 		foreach ($data as $key => $value) {
-            $material_info = $this->model_expenditure1->getMaterialInfo($value['idBangChi']);
             //var_dump($material_info);
             $date_expenditure = date('d/m/Y',  strtotime($value['ngayChi']));
             $expenditurecategory_data = $this -> model_expenditurecategory->getExpenditureCategoryData($value['idHangMucChi']);
@@ -131,7 +130,9 @@ class Expenditure1 extends Admin_Controller
         		'idTaiKhoan' => $this->input->post('fund'),
         	);
 
-                if($data['materialStatus'] === 0){
+           
+
+                if($data['materialStatus'] == 1){
                     $create1 = $this->model_expenditure1->create1($data);
                     if($create1 == true) {
                         $this->session->set_flashdata('success', 'Successfully created');

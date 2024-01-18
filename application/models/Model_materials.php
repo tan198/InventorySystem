@@ -22,19 +22,19 @@
 			return ($qtyinput >$currentQuantity);
 		}
 
-		public function create($data)
+		public function create($data1)
 	{
-		if($data) {
-			$insert = $this->db->insert('vattuchi', $data);
+		if($data1) {
+			$insert = $this->db->insert_batch('vattuchi', $data1);
 			return ($insert == true) ? true : false;
 		}
 	}
 
-	public function update($data, $id)
+	public function update($id, $data=array())
 	{
 		if($data && $id) {
 			$this->db->where('idVatTuChi', $id);
-			$update = $this->db->update('vattuchi', $data);
+			$update = $this->db->update_batch('vattuchi', $data );
 			return ($update == true) ? true : false;
 		}
 	}

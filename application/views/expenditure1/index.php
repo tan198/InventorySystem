@@ -160,7 +160,7 @@ $(document).ready(function() {
         { data: 'tongTien' },
         { data: 'action' }
     ],
-    order: [],
+    order: [[1,'asc']],
     processing: true,
     serverSide: true,
     'drawCallback': function(settings) {

@@ -40,7 +40,7 @@
             <h3 class="box-title">Edit Expenditure 1</h3>
           </div>
           <!-- /.box-header -->
-          <form role="form" action="<?php base_url('expenditure/update') ?>" method="post" enctype="multipart/form-data">
+          <form role="form" action="<?php base_url('expenditure1/update') ?>" method="post" enctype="multipart/form-data">
               <div class="box-body">
 
                 <?php echo validation_errors(); ?>
@@ -189,6 +189,7 @@
       } else {
         $("#material_info_table").hide();
         $('#material_info_table input[type="text"]').val('');
+        $('#material_1').val('').change();
         $('#material_'+row_id).val('').change();
         
       }
@@ -199,6 +200,7 @@
       $("#material_info_table").show();
     } else {
       $("#material_info_table").hide();
+      $('#material_1').val('').change();
       $('#material_'+row_id).val('').change();
       removeRow(row_id);
     }

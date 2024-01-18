@@ -46,39 +46,102 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="expenditurecategory"><?php echo $this->lang->line('Expenditure Category')?></label>
+                  <label for="expenditurecategory"><?php echo $this->lang->line('Expenditure Category');?></label>
                   <select class="form-control select_group" id="expenditurecategory" name="expenditurecategory">
                     <?php foreach ($expenditurecategory as $k => $v): ?>
-                      <option value="<?php echo $v['idHangMucChi'] ?>" <?php if($expenditure_data['idHangMucChi'] == $v['idHangMucChi']) { echo "selected='selected'"; } ?> ><?php echo $v['tenHangMucChi'] ?></option>
+                      <option value="<?php echo $v['idHangMucChi'] ?>" <?php if($expenditure_data['expenditures']['idHangMucChi'] == $v['idHangMucChi']) { echo "selected='selected'"; } ?> ><?php echo $v['tenHangMucChi'] ?></option>
                     <?php endforeach ?>
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <label for="fund"><?php echo $this->lang->line('Payment Type')?></label>
+                  <label for="name_expenditure"><?php echo $this->lang->line('Name Expenditure Catagory');?></label>
+                  <input type="text" class="form-control" id="name_expenditure" name="name_expenditure" value="<?php echo $expenditure_data['expenditures']['tenHangMuc'] ?>" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                  <label for="fund"><?php echo $this->lang->line('Fund Name');?></label>
                   <select class="form-control select_group" id="fund" name="fund">
                     <?php foreach ($fund as $k => $v): ?>
-                      <option value="<?php echo $v['idTaiKhoan'] ?>" <?php if($expenditure_data['idTaiKhoan'] == $v['idTaiKhoan']) { echo "selected='selected'"; } ?> ><?php echo $v['tenTaiKhoan'] ?></option>
+                      <option value="<?php echo $v['idTaiKhoan'] ?>" <?php if($expenditure_data['expenditures']['idTaiKhoan'] == $v['idTaiKhoan']) { echo "selected='selected'"; } ?> ><?php echo $v['tenTaiKhoan'] ?></option>
                     <?php endforeach ?>
                   </select>
                 </div>
 
+                <div class="form-group ">
+                  <label for="material_status"><?php echo $this->lang->line('Material');?></label>
+                  <div class="radio form-check-inline" id= "material_status">
+                    <label>
+                      <input type="radio" name="material_status" class="material_status" id="Yes" value="1" <?php
+                          if($expenditure_data['expenditures']['materialStatus'] == 1) {echo "checked";}
+                      ?>>
+                      Yes
+                    </label>
+                    <label>
+                      <input type="radio" name="material_status"class="material_status" onkeyup="subAmount1()" id="No" value="0" <?php
+                          if($expenditure_data['expenditures']['materialStatus'] == 0) {echo "checked";}
+                      ?>>
+                      No
+                    </label>
+                  </div>
+                </div>
+
+                <table class="table table-bordered" id="material_info_table" style="display: none;">
+                  <thead>
+                    <tr>
+                      <th width="25%"><?php echo $this->lang->line('Material Name');?></th>
+                      <th width="25%"><?php echo $this->lang->line('Quantity');?></th>
+                      <th width="25%"><?php echo $this->lang->line('Rate');?></th>
+                      <th width="20%"><?php echo $this->lang->line('Amount');?></th>
+                      <th style="width:10%"><button type="button" id="add_row" class="btn btn-default"><i class="fa fa-plus"></i></button></th>
+                  </thead>
+                  <tbody>
+
+                    <?php if(isset($expenditure_data['material_item'])): ?>
+                      <?php $x = 1; ?>
+                      <?php foreach ($expenditure_data['material_item'] as $key => $val): ?>
+                      <tr id="row_<?php echo $x; ?>" >
+                        <td>
+                          <input type="text" name="material_name[]" id="material_name_ <?php $x = 1; ?>" data-row-id="row_1" class="form-control" style="width:100%;" onchange="getMaterialData()" autocomplete="off" value="<?php foreach($material as $k => $v){if ($val['idVatTuChi'] == $v['idVatTuChi']){echo $v['tenVatTu'];}} ?>">
+                        </td>
+                        <td>
+                          <input type="text" name="quantity[]" id="quantity_<?php echo $x; ?>" class="form-control"  value="<?php echo $val['soLuong'] ?>" autocomplete="off">
+                        </td>
+                        <td>
+                          <input type="text" name="rate[]" id="rate_<?php echo $x; ?>" class="form-control" onkeyup="getTotal(<?php echo $x; ?>)"  value="<?php echo $val['rate'] ?>" autocomplete="off">
+                        </td>
+                        <td>
+                          <input type="text" name="amount[]" id ="amount_<?php echo $x; ?>" class="form-control" disabled value="<?php echo $val['tongTien'] ?>" autocomplete ="off">
+                          <input type="hidden" name="amount_value[]" id="amount_value_<?php echo $x; ?>" class="form-control" value="<?php echo $val['tongTien'] ?>" autocomplete="off">
+                        </td>
+                        <td><button type="button" class="btn btn-default" onclick="removeRow('1')"><i class="fa fa-close"></i></button></td>
+                      </tr>
+                      <?php $x++; ?>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+                </tbody>
+              </table>
                 <div class="form-group">
-                  <label for="payer_name">Payer</label>
-                  <input type="text" class="form-control" id="<?php echo $this->lang->line('Payer')?>_name" name="payer_name" placeholder="Enter payer name" value="<?php echo $expenditure_data['nguoiChi']; ?>" autocomplete="off" />
+                  <label for="payer_name" class="col-sm-5 control-label"><?php echo $this->lang->line('Payer')?></label>
+                  <input type="text" class="form-control" id="payer_name" name="payer_name" placeholder="Enter payer name" value="<?php echo $expenditure_data['expenditures']['nguoiChi'] ?>" autocomplete="off"/>
                 </div>
 
                 <div class="form-group">
                   <label for="date_expenditure"><?php echo $this->lang->line('Date Expenditure')?></label>
-                  <input type="date" class="form-control" id="date_expenditure" name="date_expenditure" placeholder="Enter date expenditure" value="<?php echo $expenditure_data['ngayChi']; ?>" autocomplete="off" />
+                  <input type="date" class="form-control" id="date_expenditure" name="date_expenditure" placeholder="Enter date expenditure" value="<?php echo $expenditure_data['expenditures']['ngayChi'] ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="amount"><?php echo $this->lang->line('Amount')?></label>
-                  <input type="text"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" id="amount" name="amount" placeholder="Enter amount" value="<?php echo $expenditure_data['soTien']; ?>" autocomplete="off" />
+                  <label for="tamount"><?php echo $this->lang->line('Amount')?></label>
+                  <input type="text" class="form-control" id="tamount" name="tamount" placeholder="Enter amount" value="<?php echo $expenditure_data['expenditures']['soTien'] ?>" autocomplete="off" onkeyup="subAmount()" />
                 </div>
 
-              </div>
+                <div class="form-group">
+                  <label for="amountt"><?php echo $this->lang->line('Total Amount')?></label>
+                  <input type="text" name ="amountt" id="amountt" class="form-control" value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>" onkeyup="subAmount1()" disabled autocomplete="off">
+                  <input type="hidden" name= "amountt_value" id="amountt_value" class="form-control"  value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>" onkeyup="subAmount1()"autocomplete="off">
+                </div>
+            </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
@@ -103,11 +166,82 @@
 <script type="text/javascript">
   
   $(document).ready(function() {
+    var base_url = "<?php echo base_url(); ?>";
     $(".select_group").select2();
     $("#description").wysihtml5();
 
     $("#mainExpenditureNav").addClass('active');
-    $("#<?php echo $this->lang->line('Manage')?>ExpenditureNav").addClass('active');
+    $("#manageExpenditureNav").addClass('active');
+    //show table checked yes
+    var table = $("#material_info_table");
+    var count_table_tbody_tr = $("#material_info_table tbody tr").length;
+    var row_id =count_table_tbody_tr + 1;
+
+    $("input[name='material_status']").change(function() {
+      if ($(this).val() == 1) {
+        $("#material_info_table").show();
+      } else {
+        $("#material_info_table").hide();
+        $('#material_info_table input[type="text"]').val('');
+        $('#material_name_'+row_id).val('').change();
+        $('#material_name'+row_id).val('').change();
+        var amount = $("#tamount").val();
+        Number(amount).toFixed(2);
+        $("#amountt").val(amount).change();
+        $("#amountt_value").val(amount).change();
+        removeRow(row_id);
+      }
+    });
+
+    // Initial check on page load
+    if ($("input[name='material_status']:checked").val() == 1) {
+      $("#material_info_table").show();
+    } else {
+      $("#material_info_table").hide();
+      $('#material_name_'+row_id).val('').change();
+      $('#material_name_'+row_id).val('').change();
+      var amount = $("#tamount").val();
+      Number(amount).toFixed(2);
+      $("#amountt"+row_id).val(amount).change();
+      $("#amountt_value"+row_id).val(amount).change();
+      removeRow(row_id);
+    }
+
+    $("#add_row").unbind('click').bind('click',function(){
+            var table = $("#material_info_table");
+            var count_table_tbody_tr = $("#material_info_table tbody tr").length;
+            var row_id =count_table_tbody_tr + 1;
+            var html = '<tr id="row_' + row_id +'">' +
+                '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" onchange="createMaterialData(1)"></td>'+
+                '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
+                '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
+                '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
+                '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
+                '</tr>';
+
+            $.ajax({
+            url: base_url + '/expenditure/getTableMaterialRow/',
+            type: 'post',
+            deferRender: true,
+            dataType: 'json',
+            success:function(){
+              //var html = '<tr id="row_' + row_id +'">' +
+              //  '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" onchange="createMaterialData(1)"></td>'+
+              //  '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
+              //  '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
+              //  '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
+              //  '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
+              //  '</tr>';
+              if(count_table_tbody_tr >=1){
+                $("#material_info_table tbody tr:last").after(html);
+              }else{
+                $("#material_info_table tbody").html(html);
+              }
+            }
+            });
+            return false;
+        });
+    });
     
     $("input[data-type='currency']").on({
       keyup: function() {
@@ -120,7 +254,7 @@
 
     function formatNumber(n) {
   // format number 1000000 to 1,234,567
-  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 
@@ -190,5 +324,87 @@ function formatCurrency(input, blur) {
   caret_pos = updated_len - original_len + caret_pos;
   input[0].setSelectionRange(caret_pos, caret_pos);
 }
-  });
+
+
+
+  function getTotal(row = null){
+    if(row){
+      var total = Number($("#rate_" + row).val()) * Number($("#quantity_" + row).val());
+      total =total.toFixed(2);
+      $("#amount_"+row).val(total);
+      $("#amount_value_" + row).val(total);
+      subAmount();
+    }else{
+      alert('no row !! pleae refresh the page');
+    }
+  }
+
+  function getMaterialData(row_id){
+    var base_url = "<?php echo base_url(); ?>";
+    var material_id = $('#material_name'+row_id).val();
+    if(material_id ==""){
+      $("#rate_" + row_id).val("");
+      $("#rate_value_" + row_id).val("");
+      $("quantity_" + row_id).val("");
+      $("#amount_" + row_id).val("");
+      $("#amount_value_" + row_id).val("");
+    }else{
+      $.ajax({
+        url:base_url + 'expenditure/getMaterialValueById',
+        type: 'post',
+        data:{idVatTuChi:material_id},
+        dataType:'json',
+        success:function(response){
+          $("#material_name_" + row_id).val(response.tenVatTu)
+          $("#rate_" + row_id).val(response.giaTien);
+          $("#rate_value_" + row_id).val(response.giaTien);
+          $("#quantity_" + row_id).val(1);
+          $("#quantity_value_" + row_id).val(1);
+
+          var total =Number(response.giaTien) * 1;
+          total=total.toFixed(2);
+          $("#amount_" + row_id).val(total);
+          $("#amount_value_" + row_id).val(total);
+
+          
+          subAmount();
+        }
+      });
+    }
+  }
+
+  function subAmount(){
+    var tableMaterialLength = $("#material_info_table tbody tr").length;
+    var totalSubAmount= 0;
+    for(x = 0; x < tableMaterialLength; x++){
+      var tr = $("#material_info_table tbody tr")[x];
+      var count = $(tr).attr('id');
+      count =count.substring(4);
+      totalSubAmount = Number(totalSubAmount) +Number($("#amount_" + count).val());
+    }
+
+    totalSubAmount =totalSubAmount.toFixed(2);
+    var amount = $("#tamount").val();
+    var totalAmount = (Number(amount) + Number(totalSubAmount));
+    totalAmount = totalAmount.toFixed(2);
+
+  
+      $("#amountt").val(totalAmount);
+      $("#amountt_value").val(totalAmount);
+    
+  }
+
+  function subAmount1(){
+    var amount = $("#tamount").val();
+    Number(amount).toFixed(2);
+      $("#amountt").val(amount);
+      $("#amountt_value").val(amount);
+    
+  }
+
+  function removeRow(tr_id)
+  {
+    $("#material_info_table tbody tr#row_"+tr_id).remove();
+    subAmount();
+  }
 </script>
