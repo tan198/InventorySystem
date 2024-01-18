@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2018 at 10:20 PM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 7.2.11
+-- Generation Time: Jan 18, 2024 at 05:03 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,6 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `anuongthu`
+--
+
+CREATE TABLE `anuongthu` (
+  `idAnUongThu` int(11) NOT NULL,
+  `idLoaiHangMucThu` int(11) NOT NULL,
+  `TenAnUong` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `attributes`
 --
 
@@ -32,7 +43,14 @@ CREATE TABLE `attributes` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `active` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `attributes`
+--
+
+INSERT INTO `attributes` (`id`, `name`, `active`) VALUES
+(4, 'ok', 1);
 
 -- --------------------------------------------------------
 
@@ -44,7 +62,7 @@ CREATE TABLE `attribute_value` (
   `id` int(11) NOT NULL,
   `value` varchar(255) NOT NULL,
   `attribute_parent_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `attribute_value`
@@ -58,7 +76,8 @@ INSERT INTO `attribute_value` (`id`, `value`, `attribute_parent_id`) VALUES
 (9, 'Green', 2),
 (10, 'Black', 2),
 (12, 'Grey', 2),
-(13, 'S', 3);
+(13, 'S', 3),
+(14, '15', 4);
 
 -- --------------------------------------------------------
 
@@ -70,7 +89,7 @@ CREATE TABLE `brands` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `active` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `brands`
@@ -89,14 +108,36 @@ CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `active` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`id`, `name`, `active`) VALUES
-(4, 'Microscope', 1);
+(4, 'Microscope', 1),
+(6, 'ABC', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chomuonchi`
+--
+
+CREATE TABLE `chomuonchi` (
+  `idChoMuonChi` int(11) NOT NULL,
+  `donViChoMuon` varchar(255) NOT NULL,
+  `soTien` varchar(255) NOT NULL,
+  `thoiHanTra` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chomuonchi`
+--
+
+INSERT INTO `chomuonchi` (`idChoMuonChi`, `donViChoMuon`, `soTien`, `thoiHanTra`) VALUES
+(1, 'abc', '5000', '2023-12-18'),
+(2, '123', '4000', '2023-12-17');
 
 -- --------------------------------------------------------
 
@@ -114,7 +155,7 @@ CREATE TABLE `company` (
   `country` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `currency` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `company`
@@ -126,6 +167,93 @@ INSERT INTO `company` (`id`, `company_name`, `service_charge_value`, `vat_charge
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `danhmuc`
+--
+
+CREATE TABLE `danhmuc` (
+  `id` int(11) NOT NULL,
+  `idBangChi` int(11) NOT NULL,
+  `idDuAn` int(11) DEFAULT NULL,
+  `idDauTu` int(11) DEFAULT NULL,
+  `idChoMuon` int(11) DEFAULT NULL,
+  `idThue` int(11) DEFAULT NULL,
+  `idAnUong` int(11) DEFAULT NULL,
+  `soTien` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dautuchi`
+--
+
+CREATE TABLE `dautuchi` (
+  `idDauTuChi` int(11) NOT NULL,
+  `tenDauTuChi` varchar(255) NOT NULL,
+  `tenNguoiNhan` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dautuchi`
+--
+
+INSERT INTO `dautuchi` (`idDauTuChi`, `tenDauTuChi`, `tenNguoiNhan`) VALUES
+(1, 'test', 'ABC');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `daututhu`
+--
+
+CREATE TABLE `daututhu` (
+  `idDauTu` int(11) NOT NULL,
+  `idLoaiHangMucThu` int(11) NOT NULL,
+  `tenDuAn` varchar(255) NOT NULL,
+  `donViDauTu` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `duanchi`
+--
+
+CREATE TABLE `duanchi` (
+  `idDuAnChi` int(11) NOT NULL,
+  `tenDuAn` varchar(255) NOT NULL,
+  `idVatTuChi` varchar(255) NOT NULL,
+  `ship` varchar(255) NOT NULL,
+  `thueNgoai` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `duanchi`
+--
+
+INSERT INTO `duanchi` (`idDuAnChi`, `tenDuAn`, `idVatTuChi`, `ship`, `thueNgoai`) VALUES
+(1, 'abc', '10', 'co', 'co'),
+(4, '12', '15', '12', '12'),
+(6, 'ABC', '[\"13\",\"12\",\"10\"]', '123', '123'),
+(7, 'qwe', '[\"13\"]', 'co', 'co');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `duanthu`
+--
+
+CREATE TABLE `duanthu` (
+  `idDuAnThu` int(11) NOT NULL,
+  `idLoaiHangMucThu` int(11) NOT NULL,
+  `tenDuAn` varchar(255) NOT NULL,
+  `idVatTu` int(11) NOT NULL,
+  `idNhanSu` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `groups`
 --
 
@@ -133,15 +261,254 @@ CREATE TABLE `groups` (
   `id` int(11) NOT NULL,
   `group_name` varchar(255) NOT NULL,
   `permission` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `groups`
 --
 
 INSERT INTO `groups` (`id`, `group_name`, `permission`) VALUES
-(1, 'Administrator', 'a:36:{i:0;s:10:\"createUser\";i:1;s:10:\"updateUser\";i:2;s:8:\"viewUser\";i:3;s:10:\"deleteUser\";i:4;s:11:\"createGroup\";i:5;s:11:\"updateGroup\";i:6;s:9:\"viewGroup\";i:7;s:11:\"deleteGroup\";i:8;s:11:\"createBrand\";i:9;s:11:\"updateBrand\";i:10;s:9:\"viewBrand\";i:11;s:11:\"deleteBrand\";i:12;s:14:\"createCategory\";i:13;s:14:\"updateCategory\";i:14;s:12:\"viewCategory\";i:15;s:14:\"deleteCategory\";i:16;s:11:\"createStore\";i:17;s:11:\"updateStore\";i:18;s:9:\"viewStore\";i:19;s:11:\"deleteStore\";i:20;s:15:\"createAttribute\";i:21;s:15:\"updateAttribute\";i:22;s:13:\"viewAttribute\";i:23;s:15:\"deleteAttribute\";i:24;s:13:\"createProduct\";i:25;s:13:\"updateProduct\";i:26;s:11:\"viewProduct\";i:27;s:13:\"deleteProduct\";i:28;s:11:\"createOrder\";i:29;s:11:\"updateOrder\";i:30;s:9:\"viewOrder\";i:31;s:11:\"deleteOrder\";i:32;s:11:\"viewReports\";i:33;s:13:\"updateCompany\";i:34;s:11:\"viewProfile\";i:35;s:13:\"updateSetting\";}'),
-(4, 'Owners', 'a:36:{i:0;s:10:\"createUser\";i:1;s:10:\"updateUser\";i:2;s:8:\"viewUser\";i:3;s:10:\"deleteUser\";i:4;s:11:\"createGroup\";i:5;s:11:\"updateGroup\";i:6;s:9:\"viewGroup\";i:7;s:11:\"deleteGroup\";i:8;s:11:\"createBrand\";i:9;s:11:\"updateBrand\";i:10;s:9:\"viewBrand\";i:11;s:11:\"deleteBrand\";i:12;s:14:\"createCategory\";i:13;s:14:\"updateCategory\";i:14;s:12:\"viewCategory\";i:15;s:14:\"deleteCategory\";i:16;s:11:\"createStore\";i:17;s:11:\"updateStore\";i:18;s:9:\"viewStore\";i:19;s:11:\"deleteStore\";i:20;s:15:\"createAttribute\";i:21;s:15:\"updateAttribute\";i:22;s:13:\"viewAttribute\";i:23;s:15:\"deleteAttribute\";i:24;s:13:\"createProduct\";i:25;s:13:\"updateProduct\";i:26;s:11:\"viewProduct\";i:27;s:13:\"deleteProduct\";i:28;s:11:\"createOrder\";i:29;s:11:\"updateOrder\";i:30;s:9:\"viewOrder\";i:31;s:11:\"deleteOrder\";i:32;s:11:\"viewReports\";i:33;s:13:\"updateCompany\";i:34;s:11:\"viewProfile\";i:35;s:13:\"updateSetting\";}');
+(1, 'Administrator', 'a:96:{i:0;s:10:\"createUser\";i:1;s:10:\"updateUser\";i:2;s:8:\"viewUser\";i:3;s:10:\"deleteUser\";i:4;s:11:\"createGroup\";i:5;s:11:\"updateGroup\";i:6;s:9:\"viewGroup\";i:7;s:11:\"deleteGroup\";i:8;s:11:\"createBrand\";i:9;s:11:\"updateBrand\";i:10;s:9:\"viewBrand\";i:11;s:11:\"deleteBrand\";i:12;s:14:\"createCategory\";i:13;s:14:\"updateCategory\";i:14;s:12:\"viewCategory\";i:15;s:14:\"deleteCategory\";i:16;s:11:\"createStore\";i:17;s:11:\"updateStore\";i:18;s:9:\"viewStore\";i:19;s:11:\"deleteStore\";i:20;s:15:\"createAttribute\";i:21;s:15:\"updateAttribute\";i:22;s:13:\"viewAttribute\";i:23;s:15:\"deleteAttribute\";i:24;s:13:\"createProduct\";i:25;s:13:\"updateProduct\";i:26;s:11:\"viewProduct\";i:27;s:13:\"deleteProduct\";i:28;s:11:\"createOrder\";i:29;s:11:\"updateOrder\";i:30;s:9:\"viewOrder\";i:31;s:11:\"deleteOrder\";i:32;s:11:\"viewReports\";i:33;s:13:\"updateCompany\";i:34;s:11:\"viewProfile\";i:35;s:13:\"updateSetting\";i:36;s:21:\"createExpenditureType\";i:37;s:21:\"updateExpenditureType\";i:38;s:19:\"viewExpenditureType\";i:39;s:21:\"deleteExpenditureType\";i:40;s:16:\"createIncomeType\";i:41;s:16:\"updateIncomeType\";i:42;s:14:\"viewIncomeType\";i:43;s:16:\"deleteIncomeType\";i:44;s:25:\"createExpenditureCategory\";i:45;s:25:\"updateExpenditureCategory\";i:46;s:23:\"viewExpenditureCategory\";i:47;s:25:\"deleteExpenditureCategory\";i:48;s:20:\"createIncomeCategory\";i:49;s:20:\"updateIncomeCategory\";i:50;s:18:\"viewIncomeCategory\";i:51;s:20:\"deleteIncomeCategory\";i:52;s:13:\"createPayment\";i:53;s:13:\"updatePayment\";i:54;s:11:\"viewPayment\";i:55;s:13:\"deletePayment\";i:56;s:17:\"createExpenditure\";i:57;s:17:\"updateExpenditure\";i:58;s:15:\"viewExpenditure\";i:59;s:17:\"deleteExpenditure\";i:60;s:12:\"createIncome\";i:61;s:12:\"updateIncome\";i:62;s:10:\"viewIncome\";i:63;s:12:\"deleteIncome\";i:64;s:10:\"createFund\";i:65;s:10:\"updateFund\";i:66;s:8:\"viewFund\";i:67;s:10:\"deleteFund\";i:68;s:15:\"createMaterials\";i:69;s:15:\"updateMaterials\";i:70;s:13:\"viewMaterials\";i:71;s:15:\"deleteMaterials\";i:72;s:19:\"createProjectExpend\";i:73;s:19:\"updateProjectExpend\";i:74;s:17:\"viewProjectExpend\";i:75;s:19:\"deleteProjectExpend\";i:76;s:15:\"createInvestExp\";i:77;s:15:\"updateInvestExp\";i:78;s:13:\"viewInvestExp\";i:79;s:15:\"deleteInvestExp\";i:80;s:11:\"createLoans\";i:81;s:11:\"updateLoans\";i:82;s:9:\"viewLoans\";i:83;s:11:\"deleteLoans\";i:84;s:10:\"createTaxs\";i:85;s:10:\"updateTaxs\";i:86;s:8:\"viewTaxs\";i:87;s:10:\"deleteTaxs\";i:88;s:11:\"createDebts\";i:89;s:11:\"updateDebts\";i:90;s:9:\"viewDebts\";i:91;s:11:\"deleteDebts\";i:92;s:18:\"createExpenditure1\";i:93;s:18:\"updateExpenditure1\";i:94;s:16:\"viewExpenditure1\";i:95;s:18:\"deleteExpenditure1\";}'),
+(4, 'Owners', 'a:36:{i:0;s:10:\"createUser\";i:1;s:10:\"updateUser\";i:2;s:8:\"viewUser\";i:3;s:10:\"deleteUser\";i:4;s:11:\"createGroup\";i:5;s:11:\"updateGroup\";i:6;s:9:\"viewGroup\";i:7;s:11:\"deleteGroup\";i:8;s:11:\"createBrand\";i:9;s:11:\"updateBrand\";i:10;s:9:\"viewBrand\";i:11;s:11:\"deleteBrand\";i:12;s:14:\"createCategory\";i:13;s:14:\"updateCategory\";i:14;s:12:\"viewCategory\";i:15;s:14:\"deleteCategory\";i:16;s:11:\"createStore\";i:17;s:11:\"updateStore\";i:18;s:9:\"viewStore\";i:19;s:11:\"deleteStore\";i:20;s:15:\"createAttribute\";i:21;s:15:\"updateAttribute\";i:22;s:13:\"viewAttribute\";i:23;s:15:\"deleteAttribute\";i:24;s:13:\"createProduct\";i:25;s:13:\"updateProduct\";i:26;s:11:\"viewProduct\";i:27;s:13:\"deleteProduct\";i:28;s:11:\"createOrder\";i:29;s:11:\"updateOrder\";i:30;s:9:\"viewOrder\";i:31;s:11:\"deleteOrder\";i:32;s:11:\"viewReports\";i:33;s:13:\"updateCompany\";i:34;s:11:\"viewProfile\";i:35;s:13:\"updateSetting\";}'),
+(5, 'ABC', 'N;');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hangmucchi`
+--
+
+CREATE TABLE `hangmucchi` (
+  `idHangMucChi` int(11) NOT NULL,
+  `tenHangMucChi` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hangmucchi`
+--
+
+INSERT INTO `hangmucchi` (`idHangMucChi`, `tenHangMucChi`) VALUES
+(1, 'Ăn Uống'),
+(5, 'ABD'),
+(6, 'Tiệc'),
+(7, 'Dự án'),
+(8, 'Cho Vay');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hangmucthu`
+--
+
+CREATE TABLE `hangmucthu` (
+  `idHangMucThu` int(11) NOT NULL,
+  `tenHangMucThu` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hangmucthu`
+--
+
+INSERT INTO `hangmucthu` (`idHangMucThu`, `tenHangMucThu`) VALUES
+(2, '123'),
+(3, '456');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hatang`
+--
+
+CREATE TABLE `hatang` (
+  `idHaTang` int(11) NOT NULL,
+  `idLoaiHangMucChi` int(11) NOT NULL,
+  `loaiHaTang` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `khoanno`
+--
+
+CREATE TABLE `khoanno` (
+  `idKhoanNo` int(11) NOT NULL,
+  `donViChoVay` varchar(255) NOT NULL,
+  `soTien` varchar(255) NOT NULL,
+  `thoiHanTra` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `khoanno`
+--
+
+INSERT INTO `khoanno` (`idKhoanNo`, `donViChoVay`, `soTien`, `thoiHanTra`) VALUES
+(1, 'ABD', '150000', '2023-12-30'),
+(2, '123', '123', '2023-12-30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loaihangmucchi`
+--
+
+CREATE TABLE `loaihangmucchi` (
+  `idLoaiHangMucChi` int(11) NOT NULL,
+  `tenLoaiHangMucChi` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `loaihangmucchi`
+--
+
+INSERT INTO `loaihangmucchi` (`idLoaiHangMucChi`, `tenLoaiHangMucChi`) VALUES
+(7, 'Ăn Uống'),
+(8, 'Dự Án'),
+(9, 'Thuế'),
+(10, 'Văn Phòng Phẩm'),
+(13, 'Đầu Tư 1'),
+(14, 'Cho Vay');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loaihangmucthu`
+--
+
+CREATE TABLE `loaihangmucthu` (
+  `idLoaiHangMucThu` int(11) NOT NULL,
+  `tenLoaiHangMucThu` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `loaihangmucthu`
+--
+
+INSERT INTO `loaihangmucthu` (`idLoaiHangMucThu`, `tenLoaiHangMucThu`) VALUES
+(2, 'Dự Án');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loaithanhtoan`
+--
+
+CREATE TABLE `loaithanhtoan` (
+  `id` int(11) NOT NULL,
+  `loaiThanhToan` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `loaithanhtoan`
+--
+
+INSERT INTO `loaithanhtoan` (`id`, `loaiThanhToan`) VALUES
+(1, 'Thẻ Ngân Hàng'),
+(2, 'Tiền Mặt');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loai_hangchi`
+--
+
+CREATE TABLE `loai_hangchi` (
+  `id` int(11) NOT NULL,
+  `idHangMucChi` int(11) NOT NULL,
+  `idLoaiHangMucChi` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `loai_hangchi`
+--
+
+INSERT INTO `loai_hangchi` (`id`, `idHangMucChi`, `idLoaiHangMucChi`) VALUES
+(1, 1, 7),
+(2, 2, 5),
+(3, 3, 3),
+(4, 4, 5),
+(5, 5, 8),
+(6, 6, 7),
+(7, 7, 8),
+(8, 8, 14);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loai_hangthu`
+--
+
+CREATE TABLE `loai_hangthu` (
+  `id` int(11) NOT NULL,
+  `idHangMucThu` int(11) DEFAULT NULL,
+  `idLoaiHangMucThu` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `loai_hangthu`
+--
+
+INSERT INTO `loai_hangthu` (`id`, `idHangMucThu`, `idLoaiHangMucThu`) VALUES
+(1, 1, 2),
+(2, 2, 2),
+(3, 3, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `luong`
+--
+
+CREATE TABLE `luong` (
+  `idLuong` int(11) NOT NULL,
+  `idLoaiHangMucChi` int(11) NOT NULL,
+  `loaiLuong` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `material_item`
+--
+
+CREATE TABLE `material_item` (
+  `id` int(11) NOT NULL,
+  `idBangChi` int(11) NOT NULL,
+  `idVatTuChi` int(11) NOT NULL,
+  `soLuong` varchar(255) DEFAULT NULL,
+  `rate` varchar(255) DEFAULT NULL,
+  `tongTien` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `material_item`
+--
+
+INSERT INTO `material_item` (`id`, `idBangChi`, `idVatTuChi`, `soLuong`, `rate`, `tongTien`) VALUES
+(325, 68, 2, '12', '14', '168'),
+(326, 69, 7, '12', '32', '384'),
+(471, 172, 241, '1', '1', '1'),
+(472, 172, 244, '1', '1', '1'),
+(473, 172, 245, '1', '1', '1'),
+(474, 172, 246, '1', '1', '1'),
+(475, 172, 247, '1', '1', '1'),
+(476, 172, 248, '1', '1', '1'),
+(477, 172, 249, '1', '1', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nhansu`
+--
+
+CREATE TABLE `nhansu` (
+  `idNhanSu` int(11) NOT NULL,
+  `idDuAnThu` int(11) NOT NULL,
+  `tenThanhVien` varchar(255) NOT NULL,
+  `soGio` float NOT NULL,
+  `donGia` float NOT NULL,
+  `thanhTien` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -165,7 +532,17 @@ CREATE TABLE `orders` (
   `discount` varchar(255) NOT NULL,
   `paid_status` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `bill_no`, `customer_name`, `customer_address`, `customer_phone`, `date_time`, `gross_amount`, `service_charge_rate`, `service_charge`, `vat_charge_rate`, `vat_charge`, `net_amount`, `discount`, `paid_status`, `user_id`) VALUES
+(3, 'BILPR-B8AC', 'abc', 'avd', '08546545', '1701332529', '1090.00', '13', '141.70', '10', '109.00', '1325.70', '15', 1, 1),
+(5, 'BILPR-E0F1', 'abc', 'abc', 'abc', '1703060997', '556.00', '13', '72.28', '10', '55.60', '668.88', '15', 1, 1),
+(15, 'BILPR-483E', '', '', '', '1703737237', '20165.00', '13', '2621.45', '10', '2016.50', '24787.95', '15', 2, 1),
+(16, 'BILPR-5F24', 'ABC', 'ABC', 'ABC', '1704171274', '874588.00', '13', '113696.44', '10', '87458.80', '1075731.24', '12', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -176,11 +553,21 @@ CREATE TABLE `orders` (
 CREATE TABLE `orders_item` (
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `qty` varchar(255) NOT NULL,
-  `rate` varchar(255) NOT NULL,
-  `amount` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `product_id` int(11) DEFAULT NULL,
+  `qty` varchar(255) DEFAULT NULL,
+  `rate` varchar(255) DEFAULT NULL,
+  `amount` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `orders_item`
+--
+
+INSERT INTO `orders_item` (`id`, `order_id`, `product_id`, `qty`, `rate`, `amount`) VALUES
+(10, 3, 2, '2', '545', '1090.00'),
+(30, 15, 2, '37', '545', '20165.00'),
+(33, 5, 3, '1', '556', '556.00'),
+(36, 16, 3, '1573', '556', '874588.00');
 
 -- --------------------------------------------------------
 
@@ -196,12 +583,20 @@ CREATE TABLE `products` (
   `qty` varchar(255) NOT NULL,
   `image` text NOT NULL,
   `description` text NOT NULL,
-  `attribute_value_id` text,
+  `attribute_value_id` text DEFAULT NULL,
   `brand_id` text NOT NULL,
   `category_id` text NOT NULL,
   `store_id` int(11) NOT NULL,
   `availability` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `sku`, `price`, `qty`, `image`, `description`, `attribute_value_id`, `brand_id`, `category_id`, `store_id`, `availability`) VALUES
+(2, 'fgdg', '4', '545', '-1', '<p>You did not select a file to upload.</p>', '<p>45</p>', 'null', '[\"4\"]', '[\"4\"]', 3, 1),
+(3, 'ABC', '12', '556', '1', '<p>You did not select a file to upload.</p>', '', 'null', '[\"4\"]', '[\"4\",\"6\"]', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -213,7 +608,144 @@ CREATE TABLE `stores` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `active` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `stores`
+--
+
+INSERT INTO `stores` (`id`, `name`, `active`) VALUES
+(3, 'bg', 1),
+(4, 'FE', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `taikhoan`
+--
+
+CREATE TABLE `taikhoan` (
+  `idTaiKhoan` int(11) NOT NULL,
+  `tenTaiKhoan` varchar(255) NOT NULL,
+  `loaithanhtoan_id` int(11) NOT NULL,
+  `loaiTien` char(5) NOT NULL,
+  `soTienBanDau` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `taikhoan`
+--
+
+INSERT INTO `taikhoan` (`idTaiKhoan`, `tenTaiKhoan`, `loaithanhtoan_id`, `loaiTien`, `soTienBanDau`) VALUES
+(1, 'ATM', 1, 'vnd', '1,000,000.00'),
+(2, 'Ví', 2, 'vnd', '1,000,000.00'),
+(4, 'acs', 2, 'vnd', '50,000.00'),
+(5, 'avd', 2, 'cfd', '123,443,434.00'),
+(7, 'Công Quỹ', 1, 'VND', '20,000,000.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `taobangchi`
+--
+
+CREATE TABLE `taobangchi` (
+  `idBangChi` int(11) NOT NULL,
+  `idHangMucChi` int(11) NOT NULL,
+  `idTaiKhoan` int(11) NOT NULL,
+  `nguoiChi` varchar(255) NOT NULL,
+  `ngayChi` date NOT NULL,
+  `soTien` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `taobangchi`
+--
+
+INSERT INTO `taobangchi` (`idBangChi`, `idHangMucChi`, `idTaiKhoan`, `nguoiChi`, `ngayChi`, `soTien`) VALUES
+(1, 1, 1, 'CDF', '2023-11-21', '23,434.00'),
+(3, 7, 1, 'efd', '2023-11-27', '34,678.00'),
+(8, 7, 2, 'ds', '2023-11-22', '50,000.00'),
+(9, 7, 2, '65', '2023-11-22', '40,000.00'),
+(10, 7, 1, 'cd', '2023-11-22', '25,000.00'),
+(12, 6, 2, 'ko', '2023-11-29', '25,000.00'),
+(13, 7, 4, '966', '2023-11-17', '152,220.00'),
+(14, 7, 7, 'Nam', '2023-11-30', '50,000.00'),
+(16, 8, 7, '15', '2023-12-29', '50,000.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `taobangchi1`
+--
+
+CREATE TABLE `taobangchi1` (
+  `idBangChi` int(11) NOT NULL,
+  `idHangMucChi` int(11) NOT NULL,
+  `tenHangMuc` varchar(255) NOT NULL,
+  `materialStatus` int(11) DEFAULT NULL,
+  `idTaiKhoan` int(11) NOT NULL,
+  `nguoiChi` varchar(255) NOT NULL,
+  `ngayChi` date NOT NULL,
+  `soTien` varchar(255) NOT NULL,
+  `tongTien` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `taobangchi1`
+--
+
+INSERT INTO `taobangchi1` (`idBangChi`, `idHangMucChi`, `tenHangMuc`, `materialStatus`, `idTaiKhoan`, `nguoiChi`, `ngayChi`, `soTien`, `tongTien`) VALUES
+(68, 8, 'abc', 1, 7, '12', '2024-01-02', '12000', '12169.00'),
+(69, 6, 'CDF', 1, 7, 'CDF', '2024-01-30', '2500000', '2500032.00'),
+(172, 8, '123', 1, 7, '1', '2024-01-18', '1', '3.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `taobangthu`
+--
+
+CREATE TABLE `taobangthu` (
+  `idBangThu` int(11) NOT NULL,
+  `idHangMucThu` int(11) NOT NULL,
+  `idTaiKhoan` int(11) NOT NULL,
+  `nguoiThu` varchar(255) NOT NULL,
+  `ngayThu` date NOT NULL,
+  `soTienThu` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `taobangthu`
+--
+
+INSERT INTO `taobangthu` (`idBangThu`, `idHangMucThu`, `idTaiKhoan`, `nguoiThu`, `ngayThu`, `soTienThu`) VALUES
+(1, 3, 1, 'abc', '2023-11-29', '1236'),
+(2, 3, 1, 'knf', '2023-11-21', '12562'),
+(3, 2, 1, 'ABC', '2023-11-22', '200000'),
+(4, 3, 1, 'yy', '2023-11-22', '3,000,005.00'),
+(5, 3, 1, 'ok', '2023-11-22', '1,500,000.00'),
+(7, 3, 1, 'ewds', '2023-11-23', '1,213,213.00'),
+(11, 3, 1, '1522s', '2023-11-21', '625,226.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `thue`
+--
+
+CREATE TABLE `thue` (
+  `idThue` int(11) NOT NULL,
+  `tenThue` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `thue`
+--
+
+INSERT INTO `thue` (`idThue`, `tenThue`) VALUES
+(1, 'ABC'),
+(2, 'CDF');
 
 -- --------------------------------------------------------
 
@@ -230,14 +762,15 @@ CREATE TABLE `users` (
   `lastname` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
   `gender` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `firstname`, `lastname`, `phone`, `gender`) VALUES
-(1, 'admin', '$2y$10$ZrBk2zWOLhPAaOhncDBJv.pKAfhFYywahFQXY4NXDmhOcaRtLdAfS', 'admin@admin.com', 'admin', 'a', '12345678910', 1);
+(1, 'admin', '$2y$10$ZrBk2zWOLhPAaOhncDBJv.pKAfhFYywahFQXY4NXDmhOcaRtLdAfS', 'admin@admin.com', 'admin', 'a', '12345678910', 1),
+(8, 'ta123', '$2y$10$BRzubbQ/MSOi38EI0QiSq.buv5krDiA7aGk7m7GPddN7RBMV9fc0O', 'conq@gm.com', 'df', 'vd', '061254523', 1);
 
 -- --------------------------------------------------------
 
@@ -249,18 +782,82 @@ CREATE TABLE `user_group` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `user_group`
 --
 
 INSERT INTO `user_group` (`id`, `user_id`, `group_id`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(9, 8, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vanphongphamchi`
+--
+
+CREATE TABLE `vanphongphamchi` (
+  `idVanPhongPhamChi` int(11) NOT NULL,
+  `idLoaiHangMucChi` int(11) NOT NULL,
+  `tenVanPhongPhamChi` varchar(255) NOT NULL,
+  `idVatTuChi` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vattuchi`
+--
+
+CREATE TABLE `vattuchi` (
+  `idVatTuChi` int(11) NOT NULL,
+  `tenVatTu` varchar(255) NOT NULL,
+  `soLuong` varchar(255) NOT NULL,
+  `giaTien` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `vattuchi`
+--
+
+INSERT INTO `vattuchi` (`idVatTuChi`, `tenVatTu`, `soLuong`, `giaTien`) VALUES
+(2, 'thépp', '12', '14'),
+(7, 'avcdes', '12', '32'),
+(241, '1', '1', '1'),
+(244, '1', '1', '1'),
+(245, 'abc', '1', '1'),
+(246, '1', '1', '1'),
+(247, '1', '1', '1'),
+(248, 'abc', '1', '1'),
+(249, 'bdf', '1', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vattuthu`
+--
+
+CREATE TABLE `vattuthu` (
+  `idVatTuThu` int(11) NOT NULL,
+  `idDuAnThu` int(11) NOT NULL,
+  `tenVatTu` varchar(255) NOT NULL,
+  `soLuong` float NOT NULL,
+  `giaTien` float NOT NULL,
+  `Tong` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `anuongthu`
+--
+ALTER TABLE `anuongthu`
+  ADD PRIMARY KEY (`idAnUongThu`),
+  ADD KEY `idLoaiHangMucThu` (`idLoaiHangMucThu`);
 
 --
 -- Indexes for table `attributes`
@@ -287,16 +884,129 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `chomuonchi`
+--
+ALTER TABLE `chomuonchi`
+  ADD PRIMARY KEY (`idChoMuonChi`);
+
+--
 -- Indexes for table `company`
 --
 ALTER TABLE `company`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `danhmuc`
+--
+ALTER TABLE `danhmuc`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dautuchi`
+--
+ALTER TABLE `dautuchi`
+  ADD PRIMARY KEY (`idDauTuChi`);
+
+--
+-- Indexes for table `daututhu`
+--
+ALTER TABLE `daututhu`
+  ADD PRIMARY KEY (`idDauTu`),
+  ADD KEY `idLoaiHangMucThu` (`idLoaiHangMucThu`);
+
+--
+-- Indexes for table `duanchi`
+--
+ALTER TABLE `duanchi`
+  ADD PRIMARY KEY (`idDuAnChi`);
+
+--
+-- Indexes for table `duanthu`
+--
+ALTER TABLE `duanthu`
+  ADD PRIMARY KEY (`idDuAnThu`),
+  ADD KEY `idLoaiHangMucThu` (`idLoaiHangMucThu`);
+
+--
 -- Indexes for table `groups`
 --
 ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `hangmucchi`
+--
+ALTER TABLE `hangmucchi`
+  ADD PRIMARY KEY (`idHangMucChi`);
+
+--
+-- Indexes for table `hangmucthu`
+--
+ALTER TABLE `hangmucthu`
+  ADD PRIMARY KEY (`idHangMucThu`);
+
+--
+-- Indexes for table `hatang`
+--
+ALTER TABLE `hatang`
+  ADD PRIMARY KEY (`idHaTang`),
+  ADD KEY `idLoaiHangMucChi` (`idLoaiHangMucChi`);
+
+--
+-- Indexes for table `khoanno`
+--
+ALTER TABLE `khoanno`
+  ADD PRIMARY KEY (`idKhoanNo`);
+
+--
+-- Indexes for table `loaihangmucchi`
+--
+ALTER TABLE `loaihangmucchi`
+  ADD PRIMARY KEY (`idLoaiHangMucChi`);
+
+--
+-- Indexes for table `loaihangmucthu`
+--
+ALTER TABLE `loaihangmucthu`
+  ADD PRIMARY KEY (`idLoaiHangMucThu`);
+
+--
+-- Indexes for table `loaithanhtoan`
+--
+ALTER TABLE `loaithanhtoan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `loai_hangchi`
+--
+ALTER TABLE `loai_hangchi`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `loai_hangthu`
+--
+ALTER TABLE `loai_hangthu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `luong`
+--
+ALTER TABLE `luong`
+  ADD PRIMARY KEY (`idLuong`),
+  ADD KEY `idLoaiHangMucChi` (`idLoaiHangMucChi`);
+
+--
+-- Indexes for table `material_item`
+--
+ALTER TABLE `material_item`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `nhansu`
+--
+ALTER TABLE `nhansu`
+  ADD PRIMARY KEY (`idNhanSu`),
+  ADD KEY `idDuAnThu` (`idDuAnThu`);
 
 --
 -- Indexes for table `orders`
@@ -323,6 +1033,39 @@ ALTER TABLE `stores`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `taikhoan`
+--
+ALTER TABLE `taikhoan`
+  ADD PRIMARY KEY (`idTaiKhoan`);
+
+--
+-- Indexes for table `taobangchi`
+--
+ALTER TABLE `taobangchi`
+  ADD PRIMARY KEY (`idBangChi`),
+  ADD KEY `FK_HangMucChi` (`idHangMucChi`);
+
+--
+-- Indexes for table `taobangchi1`
+--
+ALTER TABLE `taobangchi1`
+  ADD PRIMARY KEY (`idBangChi`);
+
+--
+-- Indexes for table `taobangthu`
+--
+ALTER TABLE `taobangthu`
+  ADD PRIMARY KEY (`idBangThu`),
+  ADD KEY `FK_HangMucThu` (`idHangMucThu`),
+  ADD KEY `FK_TKThu` (`idTaiKhoan`);
+
+--
+-- Indexes for table `thue`
+--
+ALTER TABLE `thue`
+  ADD PRIMARY KEY (`idThue`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -335,20 +1078,46 @@ ALTER TABLE `user_group`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `vanphongphamchi`
+--
+ALTER TABLE `vanphongphamchi`
+  ADD PRIMARY KEY (`idVanPhongPhamChi`),
+  ADD KEY `idLoaiHangMucChi` (`idLoaiHangMucChi`);
+
+--
+-- Indexes for table `vattuchi`
+--
+ALTER TABLE `vattuchi`
+  ADD PRIMARY KEY (`idVatTuChi`);
+
+--
+-- Indexes for table `vattuthu`
+--
+ALTER TABLE `vattuthu`
+  ADD PRIMARY KEY (`idVatTuThu`),
+  ADD KEY `idDuAnThu` (`idDuAnThu`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `anuongthu`
+--
+ALTER TABLE `anuongthu`
+  MODIFY `idAnUongThu` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `attributes`
 --
 ALTER TABLE `attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `attribute_value`
 --
 ALTER TABLE `attribute_value`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `brands`
@@ -360,7 +1129,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `chomuonchi`
+--
+ALTER TABLE `chomuonchi`
+  MODIFY `idChoMuonChi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `company`
@@ -369,46 +1144,184 @@ ALTER TABLE `company`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `danhmuc`
+--
+ALTER TABLE `danhmuc`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `dautuchi`
+--
+ALTER TABLE `dautuchi`
+  MODIFY `idDauTuChi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `daututhu`
+--
+ALTER TABLE `daututhu`
+  MODIFY `idDauTu` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `duanchi`
+--
+ALTER TABLE `duanchi`
+  MODIFY `idDuAnChi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `duanthu`
+--
+ALTER TABLE `duanthu`
+  MODIFY `idDuAnThu` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `hangmucchi`
+--
+ALTER TABLE `hangmucchi`
+  MODIFY `idHangMucChi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `hangmucthu`
+--
+ALTER TABLE `hangmucthu`
+  MODIFY `idHangMucThu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `hatang`
+--
+ALTER TABLE `hatang`
+  MODIFY `idHaTang` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `khoanno`
+--
+ALTER TABLE `khoanno`
+  MODIFY `idKhoanNo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `loaihangmucchi`
+--
+ALTER TABLE `loaihangmucchi`
+  MODIFY `idLoaiHangMucChi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `loaihangmucthu`
+--
+ALTER TABLE `loaihangmucthu`
+  MODIFY `idLoaiHangMucThu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `loaithanhtoan`
+--
+ALTER TABLE `loaithanhtoan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `loai_hangchi`
+--
+ALTER TABLE `loai_hangchi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `loai_hangthu`
+--
+ALTER TABLE `loai_hangthu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `luong`
+--
+ALTER TABLE `luong`
+  MODIFY `idLuong` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `material_item`
+--
+ALTER TABLE `material_item`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=478;
+
+--
+-- AUTO_INCREMENT for table `nhansu`
+--
+ALTER TABLE `nhansu`
+  MODIFY `idNhanSu` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `orders_item`
 --
 ALTER TABLE `orders_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `stores`
 --
 ALTER TABLE `stores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `taikhoan`
+--
+ALTER TABLE `taikhoan`
+  MODIFY `idTaiKhoan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `taobangchi`
+--
+ALTER TABLE `taobangchi`
+  MODIFY `idBangChi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `taobangchi1`
+--
+ALTER TABLE `taobangchi1`
+  MODIFY `idBangChi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
+
+--
+-- AUTO_INCREMENT for table `taobangthu`
+--
+ALTER TABLE `taobangthu`
+  MODIFY `idBangThu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `thue`
+--
+ALTER TABLE `thue`
+  MODIFY `idThue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user_group`
 --
 ALTER TABLE `user_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `vattuchi`
+--
+ALTER TABLE `vattuchi`
+  MODIFY `idVatTuChi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
