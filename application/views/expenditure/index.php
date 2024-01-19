@@ -144,14 +144,12 @@ $(document).ready(function() {
   // initialize the datatable 
   var manageTable = $('#manageTable').DataTable({
     "processing": true,
-    "serverSide": true,
+    "serverSide": false,
     "ajax": {
         "url": base_url + 'expenditure/fetchExpenditureData',
         "type": 'GET',
         "dataType": 'json',
-        "data": function (d) {
-            d.search = $('#manageTable_filter input').val();
-        },
+        
         "dataSrc": 'data',
     },
     "columns": [
@@ -165,7 +163,7 @@ $(document).ready(function() {
         { "data": 'tongTien' },
         { "data": 'action' }
     ],
-    order: [[1,'asc']],
+    order: [],
     'footerCallback': function(row, data, start, end, display) {
         var api = this.api(), data;
 

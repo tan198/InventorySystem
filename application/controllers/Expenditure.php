@@ -47,11 +47,11 @@ class Expenditure extends Admin_Controller
             //$material = $this->model_expenditure1->getMaterialItemData($value['idVatTuChi']);
 			// button
             $buttons = '';
-            if(in_array('updateExpenditure1', $this->permission)) {
-    			$buttons .= '<a href="'.base_url('expenditure1/update/'.$value['idBangChi']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+            if(in_array('updateExpenditure', $this->permission)) {
+    			$buttons .= '<a href="'.base_url('expenditure/update/'.$value['idBangChi']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
             }
 
-            if(in_array('deleteExpenditure1', $this->permission)) { 
+            if(in_array('deleteExpenditure', $this->permission)) { 
     			$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idBangChi'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
             }
 
@@ -105,6 +105,7 @@ class Expenditure extends Admin_Controller
         		'soTien' => $this->input->post('tamount'),
                 'tongTien' => $this->input->post('amountt_value'),
         		'idTaiKhoan' => $this->input->post('fund'),
+                'ghiChu'=> $this->input->post('note_expenditure'),
         	);
             $data1 = array();
 
@@ -226,6 +227,7 @@ class Expenditure extends Admin_Controller
         		'soTien' => $this->input->post('tamount'),
                 'tongTien' => $this->input->post('amountt_value'),
         		'idTaiKhoan' => $this->input->post('fund'),
+                'ghiChu'=> $this->input->post('note_expenditure')
         	);
 
             if($data['materialStatus'] == 1){

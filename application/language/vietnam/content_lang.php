@@ -274,8 +274,8 @@
 	$lang['Material Status:'] = 'Trạng Thái Vật Tư:';
 	$lang['Material Name:'] = 'Tên Vật Tư:';
 	$lang['Fund Name'] = 'Tài Khoản';
-	$lang[''] = '';
-	$lang[''] = '';
+	$lang['Name Expenditure Catagory'] = 'Tên Hạng Mục Chi';
+	$lang['Note'] = 'Ghi Chú';
 	$lang[''] = '';
 	$lang[''] = '';
 	$lang[''] = '';

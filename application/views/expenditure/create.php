@@ -60,6 +60,11 @@
                   </div>
 
                   <div class="form-group">
+                    <label for="note_expenditure"><?php echo $this->lang->line('Note')?></label>
+                    <textarea type="text" class="form-control" id="note_expenditure" name="note_expenditure" placeholder="" autocomplete="off"></textarea>
+                  </div>
+
+                  <div class="form-group">
                     <label for="fund"><?php echo $this->lang->line('Fund Name')?></label>
                     <select class="form-control select_group" id="fund" name="fund">
                       <?php foreach ($fund as $k => $v): ?>
