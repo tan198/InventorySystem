@@ -20,6 +20,15 @@ class Model_expenditure extends CI_Model
         return $query->result_array();
     }
 
+	public function getTotalExpenditure() {
+		$sql = "SELECT taikhoan.idTaiKhoan, SUM(CAST(REPLACE(taobangchi.soTien, ',', '') AS float)) as total
+				FROM taikhoan
+				LEFT JOIN taobangchi ON taikhoan.idTaiKhoan = taobangchi.idTaiKhoan
+				GROUP BY taikhoan.idTaiKhoan";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
     public function getMaterialInfo($idBangChi = null)
     {
         $sql = "SELECT taobangchi1.idBangChi, vattuchi.tenVatTu, material_item.idVatTuChi, material_item.idVatTuChi AS materialId

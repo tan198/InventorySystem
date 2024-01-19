@@ -149,6 +149,9 @@ $(document).ready(function() {
         "url": base_url + 'expenditure/fetchExpenditureData',
         "type": 'GET',
         "dataType": 'json',
+        "data": function (d) {
+            d.search = $('#manageTable_filter input').val();
+        },
         "dataSrc": 'data',
     },
     "columns": [
@@ -162,22 +165,7 @@ $(document).ready(function() {
         { "data": 'tongTien' },
         { "data": 'action' }
     ],
-    "order": [[1,'asc']],
-    //search:{
-    //  "return": true,
-    //},
-
-    'drawCallback': function(settings) {
-        var api = new $.fn.dataTable.Api(settings);
-
-        // Check if there are no records
-        if (api.page.info().recordsDisplay === 0) {
-            // Show a custom message when there are no entries
-            $('.dataTables_info').html('<p>No entries found.</p>');
-        }else{
-          $('.dataTables_info').html('');
-        }
-    },
+    order: [[1,'asc']],
     'footerCallback': function(row, data, start, end, display) {
         var api = this.api(), data;
 
@@ -225,7 +213,7 @@ function showDetailModal(data) {
     console.log('ID from DataTable:', data.idBangChi);
     showMaterialsData(data.idBangChi, function(tenVatTu) {
         if (tenVatTu) {
-            modalBody.append('<p><strong<?php echo $this->lang->line('Material Name:');?>></strong> ' + tenVatTu + '</p>');
+            modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?></strong> ' + tenVatTu + '</p>');
         } else {
             modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?></strong> Not available</p>');
         }
