@@ -270,10 +270,10 @@
 	$lang['No'] = 'Không';
 	$lang['Income Name'] = 'Tên Hạng Mục Thu';
 	$lang['Material Status'] = 'Trạng Thái Vật Tư';
-	$lang[''] = '';
-	$lang[''] = '';
-	$lang[''] = '';
-	$lang[''] = '';
+	$lang['Expenditure Name:'] = 'Tên Mục Chi:';
+	$lang['Material Status:'] = 'Trạng Thái Vật Tư:';
+	$lang['Material Name:'] = 'Tên Vật Tư:';
+	$lang['Fund Name'] = 'Tài Khoản';
 	$lang[''] = '';
 	$lang[''] = '';
 	$lang[''] = '';

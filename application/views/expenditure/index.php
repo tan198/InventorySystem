@@ -143,26 +143,30 @@ $(document).ready(function() {
   $("#mainExpendituretNav").addClass('active');
   // initialize the datatable 
   var manageTable = $('#manageTable').DataTable({
-    ajax: {
-        url: base_url + 'expenditure/fetchExpenditureData',
-        type: 'GET',
-        dataType: 'json',
-        dataSrc: 'data',
+    "processing": true,
+    "serverSide": true,
+    "ajax": {
+        "url": base_url + 'expenditure/fetchExpenditureData',
+        "type": 'GET',
+        "dataType": 'json',
+        "dataSrc": 'data',
     },
-    columns: [
-        { data: 'idHangMucChi' },
-        { data: 'tenHangMuc' },
-        { data: 'materialStatus' },
-        { data: 'idTaiKhoan' },
-        { data: 'nguoiChi' },
-        { data: 'ngayChi' },
-        { data: 'soTien' },
-        { data: 'tongTien' },
-        { data: 'action' }
+    "columns": [
+        { "data": 'idHangMucChi' },
+        { "data": 'tenHangMuc' },
+        { "data": 'materialStatus' },
+        { "data": 'idTaiKhoan' },
+        { "data": 'nguoiChi' },
+        { "data": 'ngayChi' },
+        { "data": 'soTien' },
+        { "data": 'tongTien' },
+        { "data": 'action' }
     ],
-    order: [[1,'asc']],
-    processing: true,
-    serverSide: true,
+    "order": [[1,'asc']],
+    //search:{
+    //  "return": true,
+    //},
+
     'drawCallback': function(settings) {
         var api = new $.fn.dataTable.Api(settings);
 
