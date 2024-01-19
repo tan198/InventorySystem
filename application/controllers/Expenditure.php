@@ -44,7 +44,6 @@ class Expenditure extends Admin_Controller
             $date_expenditure = date('d/m/Y',  strtotime($value['ngayChi']));
             $expenditurecategory_data = $this -> model_expenditurecategory->getExpenditureCategoryData($value['idHangMucChi']);
             $fund_data = $this -> model_fund->getFundData($value['idTaiKhoan']);
-            //$material = $this->model_expenditure1->getMaterialItemData($value['idVatTuChi']);
 			// button
             $buttons = '';
             if(in_array('updateExpenditure', $this->permission)) {
@@ -171,6 +170,35 @@ class Expenditure extends Admin_Controller
     
         echo json_encode(array('tenVatTu' => $materialName));
     }
+
+    public function getExpenditureData($idBangChi){
+        if (!$idBangChi) {
+            echo json_encode(array('ghiChu' => 'Note not found'));
+            return;
+        }
+        $note = array();
+        $expenditure_data = $this->model_expenditure->getExpenditureData($idBangChi);
+    
+        // Debugging: Check if expenditure_data is not empty
+        if (empty($expenditure_data)) {
+            echo "Expenditure data is empty";
+            return;
+        }
+    
+        foreach($expenditure_data as $v){
+            // Debugging: Check the structure of each item
+            print_r($v);
+    
+            if (is_array($v) && isset($v['ghiChu'])) {
+                $note[] = nl2br($v['ghiChu']);
+                echo 'Note: ' . $v['ghiChu'] . '<br>';
+            }
+        }
+        // Debugging: Check the final note array
+        print_r($note);
+        echo json_encode($note);
+    }
+    
     public function getMaterialValueById(){
         $idVatTuChi  = $this->input->post('idVatTuChi');
         if($idVatTuChi){
@@ -284,7 +312,6 @@ class Expenditure extends Admin_Controller
         
         $idBangChi = $this->input->post('idBangChi');
         
-
         $response = array();
         if($idBangChi) {
             $delete = $this->model_expenditure->remove($idBangChi);

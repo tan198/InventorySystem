@@ -276,7 +276,7 @@
 	$lang['Fund Name'] = 'Tài Khoản';
 	$lang['Name Expenditure Catagory'] = 'Tên Hạng Mục Chi';
 	$lang['Note'] = 'Ghi Chú';
-	$lang[''] = '';
+	$lang['Note:'] = 'Ghi Chú';
 	$lang[''] = '';
 	$lang[''] = '';
 	$lang[''] = '';

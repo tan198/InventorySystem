@@ -152,18 +152,18 @@ $(document).ready(function() {
         
         "dataSrc": 'data',
     },
-    "columns": [
-        { "data": 'idHangMucChi' },
-        { "data": 'tenHangMuc' },
-        { "data": 'materialStatus' },
-        { "data": 'idTaiKhoan' },
-        { "data": 'nguoiChi' },
-        { "data": 'ngayChi' },
-        { "data": 'soTien' },
-        { "data": 'tongTien' },
-        { "data": 'action' }
+    columns: [
+        { data: 'idHangMucChi' },
+        { data: 'tenHangMuc' },
+        { data: 'materialStatus' },
+        { data: 'idTaiKhoan' },
+        { data: 'nguoiChi' },
+        { data: 'ngayChi' },
+        { data: 'soTien' },
+        { data: 'tongTien' },
+        { data: 'action' },
     ],
-    order: [],
+    order: [[1,'asc']],
     'footerCallback': function(row, data, start, end, display) {
         var api = this.api(), data;
 
@@ -208,7 +208,9 @@ function showDetailModal(data) {
 
     modalBody.append('<p><strong><?php echo $this->lang->line('Expenditure Name:');?></strong> ' + data.tenHangMuc + '</p>');
     modalBody.append('<p><strong><?php echo $this->lang->line('Material Status:');?></strong> ' + data.materialStatus + '</p>');
+    console.log(data);
     console.log('ID from DataTable:', data.idBangChi);
+    console.log(data.ghiChu);
     showMaterialsData(data.idBangChi, function(tenVatTu) {
         if (tenVatTu) {
             modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?></strong> ' + tenVatTu + '</p>');
@@ -216,21 +218,51 @@ function showDetailModal(data) {
             modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?></strong> Not available</p>');
         }
     });
+    console.log('123');
+    shownote(data.idBangChi, function(ghiChu){
+      
+      if(ghiChu){
+        console.log('abc');
+        modalBody.append('<p><strong><?php echo $this->lang->line('Note:');?></strong> ' + data.ghiChu + '</p>');
+      }else{
+        modalBody.append('<p><strong><?php echo $this->lang->line('Note:');?></strong> Not available</p>');
+      }
+    });
 
     $('#detailModal').modal('show');
 }
 
 var base_url = "<?php echo base_url(); ?>";
 
+function shownote(idBangChi, callback){
+  $.ajax({
+    url: base_url + 'expenditure/getExpenditureData/' + idBangChi,
+    type: 'GET',
+    dataType: 'json',
+    data: {idBangChi:idBangChi},
+    success: function(response) {
+      console.log('ID sent to server:',idBangChi);
+      console.log('Response from server:', response);
+      console.log(response.ghiChu);
+      if (response.ghiChu !== undefined) {
+        // Truyền trực tiếp note vào callback
+        callback(response.ghiChu);
+      } else {
+          console.error('Error: Invalid response structure');
+      }
+    }
+  });
+}
+
 function showMaterialsData(idBangChi, callback) {
     $.ajax({
         url: base_url + 'expenditure/getMaterialName/'+ idBangChi,
         type: 'GET',
         dataType: 'json',
-        //data: { idBangChi:idBangChi }, 
+        data: { idBangChi:idBangChi }, 
         success: function(response) {
-          console.log('ID sent to server:',idBangChi);
-          console.log('Response from server:', response);
+          //console.log('ID sent to server:',idBangChi);
+          //console.log('Response from server:', response);
           if (response.tenVatTu !== undefined) {
             // Truyền trực tiếp tenVatTu vào callback
             callback(response.tenVatTu);

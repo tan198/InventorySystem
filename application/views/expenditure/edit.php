@@ -61,7 +61,7 @@
 
                 <div class="form-group">
                   <label for="note_expenditure"><?php echo $this->lang->line('Note');?></label>
-                  <textarea type="text" class="form-control" id="note_expenditure" name="note_expenditure" value="" autocomplete="off" ><?php echo $expenditure_data['expenditures']['ghiChu'] ?></textarea>
+                  <textarea type="text" class="form-control" id="note_expenditure[]" name="note_expenditure[]" value="<?php echo $expenditure_data['expenditures']['ghiChu'] ?>" autocomplete="off" ></textarea>
                 </div>
 
                 <div class="form-group">
