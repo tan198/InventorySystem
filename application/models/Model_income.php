@@ -30,8 +30,50 @@ class Model_income extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+	
 
-	public function create($data)
+	public function getNoteIncome($idBangThu = null){
+		$sql = "SELECT ghiChu FROM `taobangthu` WHERE idBangThu=?";
+		$query = $this->db->query($sql, array($idBangThu));
+		return $query->result_array();
+	}
+
+	public function getMaterialInfo($idBangThu = null)
+    {
+        $sql = "SELECT taobangthu.idBangThu, vattuchi.tenVatTu, material_itemic.idVatTuChi, materialic_item.idVatTuChi AS materialId
+				FROM taobangthu
+				LEFT JOIN materialic_item ON taobangthu.idBangThu = material_itemic.idBangThu
+				LEFT JOIN vattuchi ON materialic_item.idVatTuChi = vattuchi.idVatTuChi
+				WHERE taobangThu.idBangThu = ?";
+        $query = $this->db->query($sql, array($idBangThu));
+        $result = $query->result_array();
+        return $result;
+    }
+
+	public function getExportExcel(){
+        $sql = 'SELECT hangmucchi.tenHangMucChi AS tenHangMuc, taobangthu.tenHangMuc as tenCuaHangMuc, taobangthu.ghiChu AS ghiChu, taobangthu.materialStatus AS MaterialStatus, taikhoan.tenTaiKhoan AS TK, taobangthu.nguoiChi AS NguoiChi, taobangthu.ngayChi AS NgayChi,taobangthu.tongTien AS TongTien 
+                FROM taobangthu
+                LEFT JOIN hangmucchi ON taobangthu.idHangMucChi = hangmucchi.idHangMucChi
+                LEFT JOIN taikhoan ON taobangthu.idTaiKhoan = taikhoan.idTaiKhoan';
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+	public function getMaterialicItemData($idBangThu = null){
+		if(!$idBangThu){
+			return false;
+		}
+
+		$sql = "SELECT * FROM `taobangthu` WHERE idBangThu =?";
+		$query = $this->db->query($sql,array($idBangThu));
+		return $query->result_array();
+	}
+
+	public function create($data,$data1){
+		
+	}
+
+	public function create1($data)
 	{
 		if($data) {
 			$insert = $this->db->insert('taobangthu', $data);

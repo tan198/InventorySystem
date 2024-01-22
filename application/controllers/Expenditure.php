@@ -1,6 +1,12 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Csv as WriterCsv;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Expenditure extends Admin_Controller 
 {
@@ -38,6 +44,7 @@ class Expenditure extends Admin_Controller
 		$result = array('data' => array());
 
 		$data = $this->model_expenditure->getExpenditureData();
+
 
 		foreach ($data as $key => $value) {
             //var_dump($material_info);
@@ -166,37 +173,33 @@ class Expenditure extends Admin_Controller
     
         foreach ($material_info as $v) {
             $materialName[] = $v['tenVatTu'];
+            //$note[] = nl2br($v['ghiChu']);
         }
     
         echo json_encode(array('tenVatTu' => $materialName));
     }
 
-    public function getExpenditureData($idBangChi){
+    public function getNoteExpenditureData($idBangChi){
         if (!$idBangChi) {
             echo json_encode(array('ghiChu' => 'Note not found'));
             return;
         }
-        $note = array();
-        $expenditure_data = $this->model_expenditure->getExpenditureData($idBangChi);
-    
-        // Debugging: Check if expenditure_data is not empty
-        if (empty($expenditure_data)) {
-            echo "Expenditure data is empty";
-            return;
-        }
-    
+        
+        $expenditure_data = $this->model_expenditure->getNoteExpenditure1($idBangChi);
+        $note = null;
+
         foreach($expenditure_data as $v){
             // Debugging: Check the structure of each item
-            print_r($v);
-    
-            if (is_array($v) && isset($v['ghiChu'])) {
+            
+            
                 $note[] = nl2br($v['ghiChu']);
-                echo 'Note: ' . $v['ghiChu'] . '<br>';
-            }
+                //echo 'Note: ' . $v['ghiChu'] . '<br>';
+            
+            //var_dump($note);
         }
         // Debugging: Check the final note array
-        print_r($note);
-        echo json_encode($note);
+        //print_r($note);
+        echo json_encode(array('ghiChu' => $note));
     }
     
     public function getMaterialValueById(){
@@ -306,12 +309,12 @@ class Expenditure extends Admin_Controller
     */
 	public function remove()
 	{
-        if(!in_array('deleteExpenditure', $this->permission)) {
+        if(!in_array('deleteExpenditure1', $this->permission)) {
             redirect('dashboard', 'refresh');
         }
         
         $idBangChi = $this->input->post('idBangChi');
-        
+
         $response = array();
         if($idBangChi) {
             $delete = $this->model_expenditure->remove($idBangChi);
@@ -332,12 +335,74 @@ class Expenditure extends Admin_Controller
         echo json_encode($response);
 	}
 
-    public function reomveMaterial(){
-        $idBangChi = $this->input->post('idBangChi');
-        if($idBangChi){
-            $deleteRow = $this->model_expenditure->removeMaterial($idBangChi);
-        }
-        echo json_encode($deleteRow);
-    }
 
+    //public function reomveMaterial(){
+    //    $idBangChi = $this->input->post('idBangChi');
+    //    if($idBangChi){
+    //        $deleteRow = $this->model_expenditure->removeMaterial($idBangChi);
+    //    }
+    //    echo json_encode($deleteRow);
+    //}
+
+    public function exportexcel(){
+        $this->load->model('model_expenditure');
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $styleArray = [
+            'font' => [
+                'name' => 'Arial',
+                'size' => 12,
+                'color' => ['rgb' => '000000'], // Mã màu RGB
+            ],
+        ];
+        
+        $sheet->getStyle('A1:H1')->applyFromArray($styleArray);
+    
+        $sheet->setCellValue('A1','Hạng Mục Chi');
+        $sheet->setCellValue('B1','Tên Hạng Mục');
+        $sheet->setCellValue('C1','Ghi Chú');
+        $sheet->setCellValue('D1','Trạng Thái Vật Tư');
+        $sheet->setCellValue('E1','Tài Khoản');
+        $sheet->setCellValue('F1','Người Chi');
+        $sheet->setCellValue('G1','Ngày Chi');
+        $sheet->setCellValue('H1','Tổng Tiền');
+    
+        $info = $this->model_expenditure->getExportExcel();
+        //print_r($info);
+        $x = 2;
+        foreach($info as $row){
+            // Check if the value is a string before using mb_convert_encoding
+            $sheet->setCellValue('A'.$x, is_string($row['tenHangMuc']) ? mb_convert_encoding($row['tenHangMuc'], 'UTF-8', 'UTF-8') : $row['tenHangMuc']);
+            $sheet->setCellValue('B'.$x, is_string($row['tenCuaHangMuc']) ? mb_convert_encoding($row['tenCuaHangMuc'], 'UTF-8', 'UTF-8') : $row['tenCuaHangMuc']);
+            $sheet->setCellValue('C'.$x, is_string($row['ghiChu']) ? mb_convert_encoding($row['ghiChu'], 'UTF-8', 'UTF-8') : $row['ghiChu']);
+            
+            $valueToSet = $row['MaterialStatus'] == 1 ? 'Có' : 'Không';
+            $sheet->setCellValue('D'.$x, is_string($valueToSet) ? mb_convert_encoding($valueToSet, 'UTF-8', 'UTF-8') : $valueToSet);
+            $sheet->setCellValue('E'.$x, is_string($row['TK']) ? mb_convert_encoding($row['TK'], 'UTF-8', 'UTF-8') : $row['TK']);
+            $sheet->setCellValue('F'.$x, is_string($row['NguoiChi']) ? mb_convert_encoding($row['NguoiChi'], 'UTF-8', 'UTF-8') : $row['NguoiChi']);
+            $sheet->setCellValue('G'.$x, is_string($row['NgayChi']) ? mb_convert_encoding($row['NgayChi'], 'UTF-8', 'UTF-8') : $row['NgayChi']);
+            $sheet->setCellValue('H'.$x, $row['TongTien']);
+            $x++;
+        }
+    
+        $sheet->getColumnDimension('A')->setAutoSize(true);
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+        $sheet->getColumnDimension('G')->setAutoSize(true);
+        $sheet->getColumnDimension('H')->setAutoSize(true);
+    
+        $writer = new WriterCsv($spreadsheet);
+        $fileName = "Bang_Chi_export.csv";
+        $writer->setUseBOM(true);
+        $writer->setOutputEncoding('UTF-8');
+    
+        header('Content-Type: application/csv');
+        header('Content-Disposition: attachment; filename="'.$fileName.'"');
+        $writer->save('php://output');
+        exit;
+    }    
+    
 }

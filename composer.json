@@ -13,7 +13,10 @@
 	"require": {
 		"php": ">=5.3.7",
 		"stuk/jszip": "^3.0",
-		"chumper/datatable": "^2.3"
+		"chumper/datatable": "^2.3",
+		"ext-gd": "*",
+		"ext-fileinfo": "*",
+		"phpoffice/phpspreadsheet": "^1.29"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

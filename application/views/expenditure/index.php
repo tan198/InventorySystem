@@ -36,7 +36,9 @@
 
         <?php if(in_array('createExpenditure', $user_permission)): ?>
           <a href="<?php echo base_url('expenditure/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Expenditure');?></a>
-          <br /> <br />
+          <a href="<?php echo base_url('expenditure/exportexcel') ?>" class="btn btn-primary mb-2">Export</a>
+          <br> <br>
+
         <?php endif; ?>
 
         <div class="box">
@@ -66,7 +68,7 @@
 
               <tfoot>
                 <tr>
-                  <th colspan="7" style="text-align:right">Total:</th>
+                  <th colspan="7" style="text-align:right"><?php echo $this->lang->line('Total:');?></th>
                   <th></th>
                 </tr>
               </tfoot>
@@ -138,18 +140,14 @@ var base_url = "<?php echo base_url(); ?>";
 
 $(document).ready(function() {
 
-
-
   $("#mainExpendituretNav").addClass('active');
   // initialize the datatable 
-  var manageTable = $('#manageTable').DataTable({
-    "processing": true,
+  manageTable = $('#manageTable').DataTable({
     "serverSide": false,
-    "ajax": {
+    ajax: {
         "url": base_url + 'expenditure/fetchExpenditureData',
         "type": 'GET',
         "dataType": 'json',
-        
         "dataSrc": 'data',
     },
     columns: [
@@ -191,15 +189,21 @@ $(document).ready(function() {
         $(api.column(7).footer()).html(
             pageTotal.toLocaleString('en-US')
         );
-    }
-});
+    },
+    lengthChange: false,
+   
+  });
 
-$('#manageTable tbody').on('click', 'tr', function() {
+  $('#manageTable tbody').on('click', 'tr td:not(:last-child)', function() {
     var data = manageTable.row(this).data();
-    showDetailModal(data); // Custom function to display details
+      showDetailModal(data); // Custom function to display details
+  });
+
+  function reloadDataTable() {
+    manageTable.ajax.reload(null, false);
+  }
 });
 
-});
 
 //table details
 function showDetailModal(data) {
@@ -208,22 +212,18 @@ function showDetailModal(data) {
 
     modalBody.append('<p><strong><?php echo $this->lang->line('Expenditure Name:');?></strong> ' + data.tenHangMuc + '</p>');
     modalBody.append('<p><strong><?php echo $this->lang->line('Material Status:');?></strong> ' + data.materialStatus + '</p>');
-    console.log(data);
-    console.log('ID from DataTable:', data.idBangChi);
-    console.log(data.ghiChu);
+
     showMaterialsData(data.idBangChi, function(tenVatTu) {
-        if (tenVatTu) {
-            modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?></strong> ' + tenVatTu + '</p>');
-        } else {
-            modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?></strong> Not available</p>');
-        }
+      if (tenVatTu) {
+          modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?><br></strong> ' + tenVatTu + '</p>');
+      } else {
+        modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?></strong> <?php echo $this->lang->line('Not available');?></p>');
+      }
     });
-    console.log('123');
     shownote(data.idBangChi, function(ghiChu){
       
       if(ghiChu){
-        console.log('abc');
-        modalBody.append('<p><strong><?php echo $this->lang->line('Note:');?></strong> ' + data.ghiChu + '</p>');
+        modalBody.append('<p><strong><?php echo $this->lang->line('Note:');?></br></strong> ' + ghiChu + '</p>');
       }else{
         modalBody.append('<p><strong><?php echo $this->lang->line('Note:');?></strong> Not available</p>');
       }
@@ -232,17 +232,15 @@ function showDetailModal(data) {
     $('#detailModal').modal('show');
 }
 
-var base_url = "<?php echo base_url(); ?>";
+
 
 function shownote(idBangChi, callback){
   $.ajax({
-    url: base_url + 'expenditure/getExpenditureData/' + idBangChi,
+    url: base_url + 'expenditure/getNoteExpenditureData/' + idBangChi,
     type: 'GET',
     dataType: 'json',
     data: {idBangChi:idBangChi},
     success: function(response) {
-      console.log('ID sent to server:',idBangChi);
-      console.log('Response from server:', response);
       console.log(response.ghiChu);
       if (response.ghiChu !== undefined) {
         // Truyền trực tiếp note vào callback
@@ -261,9 +259,9 @@ function showMaterialsData(idBangChi, callback) {
         dataType: 'json',
         data: { idBangChi:idBangChi }, 
         success: function(response) {
-          //console.log('ID sent to server:',idBangChi);
-          //console.log('Response from server:', response);
-          if (response.tenVatTu !== undefined) {
+          console.log('ID sent to server:',idBangChi);
+          console.log('Response from server:', response);
+          if (response && response.tenVatTu !== undefined) {
             // Truyền trực tiếp tenVatTu vào callback
             callback(response.tenVatTu);
           } else {
@@ -292,8 +290,9 @@ function removeFunc(id)
         data: { idBangChi:id }, 
         dataType: 'json',
         success:function(response) {
+          console.log(response);
 
-          manageTable.ajax.reload(null, false); 
+          manageTable.ajax.reload(null, false);
 
           if(response.success === true) {
             $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
@@ -303,7 +302,7 @@ function removeFunc(id)
 
             // hide the modal
             $("#removeModal").modal('hide');
-
+            //window.location.reload();
           } else {
 
             $("#messages").html('<div class="alert alert-warning alert-dismissible" role="alert">'+

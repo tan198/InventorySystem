@@ -131,7 +131,7 @@
 	
 				$this->db->where('idBangchi', $id);
 				$delete_item = $this->db->delete('material_item');
-				return ($delete == true && $delete_item) ? true : false;
+				return ($delete == true && $delete_item==true) ? true : false;
 			}
 		}
 	}

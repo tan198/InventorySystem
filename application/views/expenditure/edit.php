@@ -46,7 +46,7 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="expenditurecategory"><?php echo $this->lang->line('Expenditure Category');?></label>
+                  <label for="expenditurecategory"><?php echo $this->lang->line('Expenditure Category');?><span class="text-danger">*</span></label>
                   <select class="form-control select_group" id="expenditurecategory" name="expenditurecategory">
                     <?php foreach ($expenditurecategory as $k => $v): ?>
                       <option value="<?php echo $v['idHangMucChi'] ?>" <?php if($expenditure_data['expenditures']['idHangMucChi'] == $v['idHangMucChi']) { echo "selected='selected'"; } ?> ><?php echo $v['tenHangMucChi'] ?></option>
@@ -55,17 +55,17 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="name_expenditure"><?php echo $this->lang->line('Name Expenditure Catagory');?></label>
+                  <label for="name_expenditure"><?php echo $this->lang->line('Name Expenditure Catagory');?> <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="name_expenditure" name="name_expenditure" value="<?php echo $expenditure_data['expenditures']['tenHangMuc'] ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
                   <label for="note_expenditure"><?php echo $this->lang->line('Note');?></label>
-                  <textarea type="text" class="form-control" id="note_expenditure[]" name="note_expenditure[]" value="<?php echo $expenditure_data['expenditures']['ghiChu'] ?>" autocomplete="off" ></textarea>
+                  <textarea type="text" class="form-control" id="note_expenditure" name="note_expenditure" autocomplete="off" ><?php echo $expenditure_data['expenditures']['ghiChu'] ?></textarea>
                 </div>
 
                 <div class="form-group">
-                  <label for="fund"><?php echo $this->lang->line('Fund Name');?></label>
+                  <label for="fund"><?php echo $this->lang->line('Fund Name');?><span class="text-danger">*</span></label>
                   <select class="form-control select_group" id="fund" name="fund">
                     <?php foreach ($fund as $k => $v): ?>
                       <option value="<?php echo $v['idTaiKhoan'] ?>" <?php if($expenditure_data['expenditures']['idTaiKhoan'] == $v['idTaiKhoan']) { echo "selected='selected'"; } ?> ><?php echo $v['tenTaiKhoan'] ?></option>
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="form-group ">
-                  <label for="material_status"><?php echo $this->lang->line('Material');?></label>
+                  <label for="material_status"><?php echo $this->lang->line('Material');?><span class="text-danger">*</span></label>
                   <div class="radio form-check-inline" id= "material_status">
                     <label>
                       <input type="radio" name="material_status" class="material_status" id="Yes" value="1" <?php
@@ -94,9 +94,9 @@
                 <table class="table table-bordered" id="material_info_table" style="display: none;">
                   <thead>
                     <tr>
-                      <th width="25%"><?php echo $this->lang->line('Material Name');?></th>
-                      <th width="25%"><?php echo $this->lang->line('Quantity');?></th>
-                      <th width="25%"><?php echo $this->lang->line('Rate');?></th>
+                      <th width="25%"><?php echo $this->lang->line('Material Name');?><span class="text-danger">*</span></th>
+                      <th width="25%"><?php echo $this->lang->line('Quantity');?><span class="text-danger">*</span></th>
+                      <th width="25%"><?php echo $this->lang->line('Rate');?><span class="text-danger">*</span></th>
                       <th width="20%"><?php echo $this->lang->line('Amount');?></th>
                       <th style="width:10%"><button type="button" id="add_row" class="btn btn-default"><i class="fa fa-plus"></i></button></th>
                   </thead>
@@ -127,17 +127,17 @@
                 </tbody>
               </table>
                 <div class="form-group">
-                  <label for="payer_name" class="col-sm-5 control-label"><?php echo $this->lang->line('Payer')?></label>
+                  <label for="payer_name" class="col-sm-5 control-label"><?php echo $this->lang->line('Payer')?><span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="payer_name" name="payer_name" placeholder="Enter payer name" value="<?php echo $expenditure_data['expenditures']['nguoiChi'] ?>" autocomplete="off"/>
                 </div>
 
                 <div class="form-group">
-                  <label for="date_expenditure"><?php echo $this->lang->line('Date Expenditure')?></label>
+                  <label for="date_expenditure"><?php echo $this->lang->line('Date Expenditure')?><span class="text-danger">*</span></label>
                   <input type="date" class="form-control" id="date_expenditure" name="date_expenditure" placeholder="Enter date expenditure" value="<?php echo $expenditure_data['expenditures']['ngayChi'] ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="tamount"><?php echo $this->lang->line('Amount')?></label>
+                  <label for="tamount"><?php echo $this->lang->line('Amount')?><span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="tamount" name="tamount" placeholder="Enter amount" value="<?php echo $expenditure_data['expenditures']['soTien'] ?>" autocomplete="off" onkeyup="subAmount()" />
                 </div>
 

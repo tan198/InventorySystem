@@ -116,7 +116,7 @@
         <h4 class="modal-title">Remove Expenditure</h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('expenditure1/remove') ?>" method="post" id="removeForm">
+      <form role="form" action="<?php echo base_url('expenditure/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
           <p>Do you really want to remove?</p>
         </div>
@@ -144,7 +144,7 @@ $(document).ready(function() {
   // initialize the datatable 
   var manageTable = $('#manageTable').DataTable({
     ajax: {
-        url: base_url + 'expenditure1/fetchExpenditureData1',
+        url: base_url + 'expenditure/fetchExpenditureData',
         type: 'GET',
         dataType: 'json',
         dataSrc: 'data',
@@ -204,10 +204,10 @@ $(document).ready(function() {
     }
 });
 
-$('#manageTable tbody').on('click', 'tr', function() {
-    var data = manageTable.row(this).data();
-    showDetailModal(data); // Custom function to display details
-});
+  $('#manageTable tbody').on('click', 'tr', function() {
+      var data = manageTable.row(this).data();
+      showDetailModal(data); // Custom function to display details
+  });
 
 });
 

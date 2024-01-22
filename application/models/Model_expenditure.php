@@ -21,17 +21,23 @@ class Model_expenditure extends CI_Model
     }
 
 	public function getTotalExpenditure() {
-		$sql = "SELECT taikhoan.idTaiKhoan, SUM(CAST(REPLACE(taobangchi.soTien, ',', '') AS float)) as total
+		$sql = "SELECT taikhoan.idTaiKhoan, SUM(CAST(REPLACE(taobangchi1.soTien, ',', '') AS float)) as total
 				FROM taikhoan
-				LEFT JOIN taobangchi ON taikhoan.idTaiKhoan = taobangchi.idTaiKhoan
+				LEFT JOIN taobangchi1 ON taikhoan.idTaiKhoan = taobangchi1.idTaiKhoan
 				GROUP BY taikhoan.idTaiKhoan";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
 
+    public function getNoteExpenditure1($idBangChi = null){
+        $sql = "SELECT ghiChu FROM `taobangchi1` WHERE idBangChi=?";
+        $query=$this->db->query($sql,array($idBangChi));
+        return $query->result_array();
+    }
+
     public function getMaterialInfo($idBangChi = null)
     {
-        $sql = "SELECT taobangchi1.idBangChi, vattuchi.tenVatTu, material_item.idVatTuChi, material_item.idVatTuChi AS materialId
+        $sql = "SELECT taobangchi1.idBangChi,taobangchi1.ghiChu, vattuchi.tenVatTu, material_item.idVatTuChi, material_item.idVatTuChi AS materialId
 				FROM taobangchi1
 				LEFT JOIN material_item ON taobangchi1.idBangChi = material_item.idBangChi
 				LEFT JOIN vattuchi ON material_item.idVatTuChi = vattuchi.idVatTuChi
@@ -39,6 +45,15 @@ class Model_expenditure extends CI_Model
         $query = $this->db->query($sql, array($idBangChi));
         $result = $query->result_array();
         return $result;
+    }
+
+    public function getExportExcel(){
+        $sql = 'SELECT hangmucchi.tenHangMucChi AS tenHangMuc, taobangchi1.tenHangMuc as tenCuaHangMuc, taobangchi1.ghiChu AS ghiChu, taobangchi1.materialStatus AS MaterialStatus, taikhoan.tenTaiKhoan AS TK, taobangchi1.nguoiChi AS NguoiChi, taobangchi1.ngayChi AS NgayChi,taobangchi1.tongTien AS TongTien 
+                FROM taobangchi1
+                LEFT JOIN hangmucchi ON taobangchi1.idHangMucChi = hangmucchi.idHangMucChi
+                LEFT JOIN taikhoan ON taobangchi1.idTaiKhoan = taikhoan.idTaiKhoan';
+        $query = $this->db->query($sql);
+        return $query->result_array();
     }
 
     public function getMaterialItemData($idBangChi = null)
@@ -118,6 +133,9 @@ class Model_expenditure extends CI_Model
             $idVatTuChi_item = $this->db->select('idVatTuChi')->where('idBangChi',$id)->get('material_item')->result_array();
             print_r($idVatTuChi_item);
             $material_id = $this->db->select('idVatTuChi')->get('vattuchi')->result_array();
+            $list_idVatTuChi_item = array_column($idVatTuChi_item,'idVatTuChi');
+            $list_material_id = array_column($material_id,'idVatTuChi');
+            $common_value = array_intersect($list_idVatTuChi_item,$list_material_id);
             $this->db->where('idBangChi',$id);
             $query = $this->db->get('taobangchi1');
             if ($query->num_rows() > 0){
@@ -163,10 +181,11 @@ class Model_expenditure extends CI_Model
 
                     return ($add_mater == true && $add_mater_item==true)? true:false;
                 }
-                //elseif($idVatTuChi_item == $material_id){
+                //elseif($common_value){
                 //    // Sửa lỗi so sánh biến với mảng và tối ưu hóa thêm dữ liệu
+                //    $idVatTuChi2 = 
                 //    $data1 = array();
-    
+                    
                 //    $material_name = $this->input->post('material_name');
                 //    $qty = $this->input->post('quantity');
                 //    $rate = $this->input->post('rate');
@@ -180,7 +199,7 @@ class Model_expenditure extends CI_Model
                 //        );
                 //    }
                 //    // Thay đổi cách thêm dữ liệu vào cơ sở dữ liệu
-                //    $add1 = $this->db->insert_batch('vattuchi',$data1);
+                //    $add1 = $this->db->update_batch('vattuchi',$data1);
                 //    $idVatTuChi1 = $this->db->insert_id();
                 //    var_dump($add1);
                 //    $materialitem_data = array();
@@ -265,6 +284,8 @@ class Model_expenditure extends CI_Model
         if ($id) {
             $this->db->where('idBangChi', $id);
             $delete = $this->db->delete('taobangchi1');
+            $this->db->where('idBangChi', $id);
+            $delete_item = $this->db->delete('material_item');
             // Lấy idVatTuChi từ bảng material_item
             $this->db->select('idVatTuChi');
             $this->db->where('idBangChi', $id);
@@ -273,43 +294,38 @@ class Model_expenditure extends CI_Model
             if ($query->num_rows() > 0) {
                 foreach ($query->result() as $row) {
                     $idVatTuChi = $row->idVatTuChi;
-
-                    // Xoá từ bảng material_item
-                    $this->db->where('idBangChi', $id);
-                    $this->db->where('idVatTuChi', $idVatTuChi);
-                    $this->db->delete('material_item');
-
                     // Xoá từ bảng vattuchi
                     $this->db->where('idVatTuChi', $idVatTuChi);
-                    $this->db->delete('vattuchi');
+                    $delete_material = $this->db->delete('vattuchi');
                 }
+                return ($delete_material == true) ? true : false;
             }
 
             // Xoá từ bảng taobangchi1
 
-            return ($delete == true) ? true : false;
+            return ($delete == true && $delete_item == true) ? true : false;
         }
     }
 
-    public function removeMaterial($id)
-    {
-        $this->db->select('idVatTuChi');
-        $this->db->where('idBangChi', $id);
-        $query = $this->db->get('material_item');
+    //public function removeMaterial($id)
+    //{
+    //    $this->db->select('idVatTuChi');
+    //    $this->db->where('idBangChi', $id);
+    //    $query = $this->db->get('material_item');
 
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $row) {
-                $idVatTuChi = $row->idVatTuChi;
+    //    if ($query->num_rows() > 0) {
+    //        foreach ($query->result() as $row) {
+    //            $idVatTuChi = $row->idVatTuChi;
 
-                // Xoá từ bảng material_item
-                $this->db->where('idBangChi', $id);
-                $this->db->where('idVatTuChi', $idVatTuChi);
-                $this->db->delete('material_item');
+    //            // Xoá từ bảng material_item
+    //            $this->db->where('idBangChi', $id);
+    //            $this->db->where('idVatTuChi', $idVatTuChi);
+    //            $this->db->delete('material_item');
 
-                // Xoá từ bảng vattuchi
-                $this->db->where('idVatTuChi', $idVatTuChi);
-                $this->db->delete('vattuchi');
-            }
-        }
-    }
+    //            // Xoá từ bảng vattuchi
+    //            $this->db->where('idVatTuChi', $idVatTuChi);
+    //            $this->db->delete('vattuchi');
+    //        }
+    //    }
+    //}
 }

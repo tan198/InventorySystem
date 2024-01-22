@@ -12,9 +12,9 @@
 	$lang['Manage'] =  'Quản Lý';
 	$lang['Expenditure'] =  'Khoản Chi';
 	$lang['Manage Expenditure'] =  'Quản Lý Khoản Chi';
-	$lang['Expenditure Category'] =  'Hạng Mục Chi';
-	$lang['Payment Type'] =  'Loại Thanh Toán';
-	$lang['Payer'] =  'Người Được Chi';
+	$lang['Expenditure Category'] = 'Hạng Mục Chi';
+	$lang['Payment Type'] = 'Loại Thanh Toán';
+	$lang['Payer'] = 'Người Được Chi';
 	$lang['Date Expenditure'] =  'Ngày Chi';
 	$lang['Amount'] =  'Số Tiền';
 	$lang['Action'] =  'Thao Tác';
@@ -276,10 +276,10 @@
 	$lang['Fund Name'] = 'Tài Khoản';
 	$lang['Name Expenditure Catagory'] = 'Tên Hạng Mục Chi';
 	$lang['Note'] = 'Ghi Chú';
-	$lang['Note:'] = 'Ghi Chú';
-	$lang[''] = '';
-	$lang[''] = '';
-	$lang[''] = '';
+	$lang['Note:'] = 'Ghi Chú:';
+	$lang['Save changes'] = 'Lưu';
+	$lang['Total:'] = ' Tổng:';
+	$lang['Save Changes'] = 'Lưu';
 	$lang[''] = '';
 	$lang[''] = '';
 	$lang[''] = '';
