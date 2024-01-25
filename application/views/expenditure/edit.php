@@ -46,10 +46,10 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="expenditurecategory"><?php echo $this->lang->line('Expenditure Category');?><span class="text-danger">*</span></label>
+                  <label for="expenditurecategory"><?php echo $this->lang->line('Category');?><span class="text-danger">*</span></label>
                   <select class="form-control select_group" id="expenditurecategory" name="expenditurecategory">
-                    <?php foreach ($expenditurecategory as $k => $v): ?>
-                      <option value="<?php echo $v['idHangMucChi'] ?>" <?php if($expenditure_data['expenditures']['idHangMucChi'] == $v['idHangMucChi']) { echo "selected='selected'"; } ?> ><?php echo $v['tenHangMucChi'] ?></option>
+                    <?php foreach ($category as $k => $v): ?>
+                      <option value="<?php echo $v['idHangMuc'] ?>" <?php if($expenditure_data['expenditures']['idHangMuc'] == $v['idHangMuc']) { echo "selected='selected'"; } ?> ><?php echo $v['loaiHangMuc'] ?></option>
                     <?php endforeach ?>
                   </select>
                 </div>
@@ -107,7 +107,7 @@
                       <?php foreach ($expenditure_data['material_item'] as $key => $val): ?>
                       <tr id="row_<?php echo $x; ?>" >
                         <td>
-                          <input type="text" name="material_name[]" id="material_name_ <?php $x = 1; ?>" data-row-id="row_1" class="form-control" style="width:100%;" onchange="getMaterialData()" autocomplete="off" value="<?php foreach($material as $k => $v){if ($val['idVatTuChi'] == $v['idVatTuChi']){echo $v['tenVatTu'];}} ?>">
+                          <input type="text" name="material_name[]" id="material_name_ <?php $x = 1; ?>" data-row-id="row_1" class="form-control" style="width:100%;" onchange="getMaterialData()" autocomplete="off" value="<?php foreach($material as $k => $v){if ($val['idVatTu'] == $v['idVatTu']){echo $v['tenVatTu'];}} ?>">
                         </td>
                         <td>
                           <input type="text" name="quantity[]" id="quantity_<?php echo $x; ?>" class="form-control"  value="<?php echo $val['soLuong'] ?>" autocomplete="off">
@@ -357,7 +357,7 @@ function formatCurrency(input, blur) {
       $.ajax({
         url:base_url + 'expenditure/getMaterialValueById',
         type: 'post',
-        data:{idVatTuChi:material_id},
+        data:{idVatTu:material_id},
         dataType:'json',
         success:function(response){
           $("#material_name_" + row_id).val(response.tenVatTu)

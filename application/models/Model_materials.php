@@ -6,12 +6,12 @@
 
 		public function getMaterialsData($id = null){
 			if($id){
-				$sql = "SELECT * FROM `vattuchi` WHERE idVatTuChi=?";
+				$sql = "SELECT * FROM `vattu` WHERE idVatTu=?";
 				$query = $this->db->query($sql,array($id));
 				return $query->row_array();
 			}
 
-			$sql = "SELECT * FROM `vattuchi` ORDER BY idVatTuChi DESC";
+			$sql = "SELECT * FROM `vattu` ORDER BY idVatTu DESC";
 			$query = $this->db->query($sql);
 			return $query->result_array();
 		}
@@ -22,19 +22,19 @@
 			return ($qtyinput >$currentQuantity);
 		}
 
-		public function create($data1)
+		public function create($data)
 	{
-		if($data1) {
-			$insert = $this->db->insert_batch('vattuchi', $data1);
+		if($data) {
+			$insert = $this->db->insert('vattu', $data);
 			return ($insert == true) ? true : false;
 		}
 	}
 
-	public function update($id, $data=array())
+	public function update($id, $data)
 	{
 		if($data && $id) {
-			$this->db->where('idVatTuChi', $id);
-			$update = $this->db->update_batch('vattuchi', $data );
+			$this->db->where('idVatTu', $id);
+			$update = $this->db->update('vattu', $data);
 			return ($update == true) ? true : false;
 		}
 	}
@@ -42,12 +42,10 @@
 	public function remove($id)
 	{
 		if($id) {
-			$this->db->where('idVatTuChi', $id);
-			$delete = $this->db->delete('vattuchi');
+			$this->db->where('idVatTu', $id);
+			$delete = $this->db->delete('vattu');
 			return ($delete == true) ? true : false;
 		}
 	}
 	}
-
-	
 ?>

@@ -48,8 +48,8 @@
                   <div class="form-group">
                     <label for="expenditurecategory"><?php echo $this->lang->line('Expenditure Category')?><span class="text-danger"> *</span></label>
                     <select class="form-control select_group" id="expenditurecategory" name="expenditurecategory">
-                      <?php foreach ($expenditurecategory as $k => $v): ?>
-                        <option value="<?php echo $v['idHangMucChi'] ?>"><?php echo $v['tenHangMucChi'] ?></option>
+                      <?php foreach ($category as $k => $v): ?>
+                        <option value="<?php echo $v['idHangMuc'] ?>"><?php echo $v['loaiHangMuc'] ?></option>
                       <?php endforeach ?>
                     </select>
                   </div>

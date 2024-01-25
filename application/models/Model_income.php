@@ -1,102 +1,163 @@
-<?php 
-
-class Model_income extends CI_Model
-{
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/* get the brand data */
-	public function getIncomeData($id = null)
-	{
-		if($id) {
-			$sql = "SELECT * FROM `taobangthu` where idBangThu = ?";
-			$query = $this->db->query($sql, array($id));
-			return $query->row_array();
+<?php
+	
+	class Model_income extends CI_Model{
+		public function __construct(){
+			parent::__construct();
 		}
 
-		$sql = "SELECT * FROM `taobangthu` ORDER BY idBangThu DESC";
-		$query = $this->db->query($sql);
-		return $query->result_array();
-	}
+		public function getIncomeData($id = null){
+			if($id){
+				$sql = "SELECT * FROM `taobangthu` WHERE idBangThu = ?";
+				$query = $this->db->query($sql, array($id));
+				return $query->row_array();
+			}
 
-	public function getTotalIncome() {
-		$sql = "SELECT taikhoan.idTaiKhoan, SUM(CAST(REPLACE(taobangthu.soTienThu, ',', '') AS float)) as totalIncome
+			$sql = "SELECT * FROM `taobangthu` ORDER BY idBangThu DESC";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		
+		public function getTotalIncome() {
+		$sql = "SELECT taikhoan.idTaiKhoan, SUM(CAST(REPLACE(taobangthu.tongTien, ',', '') AS float)) as totalIncome
 				FROM taikhoan
 				LEFT JOIN taobangthu ON taikhoan.idTaiKhoan = taobangthu.idTaiKhoan
 				GROUP BY taikhoan.idTaiKhoan";
-		
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
-	
 
 	public function getNoteIncome($idBangThu = null){
-		$sql = "SELECT ghiChu FROM `taobangthu` WHERE idBangThu=?";
-		$query = $this->db->query($sql, array($idBangThu));
-		return $query->result_array();
-	}
+        $sql = "SELECT ghiChu FROM `taobangthu` WHERE idBangThu=?";
+        $query=$this->db->query($sql,array($idBangThu));
+        return $query->result_array();
+    }
 
-	public function getMaterialInfo($idBangThu = null)
+    public function getMaterialInfo($idBangThu = null)
     {
-        $sql = "SELECT taobangthu.idBangThu, vattuchi.tenVatTu, material_itemic.idVatTuChi, materialic_item.idVatTuChi AS materialId
+        $sql = "SELECT taobangthu.idBangThu,taobangthu.ghiChu, vattu.tenVatTu, materialic_item.idVatTu, materialic_item.idVatTu AS materialId
 				FROM taobangthu
-				LEFT JOIN materialic_item ON taobangthu.idBangThu = material_itemic.idBangThu
-				LEFT JOIN vattuchi ON materialic_item.idVatTuChi = vattuchi.idVatTuChi
-				WHERE taobangThu.idBangThu = ?";
+				LEFT JOIN materialic_item ON taobangthu.idBangThu = materialic_item.idBangThu
+				LEFT JOIN vattu ON materialic_item.idVatTu = vattu.idVatTu
+				WHERE taobangthu.idBangThu = ?";
         $query = $this->db->query($sql, array($idBangThu));
         $result = $query->result_array();
         return $result;
     }
 
 	public function getExportExcel(){
-        $sql = 'SELECT hangmucchi.tenHangMucChi AS tenHangMuc, taobangthu.tenHangMuc as tenCuaHangMuc, taobangthu.ghiChu AS ghiChu, taobangthu.materialStatus AS MaterialStatus, taikhoan.tenTaiKhoan AS TK, taobangthu.nguoiChi AS NguoiChi, taobangthu.ngayChi AS NgayChi,taobangthu.tongTien AS TongTien 
+        $sql = 'SELECT hangmuc.tenHangMuc AS tenHangMuc, taobangthu.tenHangMuc as tenCuaHangMuc, taobangthu.ghiChu AS ghiChu, taobangthu.materialStatus AS MaterialStatus, taikhoan.tenTaiKhoan AS TK, taobangthu.nguoiThu AS NguoiThu, taobangthu.ngayThu AS NgayThu,taobangthu.tongTien AS TongTien 
                 FROM taobangthu
-                LEFT JOIN hangmucchi ON taobangthu.idHangMucChi = hangmucchi.idHangMucChi
+                LEFT JOIN hangmuc ON taobangthu.idHangMuc = hangmuc.idHangMuc
                 LEFT JOIN taikhoan ON taobangthu.idTaiKhoan = taikhoan.idTaiKhoan';
         $query = $this->db->query($sql);
         return $query->result_array();
     }
 
-	public function getMaterialicItemData($idBangThu = null){
+	public function getMaterialItemData($idBangThu = null){
 		if(!$idBangThu){
 			return false;
 		}
-
-		$sql = "SELECT * FROM `taobangthu` WHERE idBangThu =?";
-		$query = $this->db->query($sql,array($idBangThu));
+		$sql = "SELECT * FROM `materialic_item` WHERE idBangThu = ?";
+		$query = $this->db->query($sql, array($idBangThu));
 		return $query->result_array();
 	}
 
-	public function create($data,$data1){
+		public function getStatusMaterial(){
+			$sql = "SELECT * FROM `taobangthu` WHERE material_status=? ORDER BY idBangThu DESC";
+			$query = $this->db->query($sql,array(0));
+			return $query->result_array();
+		}
+
+		public function create($data){
+			$this->db->insert('taobangthu',$data);
+			$idBangThu = $this->db->insert_id();
+			$this->load->model('model_materials');
+			$count_material = count($this->input->post('material'));
+			for ($x = 0; $x < $count_material ; $x++) {
+				$items = array(
+					'idBangThu' => $idBangThu,
+					'idVatTu' => $this->input->post('material')[$x],
+					'soLuong' => $this->input->post('quantity')[$x],
+					'giaTien'=> $this->input->post('rate_value')[$x],
+					'tongTien'=> $this->input->post('amount_value')[$x],
+				);
+				$this->db->insert('materialic_item',$items);
+				$material_data = $this->model_materials->getMaterialsData($this->input->post('material')[$x]);
+				$qty = (int) $material_data['soLuong'] - (int) $this->input->post('quantity')[$x];
+				$update = array('soLuong'=> $qty);
+				$this->model_materials->update($update,$this->input->post('material')[$x]);
+			}
+
+			return ($idBangThu) ? $idBangThu : false;
+		}
+
+		public function create1($data){
+			if($data) {
+				$insert = $this->db->insert('taobangthu', $data);
+				return ($insert == true) ? true : false;
+				
+			}
+		}
+
+		public function countMaterialItem($idBangThu){
+			if($idBangThu){
+				$sql = "SELECT * FROM `materialic_item` WHERE idBangThu=?";
+				$query = $this->db->query($sql, array($idBangThu));
+				return $query->num_rows();
+			}
+		}
 		
-	}
+		public function update($id,$data){
+			if($id){
+				$this->db->where('idBangThu',$id);
+				$update = $this->db->update('taobangthu',$data);
 
-	public function create1($data)
-	{
-		if($data) {
-			$insert = $this->db->insert('taobangthu', $data);
-			return ($insert == true) ? true : false;
+				$this->load->model('model_materials');
+				$get_materials_item = $this->getMaterialItemData($id);
+				foreach ($get_materials_item as $key => $value) {
+					$material_id = $value['idVatTu'];
+					$qty_materials = $value['soLuong'];
+					$material_data = $this->model_materials->getMaterialsData($material_id);
+					$update_qty_materials = (int) $qty_materials + (int)$material_data['soLuong'];
+					$update_material_data = array('soLuong' => $update_qty_materials);
+
+					$this->model_materials->update($material_id, $update_material_data);
+				}
+
+				$this->db->where('idBangThu', $id);
+				$this->db->delete('materialic_item');
+
+				$count_material = count($this->input->post('material'));
+				for($x = 0; $x < $count_material;$x++){
+					$items = array(
+						'idBangThu' => $id,
+						'idVatTu' => $this->input->post('material')[$x],
+						'soLuong' => $this->input->post('quantity')[$x],
+						'giaTien' => $this->input->post('rate_value')[$x],
+						'tongTien' => $this->input->post('amount_value')[$x],
+					);
+					$this->db->insert('materialic_item',$items);
+
+					$material_data = $this->model_materials->getMaterialsData($this->input->post('material')[$x]);
+					$qty_materials_remain = (int) $material_data['soLuong'] - (int)$this->input->post('quantity')[$x];
+					$update_material =array('soLuong'=>$qty_materials_remain);
+					$this->model_materials->update($this->input->post('material')[$x],$update_material);
+				}
+				return true;
+			}
+		}
+		
+		public function remove($id)
+		{
+			if($id) {
+				$this->db->where('idBangThu', $id);
+				$delete = $this->db->delete('taobangthu');
+	
+				$this->db->where('idBangThu', $id);
+				$delete_item = $this->db->delete('materialic_item');
+				return ($delete == true && $delete_item) ? true : false;
+			}
 		}
 	}
-
-	public function update($data, $id)
-	{
-		if($data && $id) {
-			$this->db->where('idBangThu', $id);
-			$update = $this->db->update('taobangthu', $data);
-			return ($update == true) ? true : false;
-		}
-	}
-
-	public function remove($id)
-	{
-		if($id) {
-			$this->db->where('idBangThu', $id);
-			$delete = $this->db->delete('taobangthu');
-			return ($delete == true) ? true : false;
-		}
-	}
-
-}
+?>

@@ -97,7 +97,7 @@
 	$lang['View'] =  'Xem';
 	$lang['Delete'] =  'Xoá';
 	$lang['Brands'] =  'Nhãn Hiệu';
-	$lang['Category'] =  'Loại Sản Phẩm';
+	$lang['Category'] =  'Hạng Mục';
 	$lang['Stores'] =  'Kho Hàng';
 	$lang['Products'] =  'Sản Phẩm';
 	$lang['Orders'] =  'Đơn Hàng';
@@ -221,12 +221,12 @@
 	$lang['Edit Brand'] =  'Cập Nhật Nhãn Hiệu';
 	$lang['Enter Brand Name'] =  'Nhập Tên Nhãn Hiệu';
 	$lang['Remove Brand'] =  'Xoá Nhãn Hiệu';
-	$lang['Add Category'] =  'Tạo Loại Sản Phẩm';
-	$lang['Manage Categories'] =  'Quản Lý Loại Sản Phẩm';
-	$lang['Category Name'] =  'Tên Loại Sản Phẩm';
-	$lang['Enter Category Name'] =  'Nhập Tên Loại Sản Phẩm';
-	$lang['Edit Category'] =  'Cập Nhật Loại Sản Phẩm';
-	$lang['Remove Category'] =  'Xoá Loại Sản Phẩm';
+	$lang['Add Category'] =  'Tạo Hạng Mục';
+	$lang['Manage Category'] =  'Quản Lý Hạng Mục';
+	$lang['Category Name'] =  'Loại Hạng Mục';
+	$lang['Enter Category Name'] =  'Nhập Loại Hạng Mục';
+	$lang['Edit Category'] =  'Cập Nhật Loại Hạng Mục';
+	$lang['Remove Category'] =  'Xoá Loại Hạng Mục';
 	$lang['Manage Company Information'] =  'Quản Lý Thông Tin Công Ty';
 	$lang['Company Name'] =  'Tên Công Ty';
 	$lang['Charge Amount (%)'] =  'Phí Dịch Vụ';
@@ -280,9 +280,9 @@
 	$lang['Save changes'] = 'Lưu';
 	$lang['Total:'] = ' Tổng:';
 	$lang['Save Changes'] = 'Lưu';
-	$lang[''] = '';
-	$lang[''] = '';
-	$lang[''] = '';
+	$lang['Name Income Category'] = 'Tên Hạng Mục Thu';
+	$lang['Total'] = 'Tổng';
+	$lang['Name Income:'] = 'Tên Hạng Mục Thu';
 	$lang[''] = '';
 	$lang[''] = '';
 ?>

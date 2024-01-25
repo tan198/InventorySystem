@@ -5,12 +5,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-      <?php echo $this->lang->line('Manage')?>
-        <small><?php echo $this->lang->line('Income Category')?></small>
+        <?php echo $this->lang->line('Manage')?>
+        <small><?php echo $this->lang->line('Category')?></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
-        <li class="active"><?php echo $this->lang->line('Income Category')?></li>
+        <li class="active"><?php echo $this->lang->line('Category')?></li>
       </ol>
     </section>
 
@@ -34,35 +34,24 @@
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title"><?php echo $this->lang->line('Add Income Category')?></h3>
+              <h3 class="box-title"><?php echo $this->lang->line('Add Category')?></h3>
             </div>
-            <form role="form" action="<?php base_url('incomecategory/create') ?>" method="post">
+            <form role="form" action="<?php base_url('category/create') ?>" method="post">
               <div class="box-body">
 
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="incomecategory_name"><?php echo $this->lang->line('Income Category')?></label>
-                  <input type="text" class="form-control" id="incomecategory_name" name="incomecategory_name" placeholder="income category name" autocomplete="off">
+                  <label for="category_name"><?php echo $this->lang->line('Category')?></label>
+                  <input type="text" class="form-control" id="category_name" name="category_name" placeholder="<?php echo $this->lang->line('Category Name')?>" autocomplete="off">
                 </div>
               </div>
-
-                <div class="form-group">
-                  <label for="incometype"><?php echo $this->lang->line('Income Category Type')?></label>
-                  <select class="form-control" id="incometype" name="incometype">
-                    <option value=""><?php echo $this->lang->line('Select Income Category Type')?> </option>
-                    <?php foreach ($incometype_data as $k => $v): ?>
-                      <option value="<?php echo $v['idLoaiHangMucThu'] ?>"><?php echo $v['tenLoaiHangMucThu'] ?></option>
-                    <?php endforeach ?>
-                  </select>
-                </div>
-
-                
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
-                <a href="<?php echo base_url('incomecategory/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?>
+</button>
+                <a href="<?php echo base_url('category/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           </div>
@@ -80,10 +69,10 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $("#inocmetype").select2();
+    $("#type").select2();
 
-    $("#mainIncomeCategoryNav").addClass('active');
-    $("#createIncomeCategoryNav").addClass('active');
+    $("#mainCategoryNav").addClass('active');
+    $("#createCategoryNav").addClass('active');
   
   });
 </script>

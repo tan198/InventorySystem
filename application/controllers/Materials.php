@@ -13,7 +13,6 @@ class Materials extends Admin_Controller
 		$this->data['page_title'] = 'Vật Tư Chi';
 
 		$this->load->model('model_materials');
-		$this->load->model('model_projectexpenditure');
 	}
 
 	/* 
@@ -61,11 +60,11 @@ class Materials extends Admin_Controller
 			$buttons = '';
 
 			if(in_array('updateMaterials', $this->permission)) {
-				$buttons .= '<button type="button" class="btn btn-default" onclick="editFunc('.$value['idVatTuChi'].')" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i></button>';
+				$buttons .= '<button type="button" class="btn btn-default" onclick="editFunc('.$value['idVatTu'].')" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i></button>';
 			}
 
 			if(in_array('deleteMaterials', $this->permission)) {
-				$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idVatTuChi'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
+				$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idVatTu'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
 			}
 				
 			$result['data'][$key] = array(
@@ -192,11 +191,11 @@ class Materials extends Admin_Controller
 			redirect('dashboard', 'refresh');
 		}
 		
-		$idVatTuChi = $this->input->post('idVatTuChi');
+		$idVatTu = $this->input->post('idVatTu');
 
 		$response = array();
-		if($idVatTuChi) {
-			$delete = $this->model_materials->remove($idVatTuChi);
+		if($idVatTu) {
+			$delete = $this->model_materials->remove($idVatTu);
 			if($delete == true) {
 				$response['success'] = true;
 				$response['messages'] = "Successfully removed";	

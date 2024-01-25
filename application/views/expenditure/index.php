@@ -151,7 +151,7 @@ $(document).ready(function() {
         "dataSrc": 'data',
     },
     columns: [
-        { data: 'idHangMucChi' },
+        { data: 'idHangMuc' },
         { data: 'tenHangMuc' },
         { data: 'materialStatus' },
         { data: 'idTaiKhoan' },
@@ -199,9 +199,6 @@ $(document).ready(function() {
       showDetailModal(data); // Custom function to display details
   });
 
-  function reloadDataTable() {
-    manageTable.ajax.reload(null, false);
-  }
 });
 
 

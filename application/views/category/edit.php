@@ -1,16 +1,14 @@
-
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
         <?php echo $this->lang->line('Manage')?>
-        <small><?php echo $this->lang->line('Expenditure Category')?></small>
+        <small><?php echo $this->lang->line('Category')?></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
-        <li class="active"><?php echo $this->lang->line('Expenditure Category')?></li>
+        <li class="active"><?php echo $this->lang->line('Category')?></li>
       </ol>
     </section>
 
@@ -34,34 +32,24 @@
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title"><?php echo $this->lang->line('Add Expenditure Category')?></h3>
+              <h3 class="box-title"><?php echo $this->lang->line('Edit Category')?></h3>
             </div>
-            <form role="form" action="<?php base_url('expenditurecategory/create') ?>" method="post">
+            <form role="form" action="<?php base_url('category/create') ?>" method="post">
               <div class="box-body">
 
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="expendituretype"><?php echo $this->lang->line('Expenditure Category Type')?></label>
-                  <select class="form-control" id="expendituretype" name="expendituretype">
-                    <option value=""><?php echo $this->lang->line('Select Expenditure Category Type')?></option>
-                    <?php foreach ($expendituretype_data as $k => $v): ?>
-                      <option value="<?php echo $v['idLoaiHangMucChi'] ?>"><?php echo $v['tenLoaiHangMucChi'] ?></option>
-                    <?php endforeach ?>
-                  </select>
+                  <label for="category_name"><?php echo $this->lang->line('Edit Category')?></label>
+                  <input type="text" class="form-control" id="category_name" name="category_name" placeholder="category name" value="<?php echo isset($category_data['loaiHangMuc']) ? $category_data['loaiHangMuc'] : '' ?>"  autocomplete="off">
                 </div>
 
-                <div class="form-group">
-                  <label for="expenditurecategory_name"><?php echo $this->lang->line('Expenditure Category')?></label>
-                  <input type="text" class="form-control" id="expenditurecategory_name" name="expenditurecategory_name" placeholder="<?php echo $this->lang->line('Expenditure Category Name')?>" autocomplete="off">
-                </div>
               </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?>
-</button>
-                <a href="<?php echo base_url('expenditurecategory/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+                <a href="<?php echo base_url('category/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           </div>
@@ -70,8 +58,6 @@
         <!-- col-md-12 -->
       </div>
       <!-- /.row -->
-      
-
     </section>
     <!-- /.content -->
   </div>
@@ -79,10 +65,8 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $("#expendituretype").select2();
 
-    $("#mainExpenditureCategoryNav").addClass('active');
-    $("#createExpenditureCategoryNav").addClass('active');
-  
+    $("#mainCategoryNav").addClass('active');
+    $("#manageCategoryNav").addClass('active');
   });
 </script>

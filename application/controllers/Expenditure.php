@@ -19,7 +19,7 @@ class Expenditure extends Admin_Controller
 		$this->data['page_title'] = 'Expenditure';
 
 		$this->load->model('model_expenditure');
-        $this->load->model('model_expenditurecategory');
+        $this->load->model('model_category');
 		$this->load->model('model_fund');
         $this->load->model('model_materials');
 	}
@@ -49,7 +49,7 @@ class Expenditure extends Admin_Controller
 		foreach ($data as $key => $value) {
             //var_dump($material_info);
             $date_expenditure = date('d/m/Y',  strtotime($value['ngayChi']));
-            $expenditurecategory_data = $this -> model_expenditurecategory->getExpenditureCategoryData($value['idHangMucChi']);
+            $category_data = $this -> model_category->getCategoryData($value['idHangMuc']);
             $fund_data = $this -> model_fund->getFundData($value['idTaiKhoan']);
 			// button
             $buttons = '';
@@ -66,7 +66,7 @@ class Expenditure extends Admin_Controller
 
 			$result['data'][$key] = array(
                 'idBangChi' => $value['idBangChi'],
-                'idHangMucChi'=>$expenditurecategory_data['tenHangMucChi'],
+                'idHangMuc'=>$category_data['loaiHangMuc'],
                 'tenHangMuc'=>$value['tenHangMuc'],
                 'materialStatus'=>$material_status,
                 'idTaiKhoan'=>$fund_data['tenTaiKhoan'],
@@ -104,7 +104,7 @@ class Expenditure extends Admin_Controller
 
         	$data = array(
         		'nguoiChi' => $this->input->post('payer_name'),
-        		'idHangMucChi' => $this->input->post('expenditurecategory'),
+        		'idHangMuc' => $this->input->post('expenditurecategory'),
                 'tenHangMuc' => $this->input->post('name_expenditure'),
                 'materialStatus' => $this->input->post('material_status'),
         		'ngayChi' => $this->input->post('date_expenditure'),
@@ -153,7 +153,7 @@ class Expenditure extends Admin_Controller
             
             }else{
         
-			$this->data['expenditurecategory'] = $this->model_expenditurecategory->getExpenditureCategoryData();
+			$this->data['category'] = $this->model_category->getCategoryData();
 			$this->data['fund'] = $this->model_fund->getFundData();  
             //$this->data['materials'] = $this->model_materials->getMaterialsData();      	    	
 
@@ -203,15 +203,15 @@ class Expenditure extends Admin_Controller
     }
     
     public function getMaterialValueById(){
-        $idVatTuChi  = $this->input->post('idVatTuChi');
-        if($idVatTuChi){
-            $material_data = $this->model_materials->getMaterialsData($idVatTuChi);
+        $idVatTu  = $this->input->post('idVatTu');
+        if($idVatTu){
+            $material_data = $this->model_materials->getMaterialsData($idVatTu);
             echo json_encode($material_data);
         }
     }
     public function getTableMaterialRow(){
-        $idVatTuChi  = $this->input->post('idVatTuChi');
-        $materials = $this->model_materials->getMaterialsData( $idVatTuChi);
+        $idVatTu  = $this->input->post('idVatTu');
+        $materials = $this->model_materials->getMaterialsData( $idVatTu);
         echo json_encode($materials);
     }
 
@@ -251,7 +251,7 @@ class Expenditure extends Admin_Controller
             
             $data = array(
         		'nguoiChi' => $this->input->post('payer_name'),
-        		'idHangMucChi' => $this->input->post('expenditurecategory'),
+        		'idHangMuc' => $this->input->post('expenditurecategory'),
                 'tenHangMuc' => $this->input->post('name_expenditure'),
                 'materialStatus' => $this->input->post('material_status'),
         		'ngayChi' => $this->input->post('date_expenditure'),
@@ -297,7 +297,7 @@ class Expenditure extends Admin_Controller
 
             $this->data['expenditure_data'] = $result;
             $this->data['material'] = $this->model_materials->getMaterialsData();
-            $this->data['expenditurecategory'] = $this->model_expenditurecategory->getExpenditureCategoryData();
+            $this->data['category'] = $this->model_category->getCategoryData();
 			$this->data['fund'] = $this->model_fund->getFundData(); 
             $this->render_template('expenditure/edit', $this->data); 
         }   
@@ -309,7 +309,7 @@ class Expenditure extends Admin_Controller
     */
 	public function remove()
 	{
-        if(!in_array('deleteExpenditure1', $this->permission)) {
+        if(!in_array('deleteExpenditure', $this->permission)) {
             redirect('dashboard', 'refresh');
         }
         

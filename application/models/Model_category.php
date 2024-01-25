@@ -1,58 +1,41 @@
-<?php 
+<?php
 
-class Model_category extends CI_Model
-{
-	public function __construct()
-	{
-		parent::__construct();
-	}
+class Model_category extends CI_Model {
+    public function __construct() {
+        parent::__construct();
+    }
+    public function getCategoryData($id = null) {
+        if($id){
+            $sql = "SELECT * FROM `hangmuc` WHERE idHangMuc = ?";
+            $query = $this->db->query($sql,array($id));
+            return $query->row_array();
+        }
 
-	/* get active brand infromation */
-	public function getActiveCategroy()
-	{
-		$sql = "SELECT * FROM `categories` WHERE active = ?";
-		$query = $this->db->query($sql, array(1));
-		return $query->result_array();
-	}
+        echo $id;
 
-	/* get the brand data */
-	public function getCategoryData($id = null)
-	{
-		if($id) {
-			$sql = "SELECT * FROM `categories` WHERE id = ?";
-			$query = $this->db->query($sql, array($id));
-			return $query->row_array();
-		}
-
-		$sql = "SELECT * FROM `categories`";
+        $sql = "SELECT * FROM `hangmuc` ORDER BY idHangMuc DESC";
 		$query = $this->db->query($sql);
 		return $query->result_array();
-	}
+    }
 
-	public function create($data)
-	{
-		if($data) {
-			$insert = $this->db->insert('categories', $data);
-			return ($insert == true) ? true : false;
+    public function create($data=''){
+        if($data ) {
+			$create = $this->db->insert('hangmuc', $data);
+			$idHangMuc = $this->db->insert_id();
+			return ($create == true ) ? true : false;
 		}
-	}
+    }
 
-	public function update($data, $id)
+    public function edit($data = array(), $id = null){
+        $this->db->where('idHangMuc', $id);
+		$update = $this->db->update('hangmuc', $data);
+		return ($update == true) ? true : false;	
+    }
+
+    public function delete($id)
 	{
-		if($data && $id) {
-			$this->db->where('id', $id);
-			$update = $this->db->update('categories', $data);
-			return ($update == true) ? true : false;
-		}
+		$this->db->where('idHangMuc', $id);
+		$delete = $this->db->delete('hangmuc');
+		return ($delete == true) ? true : false;
 	}
-
-	public function remove($id)
-	{
-		if($id) {
-			$this->db->where('id', $id);
-			$delete = $this->db->delete('categories');
-			return ($delete == true) ? true : false;
-		}
-	}
-
 }

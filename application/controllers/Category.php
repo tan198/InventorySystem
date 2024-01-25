@@ -13,198 +13,138 @@ class Category extends Admin_Controller
 		$this->data['page_title'] = 'Category';
 
 		$this->load->model('model_category');
+
 	}
 
-	/* 
-	* It only redirects to the manage category page
-	*/
+    /* 
+    * It only redirects to the manage product page
+    */
 	public function index()
 	{
+		$category_data = $this->model_category->getCategoryData();
+        if(!in_array('viewCategory', $this->permission)) {
+            redirect('dashboard', 'refresh');
+        }
+        
 
-		if(!in_array('viewCategory', $this->permission)) {
-			redirect('dashboard', 'refresh');
-		}
+        $result = array();
+        foreach($category_data as $k => $v){
+
+            $result[$k]['category_info'] = $v;
+			
+            
+        }
+        $this->data['category_data'] = $result;
 
 		$this->render_template('category/index', $this->data);	
-	}	
-
-	/*
-	* It checks if it gets the category id and retreives
-	* the category information from the category model and 
-	* returns the data into json format. 
-	* This function is invoked from the view page.
-	*/
-	public function fetchCategoryDataById($id) 
-	{
-		if($id) {
-			$data = $this->model_category->getCategoryData($id);
-			echo json_encode($data);
-		}
-
-		return false;
 	}
 
-	/*
-	* Fetches the category value from the category table 
-	* this function is called from the datatable ajax function
-	*/
-	public function fetchCategoryData()
-	{
-		$result = array('data' => array());
-
-		$data = $this->model_category->getCategoryData();
-
-		foreach ($data as $key => $value) {
-
-			// button
-			$buttons = '';
-
-			if(in_array('updateCategory', $this->permission)) {
-				$buttons .= '<button type="button" class="btn btn-default" onclick="editFunc('.$value['id'].')" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i></button>';
-			}
-
-			if(in_array('deleteCategory', $this->permission)) {
-				$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['id'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
-			}
-				
-
-			$status = ($value['active'] == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-warning">Inactive</span>';
-
-			$result['data'][$key] = array(
-				$value['name'],
-				$status,
-				$buttons
-			);
-		} // /foreach
-
-		echo json_encode($result);
-	}
-
-	/*
-	* Its checks the category form validation 
-	* and if the validation is successfully then it inserts the data into the database 
-	* and returns the json format operation messages
-	*/
-	public function create()
+    public function create()
 	{
 		if(!in_array('createCategory', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
-
-		$response = array();
-
-		$this->form_validation->set_rules('category_name', 'Category name', 'trim|required');
-		$this->form_validation->set_rules('active', 'Active', 'trim|required');
-
-		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
-
+		$this->form_validation->set_rules('category_name', 'Category Name', 'trim|required');
         if ($this->form_validation->run() == TRUE) {
+            // true case
         	$data = array(
-        		'name' => $this->input->post('category_name'),
-        		'active' => $this->input->post('active'),	
-        	);
+                'loaiHangMuc' => $this->input->post('category_name'),
+        	);  
 
         	$create = $this->model_category->create($data);
         	if($create == true) {
-        		$response['success'] = true;
-        		$response['messages'] = 'Succesfully created';
+        		$this->session->set_flashdata('success', 'Successfully created');
+        		redirect('category/', 'refresh');
         	}
         	else {
-        		$response['success'] = false;
-        		$response['messages'] = 'Error in the database while creating the brand information';			
+        		$this->session->set_flashdata('errors', 'Error occurred!!');
+        		redirect('category/create', 'refresh');
         	}
         }
         else {
-        	$response['success'] = false;
-        	foreach ($_POST as $key => $value) {
-        		$response['messages'][$key] = form_error($key);
-        	}
-        }
+            // false case
 
-        echo json_encode($response);
-	}
+            $this->render_template('category/create', $this->data);
+        }	
 
-	/*
-	* Its checks the category form validation 
-	* and if the validation is successfully then it updates the data into the database 
-	* and returns the json format operation messages
-	*/
-	public function update($id)
+    }
+    /*
+    * This function is invoked from another function to upload the image into the assets folder
+    * and returns the image path
+    */
+	
+
+    /*
+    * If the validation is not valid, then it redirects to the edit product page 
+    * If the validation is successfully then it updates the data into the database 
+    * and it stores the operation message into the session flashdata and display on the manage product page
+    */
+	public function edit($id = null)
 	{
-
 		if(!in_array('updateCategory', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
 
-		$response = array();
-
 		if($id) {
-			$this->form_validation->set_rules('edit_category_name', 'Category name', 'trim|required');
-			$this->form_validation->set_rules('edit_active', 'Active', 'trim|required');
+			$this->form_validation->set_rules('category_name', 'Category Name', 'trim|required');
 
-			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 
-	        if ($this->form_validation->run() == TRUE) {
-	        	$data = array(
-	        		'name' => $this->input->post('edit_category_name'),
-	        		'active' => $this->input->post('edit_active'),	
-	        	);
 
-	        	$update = $this->model_category->update($data, $id);
-	        	if($update == true) {
-	        		$response['success'] = true;
-	        		$response['messages'] = 'Succesfully updated';
-	        	}
-	        	else {
-	        		$response['success'] = false;
-	        		$response['messages'] = 'Error in the database while updated the brand information';			
-	        	}
+			if ($this->form_validation->run() == TRUE) {
+	            // true case
+		        $data = array(
+                    'tenHangMucChi' => $this->input->post('category_name'),
+                );
+
+                $update = $this->model_category->edit($data, $id);
+                if($update == true) {
+                    $this->session->set_flashdata('success', 'Successfully created');
+                    redirect('category/', 'refresh');
+                }
+                else {
+                    $this->session->set_flashdata('errors', 'Error occurred!!');
+                    redirect('category/edit/'.$id, 'refresh');
+                }
 	        }
 	        else {
-	        	$response['success'] = false;
-	        	foreach ($_POST as $key => $value) {
-	        		$response['messages'][$key] = form_error($key);
-	        	}
-	        }
-		}
-		else {
-			$response['success'] = false;
-    		$response['messages'] = 'Error please refresh the page again!!';
-		}
+	            // false case
+	        	$category_data = $this->model_category->getCategoryData($id);
+	        	
 
-		echo json_encode($response);
+	        	$this->data['category_data'] = $category_data;
+
+				$this->render_template('category/edit', $this->data);	
+	        }	
+		}	
 	}
 
-	/*
-	* It removes the category information from the database 
-	* and returns the json format operation messages
-	*/
-	public function remove()
+    /*
+    * It removes the data from the database
+    * and it returns the response into the json format
+    */
+	public function delete($id)
 	{
 		if(!in_array('deleteCategory', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
-		
-		$category_id = $this->input->post('category_id');
 
-		$response = array();
-		if($category_id) {
-			$delete = $this->model_category->remove($category_id);
-			if($delete == true) {
-				$response['success'] = true;
-				$response['messages'] = "Successfully removed";	
-			}
+		if($id) {
+			if($this->input->post('confirm')) {
+					$delete = $this->model_category->delete($id);
+					if($delete == true) {
+		        		$this->session->set_flashdata('success', 'Successfully removed');
+		        		redirect('category/', 'refresh');
+		        	}
+		        	else {
+		        		$this->session->set_flashdata('error', 'Error occurred!!');
+		        		redirect('category/delete/'.$id, 'refresh');
+		        	}
+			}	
 			else {
-				$response['success'] = false;
-				$response['messages'] = "Error in the database while removing the brand information";
-			}
+				$this->data['idHangMucChi'] = $id;
+				$this->render_template('category/delete', $this->data);
+			}	
 		}
-		else {
-			$response['success'] = false;
-			$response['messages'] = "Refersh the page again!!";
-		}
-
-		echo json_encode($response);
 	}
 
 }
