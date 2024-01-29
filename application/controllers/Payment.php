@@ -111,7 +111,7 @@ class Payment extends Admin_Controller
         	}
         	else {
         		$response['success'] = false;
-        		$response['messages'] = 'Error in the database while creating the brand information';			
+        		$response['messages'] = 'Error in the database while creating the payment information';			
         	}
         }
         else {
@@ -196,7 +196,7 @@ class Payment extends Admin_Controller
 			}
 			else {
 				$response['success'] = false;
-				$response['messages'] = "Error in the database while removing the brand information";
+				$response['messages'] = "Error in the database while removing the payment information";
 			}
 		}
 		else {

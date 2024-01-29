@@ -46,7 +46,7 @@
     }
 
 	public function getExportExcel(){
-        $sql = 'SELECT hangmuc.tenHangMuc AS tenHangMuc, taobangthu.tenHangMuc as tenCuaHangMuc, taobangthu.ghiChu AS ghiChu, taobangthu.materialStatus AS MaterialStatus, taikhoan.tenTaiKhoan AS TK, taobangthu.nguoiThu AS NguoiThu, taobangthu.ngayThu AS NgayThu,taobangthu.tongTien AS TongTien 
+        $sql = 'SELECT hangmuc.loaiHangMuc AS tenHangMuc, taobangthu.tenHangMuc as tenCuaHangMuc, taobangthu.ghiChu AS ghiChu, taobangthu.materialStatus AS MaterialStatus, taikhoan.tenTaiKhoan AS TK, taobangthu.nguoiThu AS NguoiThu, taobangthu.ngayThu AS NgayThu,taobangthu.tongTien AS TongTien 
                 FROM taobangthu
                 LEFT JOIN hangmuc ON taobangthu.idHangMuc = hangmuc.idHangMuc
                 LEFT JOIN taikhoan ON taobangthu.idTaiKhoan = taikhoan.idTaiKhoan';

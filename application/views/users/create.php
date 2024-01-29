@@ -41,52 +41,24 @@
 
                 <?php echo validation_errors(); ?>
 
-                <div class="form-group">
-                  <label for="groups"><?php echo $this->lang->line('Groups')?></label>
-                  <select class="form-control" id="groups" name="groups">
-                    <option value=""><?php echo $this->lang->line('Select Groups')?></option>
-                    <?php foreach ($group_data as $k => $v): ?>
-                      <option value="<?php echo $v['id'] ?>"><?php echo $v['group_name'] ?></option>
-                    <?php endforeach ?>
-                  </select>
-                </div>
+                <div class="form-row">
 
-                <div class="form-group">
-                  <label for="username"><?php echo $this->lang->line('Username')?></label>
-                  <input type="text" class="form-control" id="username" name="username" placeholder="<?php echo $this->lang->line('Username')?>" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="email"><?php echo $this->lang->line('Email')?></label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="<?php echo $this->lang->line('Email')?>" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="password"><?php echo $this->lang->line('Password')?></label>
-                  <input type="text" class="form-control" id="password" name="password" placeholder="<?php echo $this->lang->line('Password')?>" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="cpassword"><?php echo $this->lang->line('Confirm password')?></label>
-                  <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="<?php echo $this->lang->line('Confirm password')?>" autocomplete="off">
-                </div>
-
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="fname"><?php echo $this->lang->line('First name')?></label>
                   <input type="text" class="form-control" id="fname" name="fname" placeholder="<?php echo $this->lang->line('First name')?>" autocomplete="off">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="lname"><?php echo $this->lang->line('Last name')?></label>
                   <input type="text" class="form-control" id="lname" name="lname" placeholder="<?php echo $this->lang->line('Last name')?>" autocomplete="off">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="phone"><?php echo $this->lang->line('Phone')?></label>
                   <input type="text" class="form-control" id="phone" name="phone" placeholder="<?php echo $this->lang->line('Phone')?>" autocomplete="off">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="gender"><?php echo $this->lang->line('Gender')?></label>
                   <div class="radio">
                     <label>
@@ -99,7 +71,38 @@
                     </label>
                   </div>
                 </div>
+                  <div class="form-group col-md-12">
+                    <label for="groups"><?php echo $this->lang->line('Groups')?></label>
+                    <select class="form-control" id="groups" name="groups">
+                      <option value=""><?php echo $this->lang->line('Select Groups')?></option>
+                      <?php foreach ($group_data as $k => $v): ?>
+                        <option value="<?php echo $v['id'] ?>"><?php echo $v['group_name'] ?></option>
+                      <?php endforeach ?>
+                    </select>
+                  </div>
+                
 
+                <div class="form-group col-md-6">
+                  <label for="username"><?php echo $this->lang->line('Username')?></label>
+                  <input type="text" class="form-control" id="username" name="username" placeholder="<?php echo $this->lang->line('Username')?>" autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="email"><?php echo $this->lang->line('Email')?></label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="<?php echo $this->lang->line('Email')?>" autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="password"><?php echo $this->lang->line('Password')?></label>
+                  <input type="text" class="form-control" id="password" name="password" placeholder="<?php echo $this->lang->line('Password')?>" autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="cpassword"><?php echo $this->lang->line('Confirm password')?></label>
+                  <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="<?php echo $this->lang->line('Confirm password')?>" autocomplete="off">
+                </div>
+
+                </div>
               </div>
               <!-- /.box-body -->
 

@@ -13,48 +13,65 @@
             <i class="fa fa-dashboard"></i> <span><?php echo $this->lang->line('Dashboard')?></span>
           </a>
         </li>
+        
+        <!-----------------------------USER & GROUP--------------------------->
+
 
         <?php if($user_permission): ?>
-          <?php if(in_array('createUser', $user_permission) || in_array('updateUser', $user_permission) || in_array('viewUser', $user_permission) || in_array('deleteUser', $user_permission)): ?>
-            <li class="treeview" id="mainUserNav">
-            <a href="#">
-              <i class="fa fa-users"></i>
-              <span><?php echo $this->lang->line('Users')?></span>
-              <span class="pull-right-container">
+        <li class="treeview" id="mainUGNav">
+        <a href="#">
+            <i class="fa fa-cube"></i>
+            <span><?php echo $this->lang->line('User/Group')?></span>
+            <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <?php if(in_array('createUser', $user_permission)): ?>
-              <li id="createUserNav"><a href="<?php echo base_url('users/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add User')?></a></li>
-              <?php endif; ?>
-
-              <?php if(in_array('updateUser', $user_permission) || in_array('viewUser', $user_permission) || in_array('deleteUser', $user_permission)): ?>
-              <li id="manageUserNav"><a href="<?php echo base_url('users') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Users')?></a></li>
-            <?php endif; ?>
-            </ul>
-          </li>
-          <?php endif; ?>
-
-          <?php if(in_array('createGroup', $user_permission) || in_array('updateGroup', $user_permission) || in_array('viewGroup', $user_permission) || in_array('deleteGroup', $user_permission)): ?>
-            <li class="treeview" id="mainGroupNav">
+            </span>
+        </a>
+        <ul class="treeview-menu">
+          <?php if($user_permission): ?>
+            <?php if(in_array('createUser', $user_permission) || in_array('updateUser', $user_permission) || in_array('viewUser', $user_permission) || in_array('deleteUser', $user_permission)): ?>
+              <li class="treeview" id="mainUserNav">
               <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span><?php echo $this->lang->line('Groups')?></span>
+                <i class="fa fa-users"></i>
+                <span><?php echo $this->lang->line('Users')?></span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
               <ul class="treeview-menu">
-                <?php if(in_array('createGroup', $user_permission)): ?>
-                  <li id="addGroupNav"><a href="<?php echo base_url('groups/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Group')?> </a></li>
+                <?php if(in_array('createUser', $user_permission)): ?>
+                <li id="createUserNav"><a href="<?php echo base_url('users/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add User')?></a></li>
                 <?php endif; ?>
-                <?php if(in_array('updateGroup', $user_permission) || in_array('viewGroup', $user_permission) || in_array('deleteGroup', $user_permission)): ?>
-                <li id="manageGroupNav"><a href="<?php echo base_url('groups') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Groups')?></a></li>
-                <?php endif; ?>
+
+                <?php if(in_array('updateUser', $user_permission) || in_array('viewUser', $user_permission) || in_array('deleteUser', $user_permission)): ?>
+                <li id="manageUserNav"><a href="<?php echo base_url('users') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Users')?></a></li>
+              <?php endif; ?>
               </ul>
             </li>
-          <?php endif; ?>
+            <?php endif; ?>
+
+            <?php if(in_array('createGroup', $user_permission) || in_array('updateGroup', $user_permission) || in_array('viewGroup', $user_permission) || in_array('deleteGroup', $user_permission)): ?>
+              <li class="treeview" id="mainGroupNav">
+                <a href="#">
+                  <i class="fa fa-files-o"></i>
+                  <span><?php echo $this->lang->line('Groups')?></span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <?php if(in_array('createGroup', $user_permission)): ?>
+                    <li id="addGroupNav"><a href="<?php echo base_url('groups/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Group')?> </a></li>
+                  <?php endif; ?>
+                  <?php if(in_array('updateGroup', $user_permission) || in_array('viewGroup', $user_permission) || in_array('deleteGroup', $user_permission)): ?>
+                  <li id="manageGroupNav"><a href="<?php echo base_url('groups') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Groups')?></a></li>
+                  <?php endif; ?>
+                </ul>
+              </li>
+            <?php endif; ?>
+          </ul>
+        </li>
+        <?php endif; ?>
+        <!--                                -------********------                                -->
 
           <?php if(in_array('createFund', $user_permission) || in_array('updateFund', $user_permission) || in_array('viewFund', $user_permission) || in_array('deleteFund', $user_permission)): ?>
             <li class="treeview" id="mainFundNav">
@@ -76,7 +93,7 @@
             </li>
           <?php endif; ?>
 
-          <!-- Expenditure -->
+                                    <!-- Expenditure -->
 
           <?php if(in_array('createExpenditure', $user_permission) || in_array('updateExpenditure', $user_permission) || in_array('viewExpenditure', $user_permission) || in_array('deleteExpenditure', $user_permission)): ?>
             <li class="treeview" id="mainExpenditureNav">
@@ -98,27 +115,7 @@
             </li>
           <?php endif; ?>
 
-    
-          
-          <?php if(in_array('createCategory', $user_permission) || in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
-            <li class="treeview" id="mainCategoryNav">
-              <a href="#">
-                <i class="fa fa-cube"></i>
-                <span><?php echo $this->lang->line('Category')?></span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <?php if(in_array('createCategory', $user_permission)): ?>
-                  <li id="addCategoryNav"><a href="<?php echo base_url('category/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Category')?></a></li>
-                <?php endif; ?>
-                <?php if(in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
-                <li id="manageCategoryNav"><a href="<?php echo base_url('category') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Category')?></a></li>
-                <?php endif; ?>
-              </ul>
-            </li>
-          <?php endif; ?>
+                                            <!--Income-->
 
           <?php if(in_array('createIncome', $user_permission) || in_array('updateIncome', $user_permission) || in_array('viewIncome', $user_permission) || in_array('deleteIncome', $user_permission)): ?>
             <li class="treeview" id="mainIncomeNav">
@@ -139,8 +136,29 @@
               </ul>
             </li>
           <?php endif; ?>
-          
+    
+                                      <!--category-->
+          <?php if(in_array('createCategory', $user_permission) || in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
+            <li class="treeview" id="mainCategoryNav">
+              <a href="#">
+                <i class="fa fa-cube"></i>
+                <span><?php echo $this->lang->line('Category')?></span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <?php if(in_array('createCategory', $user_permission)): ?>
+                  <li id="addCategoryNav"><a href="<?php echo base_url('category/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Category')?></a></li>
+                <?php endif; ?>
+                <?php if(in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
+                <li id="manageCategoryNav"><a href="<?php echo base_url('category') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Category')?></a></li>
+                <?php endif; ?>
+              </ul>
+            </li>
+          <?php endif; ?>
 
+                                          <!--Payment-->
           <?php if(in_array('createPayment', $user_permission) || in_array('updatePayment', $user_permission) || in_array('viewPayment', $user_permission) || in_array('deletePayment', $user_permission)): ?>
             <li id="paymentNav">
               <a href="<?php echo base_url('payment/') ?>">
@@ -157,7 +175,38 @@
             </li>
           <?php endif; ?>
 
+                <!--Customer/Supplier-->
 
+        <?php if(!empty(in_array('viewCustomer', $user_permission))|| !empty(in_array('viewSupplier', $user_permission))): ?>
+            <li class="treeview" id="mainCSNav">
+                <a href="#">
+                    <i class="fa fa-cube"></i>
+                    <span><?php echo $this->lang->line('Customer/Supplier')?></span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <?php if(in_array('viewCustomer', $user_permission)): ?>
+                        <li id="customerNav">
+                            <a href="<?php echo base_url('customer/') ?>">
+                                <i class="glyphicon glyphicon-th-list"></i> <span><?php echo $this->lang->line('Customer')?></span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if(in_array('viewSupplier', $user_permission)): ?>
+                        <li id="supplierNav">
+                            <a href="<?php echo base_url('supplier/') ?>">
+                                <i class="glyphicon glyphicon-th-list"></i> <span><?php echo $this->lang->line('Supplier')?></span>
+                            </a>
+                        </li>
+                    <?php endif; ?>  
+                </ul>
+            </li>
+        <?php endif; ?>
+
+          
           <?php if(in_array('viewReports', $user_permission)): ?>
             <li id="reportNav">
               <a href="<?php echo base_url('reports/') ?>">
@@ -165,7 +214,6 @@
               </a>
             </li>
           <?php endif; ?>
-
 
           <?php if(in_array('updateCompany', $user_permission)): ?>
             <li id="companyNav"><a href="<?php echo base_url('company/') ?>"><i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Company')?> </span></a></li>
