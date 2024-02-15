@@ -6,11 +6,11 @@
   <section class="content-header">
     <h1>
     <?php echo $this->lang->line('Manage')?>
-      <small><?php echo $this->lang->line('Materials')?></small>
+      <small><?php echo $this->lang->line('Department')?></small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
-      <li class="active"><?php echo $this->lang->line('Materials')?></li>
+      <li class="active"><?php echo $this->lang->line('Department')?></li>
     </ol>
   </section>
 
@@ -34,25 +34,23 @@
           </div>
         <?php endif; ?>
 
-        <?php if(in_array('createMaterials', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Materials')?></button>
+        <?php if(in_array('createDepartment', $user_permission)): ?>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Department')?></button>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title"><?php echo $this->lang->line('Manage Materials')?></h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Department')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th><?php echo $this->lang->line('Materials Name')?></th>
-				        <th><?php echo $this->lang->line('Quantity')?></th>
-				        <th><?php echo $this->lang->line('Price')?></th>
+                <th><?php echo $this->lang->line('Department Name')?></th>
                 <th><?php echo $this->lang->line('Action')?></th>
-                <?php if(in_array('updateMaterials', $user_permission) || in_array('deleteMaterials', $user_permission)): ?>
+                <?php if(in_array('updateDepartment', $user_permission) || in_array('deleteDepartment', $user_permission)): ?>
                 <?php endif; ?>
               </tr>
               </thead>
@@ -73,36 +71,23 @@
 </div>
 <!-- /.content-wrapper -->
 
-<?php if(in_array('createMaterials', $user_permission)): ?>
+<?php if(in_array('createDepartment', $user_permission)): ?>
 <!-- create brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Add Materials')?></h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Department')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('materials/create') ?>" method="post" id="createForm">
+      <form role="form" action="<?php echo base_url('department/create') ?>" method="post" id="createForm">
 
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="materials_name"><?php echo $this->lang->line('Materials Name')?></label>
-            <input type="text" class="form-control" id="materials_name" name="materials_name" placeholder="<?php echo $this->lang->line('Enter Materials Name')?>" autocomplete="off">
-          </div>
-        
-
-        <div class="form-group">
-          <label for="quantity"><?php echo $this->lang->line('Quantity')?></label>
-          <input type="text" class="form-control" id="quantity" name="quantity" placeholder="<?php echo $this->lang->line('Enter Quantity')?>" autocomplete="off">
-        </div>
-          
-
-        <div class="form-group">
-          <label for="amount"><?php echo $this->lang->line('Price')?></label>
-          <input type="text" class="form-control" id="amount" name="amount" placeholder="<?php echo $this->lang->line('Enter Price')?>" autocomplete="off">
-        </div>
+            <label for="department_name"><?php echo $this->lang->line('Department Name')?></label>
+            <input type="text" class="form-control" id="department_name" name="department_name" placeholder="<?php echo $this->lang->line('Enter Department Name')?>" autocomplete="off">
           </div>
 
         <div class="modal-footer">
@@ -116,36 +101,25 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-<?php if(in_array('updateMaterials', $user_permission)): ?>
+<?php if(in_array('updateDepartment', $user_permission)): ?>
 <!-- edit brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Edit Materials')?></h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Department')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('materials/update') ?>" method="post" id="updateForm">
+      <form role="form" action="<?php echo base_url('department/update') ?>" method="post" id="updateForm">
 
         <div class="modal-body">
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_materials_name"><?php echo $this->lang->line('Materials Name')?></label>
-            <input type="text" class="form-control" id="edit_materials_name" name="edit_materials_name" placeholder="<?php echo $this->lang->line('Enter Materials Name')?>" autocomplete="off">
+            <label for="edit_department_name"><?php echo $this->lang->line('Department Name')?></label>
+            <input type="text" class="form-control" id="edit_department_name" name="edit_department_name" placeholder="<?php echo $this->lang->line('Enter Department Name')?>" autocomplete="off">
           </div>
-
-		  
-		  <div class="form-group">
-            <label for="edit_quantity"><?php echo $this->lang->line('Quantity')?></label>
-            <input type="text" class="form-control" id="edit_quantity" name="edit_quantity" placeholder="<?php echo $this->lang->line('Enter Quantity')?>" autocomplete="off">
-          </div>
-
-			<div class="form-group">
-				<label for="edit_amount"><?php echo $this->lang->line('Price')?></label>
-				<input type="text" class="form-control" id="edit_amount" name="edit_amount" placeholder="<?php echo $this->lang->line('Enter Price')?>" autocomplete="off">
-			</div>
         </div>
 
 		
@@ -163,17 +137,17 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-<?php if(in_array('deleteMaterials', $user_permission)): ?>
+<?php if(in_array('deleteDepartment', $user_permission)): ?>
 <!-- remove brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="removeModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Remove Materials')?></h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Department')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('materials/remove') ?>" method="post" id="removeForm">
+      <form role="form" action="<?php echo base_url('department/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
           <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
@@ -194,17 +168,11 @@
 var manageTable;
 
 $(document).ready(function() {
-  $("#materialsNav").addClass('active');
-  $("#quantity, #amount").on("input", function() {
-    toTal();
-  });
-  
-  $("#edit_quantity, #edit_amount").on("input", function() {
-			total1();
-		});
+  $("#departmentNav").addClass('active');
+
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
-    'ajax': 'fetchMaterialsData',
+    'ajax': 'fetchDepartmentData',
     'order': []
   });
 
@@ -295,14 +263,11 @@ function total1(){
 function editFunc(id)
 { 
   $.ajax({
-    url: 'fetchMaterialsDataById/'+id,
+    url: 'fetchDepartmentDataById/'+id,
     type: 'post',
     dataType: 'json',
     success:function(response) {
-      $("#edit_materials_name").val(response.tenVatTu);
-	  $("#edit_quantity").val(response.soLuong);
-	  $("#edit_amount").val(response.giaTien);
-	  $("#edit_total").val(response.tongTien);
+      $("#edit_department_name").val(response.name);
 	  
       // submit the edit from 
       $("#updateForm").unbind('submit').bind('submit', function() {

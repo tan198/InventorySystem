@@ -13,6 +13,8 @@ class Users extends Admin_Controller
 
 		$this->load->model('model_users');
 		$this->load->model('model_groups');
+		$this->load->model('model_department');
+		$this->load->model('model_position');
 	}
 
 	
@@ -50,6 +52,21 @@ class Users extends Admin_Controller
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
 		$this->form_validation->set_rules('cpassword', 'Confirm password', 'trim|required|matches[password]');
 		$this->form_validation->set_rules('fname', 'First name', 'trim|required');
+		$this->form_validation->set_rules('address', 'Address', 'trim|required');
+		$this->form_validation->set_rules('dobirth', 'Dobirth', 'required');
+		$this->form_validation->set_rules('number', 'No.','trim|required');
+		$this->form_validation->set_rules('dateID','DateID', 'trim|required');
+		$this->form_validation->set_rules('placeID','PlaceID', 'trim|required');
+		$this->form_validation->set_rules('department', 'Department', 'trim|required');
+		$this->form_validation->set_rules('position', 'Position', 'trim|required');
+		$this->form_validation->set_rules('imsupevisor','Supervisor', 'trim|required');
+		$this->form_validation->set_rules('contract','Type Contract', 'trim|required');
+		$this->form_validation->set_rules('tcode', 'Tax Code', 'trim|required');
+		$this->form_validation->set_rules('salary', 'Salary', 'trim|required');
+		$this->form_validation->set_rules('baccount','Bank Account', 'trim|required');
+		$this->form_validation->set_rules('bank','Bank','trim|required');
+		$this->form_validation->set_rules('workdate','First Date Of Work', 'trim|required');
+		$this->form_validation->set_rules('cterm', 'Contract Term', 'trim|required');
 
         if ($this->form_validation->run() == TRUE) {
             // true case
@@ -62,6 +79,22 @@ class Users extends Admin_Controller
         		'lastname' => $this->input->post('lname'),
         		'phone' => $this->input->post('phone'),
         		'gender' => $this->input->post('gender'),
+				'address'=> $this->input->post('address'),
+				'address1' => $this->input->post('address1'),
+				'dateobirth'=> $this->input->post('dobirth'),
+				'cardID' => $this->input->post('number'),
+				'dateID' => $this->input->post('dateID'),
+				'placeID' => $this->input->post('placeID'),
+				'typecontract'=>$this->input->post('contract'),
+				'taxcode' => $this->input->post('tcode'),
+				'salary'=>$this->input->post('salary'),
+				'banka'=>$this->input->post('baccount'),
+				'bank'=>$this->input->post('bank'),
+				'daywork'=>$this->input->post('workdate'),
+				'duration'=>$this->input->post('cterm'),
+				'id_department'=>$this->input->post('department'),
+				'id_position' => $this->input->post('position'),
+				'manager_id' => $this->input->post('imsupevisor'),
         	);
 
         	$create = $this->model_users->create($data, $this->input->post('groups'));
@@ -77,6 +110,13 @@ class Users extends Admin_Controller
         else {
             // false case
         	$group_data = $this->model_groups->getGroupData();
+			$department_data = $this->model_department->getDepartment();
+			$position_data = $this->model_position->getPostision();
+			$user_data = $this->model_users->getUserData();
+
+			$this->data['department_data'] = $department_data;
+			$this->data['position_data'] = $position_data;
+			$this->data['user_data'] = $user_data;
         	$this->data['group_data'] = $group_data;
 
             $this->render_template('users/create', $this->data);
@@ -104,6 +144,21 @@ class Users extends Admin_Controller
 			$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]');
 			$this->form_validation->set_rules('email', 'Email', 'trim|required');
 			$this->form_validation->set_rules('fname', 'First name', 'trim|required');
+			$this->form_validation->set_rules('address', 'Address', 'trim|required');
+			$this->form_validation->set_rules('dobirth', 'Dobirth', 'required');
+			$this->form_validation->set_rules('number', 'No.','trim|required');
+			$this->form_validation->set_rules('dateID','DateID', 'trim|required');
+			$this->form_validation->set_rules('placeID','PlaceID', 'trim|required');
+			$this->form_validation->set_rules('department', 'Department', 'trim|required');
+			$this->form_validation->set_rules('position', 'Position', 'trim|required');
+			$this->form_validation->set_rules('imsupevisor','Supervisor', 'trim|required');
+			$this->form_validation->set_rules('contract','Type Contract', 'trim|required');
+			$this->form_validation->set_rules('tcode', 'Tax Code', 'trim|required');
+			$this->form_validation->set_rules('salary', 'Salary', 'trim|required');
+			$this->form_validation->set_rules('baccount','Bank Account', 'trim|required');
+			$this->form_validation->set_rules('bank','Bank','trim|required');
+			$this->form_validation->set_rules('workdate','First Date Of Work', 'trim|required');
+			$this->form_validation->set_rules('cterm', 'Contract Term', 'trim|required');
 
 
 			if ($this->form_validation->run() == TRUE) {
@@ -116,6 +171,23 @@ class Users extends Admin_Controller
 		        		'lastname' => $this->input->post('lname'),
 		        		'phone' => $this->input->post('phone'),
 		        		'gender' => $this->input->post('gender'),
+						'address'=> $this->input->post('address'),
+						'address1' => $this->input->post('address1'),
+						'dateobirth'=> $this->input->post('dobirth'),
+						'cardID' => $this->input->post('no.'),
+						'dateID' => $this->input->post('dateID'),
+						'placeID' => $this->input->post('placeID'),
+						'typecontract'=>$this->input->post('contract'),
+						'taxcode' => $this->input->post('tcode'),
+						'salary'=>$this->input->post('salary'),
+						'banka'=>$this->input->post('baccount'),
+						'bank'=>$this->input->post('bank'),
+						'datework'=>$this->input->post('workdate'),
+						'duration'=>$this->input->post('cterm'),
+						'id_department'=>$this->input->post('department'),
+						'id_position' => $this->input->post('position'),
+						'manager_id' => $this->input->post('imsupevisor'),
+
 		        	);
 
 		        	$update = $this->model_users->edit($data, $id, $this->input->post('groups'));
@@ -144,6 +216,22 @@ class Users extends Admin_Controller
 			        		'lastname' => $this->input->post('lname'),
 			        		'phone' => $this->input->post('phone'),
 			        		'gender' => $this->input->post('gender'),
+							'address'=> $this->input->post('address'),
+							'address1' => $this->input->post('address1'),
+							'dateobirth'=> $this->input->post('dobirth'),
+							'cardID' => $this->input->post('no.'),
+							'dateID' => $this->input->post('dateID'),
+							'placeID' => $this->input->post('placeID'),
+							'typecontract'=>$this->input->post('contract'),
+							'taxcode' => $this->input->post('tcode'),
+							'salary'=>$this->input->post('salary'),
+							'banka'=>$this->input->post('baccount'),
+							'bank'=>$this->input->post('bank'),
+							'datework'=>$this->input->post('workdate'),
+							'duration'=>$this->input->post('cterm'),
+							'id_department'=>$this->input->post('department'),
+							'id_position' => $this->input->post('position'),
+							'manager_id' => $this->input->post('imsupevisor'),
 			        	);
 
 			        	$update = $this->model_users->edit($data, $id, $this->input->post('groups'));
@@ -160,6 +248,7 @@ class Users extends Admin_Controller
 			            // false case
 			        	$user_data = $this->model_users->getUserData($id);
 			        	$groups = $this->model_users->getUserGroup($id);
+						$department_data = $this->model_department->getDepartment();
 
 			        	$this->data['user_data'] = $user_data;
 			        	$this->data['user_group'] = $groups;
@@ -255,6 +344,22 @@ class Users extends Admin_Controller
 		        		'lastname' => $this->input->post('lname'),
 		        		'phone' => $this->input->post('phone'),
 		        		'gender' => $this->input->post('gender'),
+						'address'=> $this->input->post('address'),
+						'address1' => $this->input->post('address1'),
+						'dateobirth'=> $this->input->post('dobirth'),
+						'cardID' => $this->input->post('no.'),
+						'dateID' => $this->input->post('dateID'),
+						'placeID' => $this->input->post('placeID'),
+						'typecontract'=>$this->input->post('contract'),
+						'taxcode' => $this->input->post('tcode'),
+						'salary'=>$this->input->post('salary'),
+						'banka'=>$this->input->post('baccount'),
+						'bank'=>$this->input->post('bank'),
+						'datework'=>$this->input->post('workdate'),
+						'duration'=>$this->input->post('cterm'),
+						'id_department'=>$this->input->post('department'),
+						'id_position' => $this->input->post('position'),
+						'manager_id' => $this->input->post('imsupevisor'),
 		        	);
 
 		        	$update = $this->model_users->edit($data, $id);
@@ -283,6 +388,22 @@ class Users extends Admin_Controller
 			        		'lastname' => $this->input->post('lname'),
 			        		'phone' => $this->input->post('phone'),
 			        		'gender' => $this->input->post('gender'),
+							'address'=> $this->input->post('address'),
+							'address1' => $this->input->post('address1'),
+							'dateobirth'=> $this->input->post('dobirth'),
+							'cardID' => $this->input->post('no.'),
+							'dateID' => $this->input->post('dateID'),
+							'placeID' => $this->input->post('placeID'),
+							'typecontract'=>$this->input->post('contract'),
+							'taxcode' => $this->input->post('tcode'),
+							'salary'=>$this->input->post('salary'),
+							'banka'=>$this->input->post('baccount'),
+							'bank'=>$this->input->post('bank'),
+							'datework'=>$this->input->post('workdate'),
+							'duration'=>$this->input->post('cterm'),
+							'id_department'=>$this->input->post('department'),
+							'id_position' => $this->input->post('position'),
+							'manager_id' => $this->input->post('imsupevisor'),
 			        	);
 
 			        	$update = $this->model_users->edit($data, $id, $this->input->post('groups'));

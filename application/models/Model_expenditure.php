@@ -131,7 +131,6 @@ class Model_expenditure extends CI_Model
         if ($id) {
             $idBangChi_item = $this->db->select('idBangChi')->get('material_item')->result_array();
             $idVatTu_item = $this->db->select('idVatTu')->where('idBangChi',$id)->get('material_item')->result_array();
-            print_r($idVatTu_item);
             $material_id = $this->db->select('idVatTu')->get('vattu')->result_array();
             $list_idVatTu_item = array_column($idVatTu_item,'idVatTu');
             $list_material_id = array_column($material_id,'idVatTu');
@@ -141,9 +140,9 @@ class Model_expenditure extends CI_Model
             if ($query->num_rows() > 0){
                 $row = $query->row();
                 $idBangChi = $row->idBangChi;
-    
+
                 // Sửa lỗi so sánh biến với mảng
-                if(!array($idBangChi_item,$idBangChi)){
+                if(!in_array($idBangChi,$idBangChi_item)){
                     $data1 = array();
     
                     $material_name = $this->input->post('material_name');
@@ -165,21 +164,23 @@ class Model_expenditure extends CI_Model
                     var_dump($add_mater);
                     $materialitem_data = array();
                     // Lặp qua dữ liệu của 'vattu' để tạo dữ liệu cho 'material_item'
-                    foreach ($idVatTu as $material) {
+                    foreach ($data1 as $material) {
                         $materialitem_data[] = array(
                             'idBangChi' => $idBangChi,
                             'idVatTu' => $idVatTu,
-                            'soLuong' => $data1[$material]['soLuong'],
-                            'rate' => $data1[$material]['giaTien'],
-                            'tongTien' => $data1[$material]['soLuong'] * $data1[$material]['giaTien'],
+                            'soLuong' => $material['soLuong'],
+                            'rate' => $material['giaTien'],
+                            'tongTien' => $material['soLuong'] * $material['giaTien'],
                         );
                         
                     }
     
                     // Thay đổi cách thêm dữ liệu vào cơ sở dữ liệu
                     $add_mater_item = $this->db->insert_batch('material_item', $materialitem_data);
+                    $this->db->where('idBangChi',$id);
+                    $update = $this->db->update('taobangchi',$data);
 
-                    return ($add_mater == true && $add_mater_item==true)? true:false;
+                    return ($add_mater == true && $add_mater_item==true && $update == true)? true:false;
                 }
                 //elseif($common_value){
                 //    // Sửa lỗi so sánh biến với mảng và tối ưu hóa thêm dữ liệu
@@ -242,7 +243,6 @@ class Model_expenditure extends CI_Model
     
                     // Update 'vattu' table
                     $this->db->update_batch('vattu', $data1, 'idVatTu');
-    
                     $material_item = array();
                     $material_id = 0;
                     foreach ($data1 as $materials) {
@@ -307,25 +307,25 @@ class Model_expenditure extends CI_Model
         }
     }
 
-    //public function removeMaterial($id)
-    //{
-    //    $this->db->select('idVatTu');
-    //    $this->db->where('idBangChi', $id);
-    //    $query = $this->db->get('material_item');
+    public function removeMaterial($id)
+    {
+        $this->db->select('idVatTu');
+        $this->db->where('idBangChi', $id);
+        $query = $this->db->get('material_item');
 
-    //    if ($query->num_rows() > 0) {
-    //        foreach ($query->result() as $row) {
-    //            $idVatTu = $row->idVatTu;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $idVatTu = $row->idVatTu;
 
-    //            // Xoá từ bảng material_item
-    //            $this->db->where('idBangChi', $id);
-    //            $this->db->where('idVatTu', $idVatTu);
-    //            $this->db->delete('material_item');
+                // Xoá từ bảng material_item
+                $this->db->where('idBangChi', $id);
+                $this->db->where('idVatTu', $idVatTu);
+                $this->db->delete('material_item');
 
-    //            // Xoá từ bảng vattu
-    //            $this->db->where('idVatTu', $idVatTu);
-    //            $this->db->delete('vattu');
-    //        }
-    //    }
-    //}
+                // Xoá từ bảng vattu
+                $this->db->where('idVatTu', $idVatTu);
+                $this->db->delete('vattu');
+            }
+        }
+    }
 }

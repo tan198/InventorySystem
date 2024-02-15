@@ -316,7 +316,7 @@ function showDetailModal(data){
   //var modalBody = $('#detailModal modal-body');
   modalBody.empty();
 
-  modalBody.append('<p><strong><?php echo $this->lang->line('Customer Name');?>:</strong> ' + data.name + '</p>');
+  modalBody.append('<p><strong><?php echo $this->lang->line('Supplier Name');?>:</strong> ' + data.name + '</p>');
 
   showNote(data.id, function(note){
     console.log(data.id);

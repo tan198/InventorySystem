@@ -16,7 +16,7 @@ class Model_groups extends CI_Model
 		}
 
 		$sql = "SELECT * FROM `groups` WHERE id != ?";
-		$query = $this->db->query($sql, array(1));
+		$query = $this->db->query($sql, array(0));
 		return $query->result_array();
 	}
 

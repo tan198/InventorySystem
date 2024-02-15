@@ -57,20 +57,119 @@
                   <label for="phone"><?php echo $this->lang->line('Phone')?></label>
                   <input type="text" class="form-control" id="phone" name="phone" placeholder="<?php echo $this->lang->line('Phone')?>" autocomplete="off">
                 </div>
-
                 <div class="form-group col-md-6">
-                  <label for="gender"><?php echo $this->lang->line('Gender')?></label>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="gender" id="male" value="1">
-                      <?php echo $this->lang->line('Male')?>
-                    </label>
-                    <label>
-                      <input type="radio" name="gender" id="female" value="2">
-                      <?php echo $this->lang->line('Female')?>
-                    </label>
+                  <label for="dobirth"><?php echo $this->lang->line('Date of birth')?></label>
+                  <input type="date" class="form-control" id="dobirth" name="dobirth" placeholder="<?php echo $this->lang->line('Date of birth')?>" autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6" style="margin-bottom: 0;">
+                  <div class="form-group col-md-12">
+                      <label for="gender"><?php echo $this->lang->line('Gender')?></label>
+                      <div class="radio">
+                        <label style="margin-right: 50%;margin-left: 40px;">
+                          <input type="radio" name="gender" id="male" value="1">
+                          <?php echo $this->lang->line('Male')?>
+                        </label>
+                        <label>
+                          <input type="radio" name="gender" id="female" value="2">
+                          <?php echo $this->lang->line('Female')?>
+                        </label>
+                      </div>
+                    </div>
+
+                  <div class="form-group col-md-12" style="margin-top: 16px;margin-bottom: 16px;" >
+                    <label for="address"><?php echo $this->lang->line('Address')?> 1</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="<?php echo $this->lang->line('Address')?>" autocomplete="off">
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="address1"><?php echo $this->lang->line('Address')?> 2</label>
+                    <input type="text" class="form-control" id="address1" name="address1" placeholder="<?php echo $this->lang->line('Address')?>" autocomplete="off">
+                  </div>
+                  
+                </div>
+                
+                <div class="form-group col-md-6">
+                  <label for="citizenidentitycard"><?php echo $this->lang->line('Citizen Identity Card')?>:</label>
+                  <br>
+                  <div class="form-group col-md-12">
+                    <label for="number"><?php echo  $this->lang->line('No.')?></label>
+                    <input type="text" class="form-control" id="number" name="number" placeholder="<?php echo $this->lang->line('No.')?>" autocomplete="off">
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="dateID"><?php echo  $this->lang->line('Date of issuance of ID')?></label>
+                    <input type="date" class="form-control" id="dateID" name="dateID" placeholder="<?php echo $this->lang->line('Date of issuance of ID')?>" autocomplete="off">
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="placeID"><?php echo  $this->lang->line('Place of issue of identity card')?></label>
+                    <input type="text" class="form-control" id="placeID" name="placeID" placeholder="<?php echo $this->lang->line('Place of issue of identity card')?>" autocomplete="off">
                   </div>
                 </div>
+
+                <div class="form-group col-md-6">
+                  <label for="department"><?php echo $this->lang->line('Department')?></label>
+                  <select class="form-control select_group" name="department" id="department">
+                    <option value="">Select Department</option>
+                    <?php foreach($department_data as $key => $value): ?>
+                      <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
+                    <?php endforeach?>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="imsupevisor"><?php echo $this->lang->line('Supevisior')?></label>
+                  <select class="form-control select_group" name="imsupevisor" id="imsupevisor">
+                    <option value="">Select Supervisor</option>
+                    <?php foreach($user_data as $key => $value): ?>
+                      <option value="<?php echo $value['id'] ?>"><?php echo $value['firstname'] . " " . $value['lastname'] ?></option>
+                    <?php endforeach?>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="position"><?php echo $this->lang->line('Position')?></label>
+                  <select class="form-control select_group" name="position" id="position">
+                    <option value="">Select Position</option>
+                    <?php foreach($position_data as $key => $value): ?>
+                      <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
+                    <?php endforeach?>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="contract"><?php echo $this->lang->line('Type Contract')?></label>
+                  <input type = "text" class="form-control" id="contract" name="contract"placeholder="<?php echo $this->lang->line('Type Contract')?>"autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="tcode"><?php echo $this->lang->line('Tax Code')?></label>
+                  <input type = "text" class="form-control" id="tcode" name="tcode"placeholder="<?php echo $this->lang->line('Tax Code')?>"autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="salary"><?php echo $this->lang->line('Salary')?></label>
+                  <input type = "text" class="form-control" id="salary" name="salary"placeholder="<?php echo $this->lang->line('Salary')?>"autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="baccount"><?php echo $this->lang->line('Bank Account')?></label>
+                  <input type = "text" class="form-control" id="baccount" name="baccount"placeholder="<?php echo $this->lang->line('Bank Account')?>"autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="bank"><?php echo $this->lang->line('Bank')?></label>
+                  <input type = "text" class="form-control" id="bank" name="bank"placeholder="<?php echo $this->lang->line('Bank')?>"autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="workdate"><?php echo $this->lang->line('First Date Of Work')?></label>
+                  <input type = "date" class="form-control" id="workdate" name="workdate"placeholder="<?php echo $this->lang->line('First Date Of Work')?>"autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="cterm"><?php echo $this->lang->line('Contract Term')?></label>
+                  <input type = "date" class="form-control" id="cterm" name="cterm"placeholder="<?php echo $this->lang->line('Contract Term')?>"autocomplete="off">
+                </div>
+
                   <div class="form-group col-md-12">
                     <label for="groups"><?php echo $this->lang->line('Groups')?></label>
                     <select class="form-control" id="groups" name="groups">
@@ -80,7 +179,7 @@
                       <?php endforeach ?>
                     </select>
                   </div>
-                
+
 
                 <div class="form-group col-md-6">
                   <label for="username"><?php echo $this->lang->line('Username')?></label>

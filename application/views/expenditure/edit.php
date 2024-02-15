@@ -213,10 +213,10 @@
     }
 
     $("#add_row").unbind('click').bind('click',function(){
-            var table = $("#material_info_table");
-            var count_table_tbody_tr = $("#material_info_table tbody tr").length;
-            var row_id =count_table_tbody_tr + 1;
-            var html = '<tr id="row_' + row_id +'">' +
+            table = $("#material_info_table");
+            count_table_tbody_tr = $("#material_info_table tbody tr").length;
+            row_id =count_table_tbody_tr + 1;
+            html = '<tr id="row_' + row_id +'">' +
                 '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" onchange="createMaterialData(1)"></td>'+
                 '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
                 '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
@@ -411,5 +411,10 @@ function formatCurrency(input, blur) {
   {
     $("#material_info_table tbody tr#row_"+tr_id).remove();
     subAmount();
+    //if( $("#material_info_table tbody tr#row_"+tr_id).remove()){
+      
+    //}
   }
+
+  //function deleteRow(id){}
 </script>

@@ -49,8 +49,7 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?>
-</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
                 <a href="<?php echo base_url('category/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>

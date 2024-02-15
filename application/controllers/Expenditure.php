@@ -336,13 +336,13 @@ class Expenditure extends Admin_Controller
 	}
 
 
-    //public function reomveMaterial(){
-    //    $idBangChi = $this->input->post('idBangChi');
-    //    if($idBangChi){
-    //        $deleteRow = $this->model_expenditure->removeMaterial($idBangChi);
-    //    }
-    //    echo json_encode($deleteRow);
-    //}
+    public function reomveMaterial(){
+        $idBangChi = $this->input->post('idBangChi');
+        if($idBangChi){
+            $deleteRow = $this->model_expenditure->removeMaterial($idBangChi);
+        }
+        echo json_encode($deleteRow);
+    }
 
     public function exportexcel(){
         $this->load->model('model_expenditure');

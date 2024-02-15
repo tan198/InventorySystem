@@ -95,6 +95,16 @@
 
                                     <!-- Expenditure -->
 
+      <?php if($user_permission):?>
+        <li class="treeview" id="mainEINav">
+          <a href=#>
+            <i class="fa fa-cube"></i>
+            <span><?php echo $this->lang->line("Expenditures/Incomes");?></span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
           <?php if(in_array('createExpenditure', $user_permission) || in_array('updateExpenditure', $user_permission) || in_array('viewExpenditure', $user_permission) || in_array('deleteExpenditure', $user_permission)): ?>
             <li class="treeview" id="mainExpenditureNav">
               <a href="#">
@@ -136,6 +146,12 @@
               </ul>
             </li>
           <?php endif; ?>
+          </ul>
+        </li>
+
+      <?php endif; ?>
+
+
     
                                       <!--category-->
           <?php if(in_array('createCategory', $user_permission) || in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
@@ -170,7 +186,7 @@
           <?php if(in_array('createMaterials', $user_permission) || in_array('updateMaterials', $user_permission) || in_array('viewMaterials', $user_permission) || in_array('deleteMaterials', $user_permission)): ?>
             <li id="materialsNav">
               <a href="<?php echo base_url('materials/') ?>">
-                <i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Materials Expenditure')?></span>
+                <i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Materials')?></span>
               </a>
             </li>
           <?php endif; ?>
@@ -218,24 +234,76 @@
           <?php if(in_array('updateCompany', $user_permission)): ?>
             <li id="companyNav"><a href="<?php echo base_url('company/') ?>"><i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Company')?> </span></a></li>
           <?php endif; ?>
-
         
-
-        <!-- <li class="header">Settings</li> -->
-
-        <?php if(in_array('viewProfile', $user_permission)): ?>
-          <li><a href="<?php echo base_url('users/profile/') ?>"><i class="fa fa-user-o"></i> <span><?php echo $this->lang->line('Profile')?> </span></a></li>
-        <?php endif; ?>
-        <?php if(in_array('updateSetting', $user_permission)): ?>
-          <li><a href="<?php echo base_url('users/setting/') ?>"><i class="fa fa-wrench"></i> <span><?php echo $this->lang->line('Setting')?> </span></a></li>
-        <?php endif; ?>
-
-        <?php endif; ?>
-
+          <?php if($user_permission): ?>
         
-        <!-- user permission info -->
-        <li><a href="<?php echo base_url('auth/logout') ?>"><i class="glyphicon glyphicon-log-out"></i> <span><?php echo $this->lang->line('Logout')?></span></a></li>
+        <li class="treeview" id="mainSystem">
+          <a href="#">
+            <i class="fa fa-sitemap"></i>
+            <span><?php echo lang("System"); ?></span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+            </a>
+
+          <ul class="treeview-menu">
+          <?php if(in_array('viewDepartment', $user_permission)): ?>
+            <li id="departmentNav"><a href="<?php echo base_url('department/') ?>"><i class="fa fa-user-o"></i> <span><?php echo $this->lang->line('Department')?> </span></a></li>
+          <?php endif; ?>
+
+          <?php if(in_array('viewPosition', $user_permission) || in_array('updatePosition', $user_permission) || in_array('createPosition', $user_permission)|| in_array('deletePosition', $user_permission)): ?>
+            <li class="treeview" id="mainPosition">
+              <a href="#">
+                <i class="fa fa-cube"></i>
+                <span><?php echo lang("Position"); ?></span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              
+              <ul class="treeview-menu">
+                <?php if(in_array('createPosition',$user_permission)):?>
+                  <li id="addPositionNav"><a href="<?php echo base_url('position/create') ?>"><i class="fa fa-circle-o"></i><?php echo lang("Add Position") ?></a></li>
+                <?php endif; ?>
+                <?php if(in_array('updatePosition', $user_permission)|| in_array('viewPosition', $user_permission)|| in_array('deletePosition',$user_permission)): ?>
+                  <li id="managePositionNav"><a href="<?php echo base_url('position')?>"><i class="fa fa-circle-o"></i><?php echo $this->lang->line('List Position') ?></a> </li>
+                <?php endif; ?>
+              </ul>
+            </li>
+          <?php endif; ?>
+          </ul>
+        </li>
+
+      <?php endif; ?>
         
+        <?php if($user_permission): ?>
+        
+          <li class="treeview" id="mainSettings">
+            <a href="#">
+              <i class="fa fa-cog"></i>
+              <span><?php echo lang("Settings"); ?></span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+              </a>
+
+            <ul class="treeview-menu">
+            <?php if(in_array('viewProfile', $user_permission)): ?>
+              <li><a href="<?php echo base_url('users/profile/') ?>"><i class="fa fa-user-o"></i> <span><?php echo $this->lang->line('Profile')?> </span></a></li>
+            <?php endif; ?>
+            <?php if(in_array('updateSetting', $user_permission)): ?>
+              <li><a href="<?php echo base_url('users/setting/') ?>"><i class="fa fa-wrench"></i> <span><?php echo $this->lang->line('Edit Profile')?> </span></a></li>
+            <?php endif; ?>
+
+            
+            <!-- user permission info -->
+            <li><a href="<?php echo base_url('auth/logout') ?>"><i class="glyphicon glyphicon-log-out"></i> <span><?php echo $this->lang->line('Logout')?></span></a></li>
+            <?php endif; ?>
+            </ul>
+          </li>
+
+        <?php endif; ?>
+
       </ul>
     </section>
     <!-- /.sidebar -->

@@ -15,8 +15,8 @@
 		"stuk/jszip": "^3.0",
 		"ext-gd": "*",
 		"ext-fileinfo": "*",
-		"phpoffice/phpspreadsheet": "^2.0",
-		"openskill/datatable": "^0.2.1"
+		"openskill/datatable": "^0.2.1",
+		"phpoffice/phpspreadsheet": "^2.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

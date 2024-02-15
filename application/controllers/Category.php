@@ -141,7 +141,7 @@ class Category extends Admin_Controller
 		        	}
 			}	
 			else {
-				$this->data['idHangMucChi'] = $id;
+				$this->data['idHangMuc'] = $id;
 				$this->render_template('category/delete', $this->data);
 			}	
 		}
