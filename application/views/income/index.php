@@ -47,13 +47,13 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <table id="manageTable" class="table table-bordered table-hover">
+            <table id="manageTable" class="table table-bordered table-hover" >
               <thead>
               <tr>
               <th><?php echo $this->lang->line('Income Category')?></th>
                 <th><?php echo $this->lang->line('Income Name')?></th>
-                <th><?php echo $this->lang->line('Payment Type')?></th>
                 <th><?php echo $this->lang->line('Material Status')?></th>
+                <th><?php echo $this->lang->line('Payment Type')?></th>
                 <th><?php echo $this->lang->line('Receiver')?></th>
                 <th><?php echo $this->lang->line('Date Income')?></th>
                 <th><?php echo $this->lang->line('Amount')?></th>

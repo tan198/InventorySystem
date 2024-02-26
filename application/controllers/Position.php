@@ -75,7 +75,6 @@
 					redirect('position/create', 'refresh');
 				}
 			} else {
-				$this->data['departments'] = $this->model_department->getDepartment();
 
 				$this->render_template('position/create', $this->data);
 			}
@@ -109,7 +108,6 @@
 					redirect('position/update/'.$id, 'refresh');
 				}
 			} else {
-				$this->data['departments'] = $this->model_department->getDepartment();
 				$position_data = $this->model_position->getPostision($id);
 				$this->data['position_data'] = $position_data;
 				$this->render_template('position/edit',$this->data);

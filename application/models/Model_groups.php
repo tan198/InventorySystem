@@ -20,6 +20,18 @@ class Model_groups extends CI_Model
 		return $query->result_array();
 	}
 
+	public function getGroupUserData($group_id){
+		if($group_id){
+			$sql = "SELECT * FROM `groups` WHERE id = ?";
+			$query = $this->db->query($sql, array($group_id));
+			return $query->row_array();
+		}
+
+		$sql = "SELECT * FROM `gruops` WHERE id != ?";
+		$query = $this->db->query($sql,array(1));
+		return $query->result_array();
+	}
+
 	public function create($data = '')
 	{
 		$create = $this->db->insert('groups', $data);

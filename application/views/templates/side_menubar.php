@@ -183,14 +183,36 @@
             </li>
           <?php endif; ?>
 
-          <?php if(in_array('createMaterials', $user_permission) || in_array('updateMaterials', $user_permission) || in_array('viewMaterials', $user_permission) || in_array('deleteMaterials', $user_permission)): ?>
-            <li id="materialsNav">
-              <a href="<?php echo base_url('materials/') ?>">
-                <i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Materials')?></span>
+          <?php if(in_array('viewMaterial', $user_permission) || in_array('viewTmaterial', $user_permission)): ?>
+            <li class="treeview" id="mainTMNav">
+              <a href="#">
+                <i class="fa fa-cube"></i>
+                <span><?php echo $this->lang->line('Manage Materials')?></span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
               </a>
+
+              <ul class="treeview-menu">
+                <?php if(in_array('createMaterials', $user_permission) || in_array('updateMaterials', $user_permission) || in_array('viewMaterials', $user_permission) || in_array('deleteMaterials', $user_permission)): ?>
+                  <li id="materialsNav">
+                    <a href="<?php echo base_url('materials/') ?>">
+                      <i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Materials')?></span>
+                    </a>
+                  </li>
+                <?php endif; ?>
+
+                <?php if(in_array('createTmaterial', $user_permission) || in_array('updateTmaterial', $user_permission) || in_array('viewTmaterial', $user_permission) || in_array('deleteTmaterial', $user_permission)): ?>
+              
+                  <li id="tmaterialNav">
+                    <a href="<?php echo base_url('tmaterial/') ?>">
+                      <i class="fa fa-files-o"></i> <span><?php echo $this->lang->line('Type Materials')?></span>
+                    </a>
+                  </li>
+                <?php endif; ?>
+              </ul>
             </li>
           <?php endif; ?>
-
                 <!--Customer/Supplier-->
 
         <?php if(!empty(in_array('viewCustomer', $user_permission))|| !empty(in_array('viewSupplier', $user_permission))): ?>
@@ -247,29 +269,12 @@
             </a>
 
           <ul class="treeview-menu">
-          <?php if(in_array('viewDepartment', $user_permission)): ?>
+          <?php if(in_array('viewDepartment', $user_permission)|| in_array('updateDepartment',$user_permission)|| in_array('deleteDepartment',$user_permission)|| in_array('createDepartment',$user_permission)): ?>
             <li id="departmentNav"><a href="<?php echo base_url('department/') ?>"><i class="fa fa-user-o"></i> <span><?php echo $this->lang->line('Department')?> </span></a></li>
           <?php endif; ?>
 
-          <?php if(in_array('viewPosition', $user_permission) || in_array('updatePosition', $user_permission) || in_array('createPosition', $user_permission)|| in_array('deletePosition', $user_permission)): ?>
-            <li class="treeview" id="mainPosition">
-              <a href="#">
-                <i class="fa fa-cube"></i>
-                <span><?php echo lang("Position"); ?></span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              
-              <ul class="treeview-menu">
-                <?php if(in_array('createPosition',$user_permission)):?>
-                  <li id="addPositionNav"><a href="<?php echo base_url('position/create') ?>"><i class="fa fa-circle-o"></i><?php echo lang("Add Position") ?></a></li>
-                <?php endif; ?>
-                <?php if(in_array('updatePosition', $user_permission)|| in_array('viewPosition', $user_permission)|| in_array('deletePosition',$user_permission)): ?>
-                  <li id="managePositionNav"><a href="<?php echo base_url('position')?>"><i class="fa fa-circle-o"></i><?php echo $this->lang->line('List Position') ?></a> </li>
-                <?php endif; ?>
-              </ul>
-            </li>
+          <?php if(in_array('updatePosition', $user_permission)|| in_array('viewPosition', $user_permission)|| in_array('deletePosition',$user_permission)): ?>
+            <li id="managePositionNav"><a href="<?php echo base_url('position')?>"><i class="fa fa-circle-o"></i><?php echo $this->lang->line('List Position') ?></a> </li>
           <?php endif; ?>
           </ul>
         </li>

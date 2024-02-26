@@ -6,11 +6,11 @@
   <section class="content-header">
     <h1>
     <?php echo $this->lang->line('Manage')?>
-      <small><?php echo $this->lang->line('Department')?></small>
+      <small><?php echo $this->lang->line('Type Materials')?></small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
-      <li class="active"><?php echo $this->lang->line('Department')?></li>
+      <li class="active"><?php echo $this->lang->line('Type Materials')?></li>
     </ol>
   </section>
 
@@ -34,23 +34,23 @@
           </div>
         <?php endif; ?>
 
-        <?php if(in_array('createDepartment', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Department')?></button>
+        <?php if(in_array('createTmaterial', $user_permission)): ?>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Type Materials')?></button>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title"><?php echo $this->lang->line('Manage Department')?></h3>
+            <h3 class="box-title"><?php echo $this->lang->line('List Type Material')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th><?php echo $this->lang->line('Department Name')?></th>
+                <th><?php echo $this->lang->line('Name')?></th>
                 <th><?php echo $this->lang->line('Action')?></th>
-                <?php if(in_array('updateDepartment', $user_permission) || in_array('deleteDepartment', $user_permission)): ?>
+                <?php if(in_array('updateTmaterial', $user_permission) || in_array('deleteTmaterial', $user_permission)): ?>
                 <?php endif; ?>
               </tr>
               </thead>
@@ -71,23 +71,23 @@
 </div>
 <!-- /.content-wrapper -->
 
-<?php if(in_array('createDepartment', $user_permission)): ?>
+<?php if(in_array('createTmaterial', $user_permission)): ?>
 <!-- create brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Add Department')?></h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Type Materials')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('department/create') ?>" method="post" id="createForm">
+      <form role="form" action="<?php echo base_url('tmaterial/create') ?>" method="post" id="createForm">
 
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="department_name"><?php echo $this->lang->line('Department Name')?></label>
-            <input type="text" class="form-control" id="department_name" name="department_name" placeholder="<?php echo $this->lang->line('Enter Department')?>" autocomplete="off">
+            <label for="name"><?php echo $this->lang->line('Name')?></label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="<?php echo $this->lang->line('Enter Name ')?>" autocomplete="off">
           </div>
         </div>
 
@@ -102,24 +102,24 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-<?php if(in_array('updateDepartment', $user_permission)): ?>
+<?php if(in_array('updateTmaterial', $user_permission)): ?>
 <!-- edit brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Edit Department Name')?></h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Type Material')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('department/update') ?>" method="post" id="updateForm">
+      <form role="form" action="<?php echo base_url('tmaterial/update') ?>" method="post" id="updateForm">
 
         <div class="modal-body">
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_department_name"><?php echo $this->lang->line('Department Name')?> </label>
-            <input type="text" class="form-control" id="edit_department_name" name="edit_department_name" placeholder="<?php echo $this->lang->line('Enter Department Name ')?>" autocomplete="off">
+            <label for="edit_name"><?php echo $this->lang->line('Name')?> </label>
+            <input type="text" class="form-control" id="edit_name" name="edit_name" placeholder="<?php echo $this->lang->line('Enter Name ')?>" autocomplete="off">
           </div>
         </div>
 
@@ -134,17 +134,17 @@
 </div><!-- /.modal -->
 <?php endif; ?>
 
-<?php if(in_array('deleteDepartment', $user_permission)): ?>
+<?php if(in_array('deleteTmaterial', $user_permission)): ?>
 <!-- remove brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="removeModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $this->lang->line('Remove Department')?></h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Type Material Type')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('department/remove') ?>" method="post" id="removeForm">
+      <form role="form" action="<?php echo base_url('tmaterial/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
           <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
@@ -165,11 +165,11 @@
 var manageTable;
 
 $(document).ready(function() {
-  $("#departmentNav").addClass('active');
+  $("#tmaterialNav").addClass('active');
   
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
-    'ajax': 'fetchDepartmentData',
+    'ajax': 'fetchTmaterialData',
     'order': []
   });
 
@@ -236,12 +236,12 @@ $(document).ready(function() {
 function editFunc(id)
 { 
   $.ajax({
-    url: 'fetchDepartmentDataById/'+id,
+    url: 'fetchTmaterialDataById/'+id,
     type: 'post',
     dataType: 'json',
     success:function(response) {
 
-      $("#edit_department_name").val(response.name);
+      $("#edit_name").val(response.name);
     //   $("#edit_active").val(response.active);
 
       // submit the edit from 

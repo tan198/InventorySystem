@@ -37,7 +37,7 @@ class Model_reports extends CI_Model
 		if($year) {
 			$months = $this->months();
 			
-			$sql = "SELECT * FROM `orders` WHERE paid_status = ?";
+			$sql = "SELECT * FROM `taobangchi` WHERE paid_status = ?";
 			$query = $this->db->query($sql, array(1));
 			$result = $query->result_array();
 

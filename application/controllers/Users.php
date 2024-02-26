@@ -249,9 +249,12 @@ class Users extends Admin_Controller
 			        	$user_data = $this->model_users->getUserData($id);
 			        	$groups = $this->model_users->getUserGroup($id);
 						$department_data = $this->model_department->getDepartment();
+						$position_data = $this->model_position->getPostision();
 
 			        	$this->data['user_data'] = $user_data;
 			        	$this->data['user_group'] = $groups;
+						$this->data['department_data'] = $department_data;
+						$this->data['position_data'] = $position_data;
 
 			            $group_data = $this->model_groups->getGroupData();
 			        	$this->data['group_data'] = $group_data;
@@ -265,10 +268,12 @@ class Users extends Admin_Controller
 	            // false case
 	        	$user_data = $this->model_users->getUserData($id);
 	        	$groups = $this->model_users->getUserGroup($id);
-
+				$department_data = $this->model_department->getDepartment();
+				$position_data = $this->model_position->getPostision();
 	        	$this->data['user_data'] = $user_data;
 	        	$this->data['user_group'] = $groups;
-
+				$this->data['department_data'] = $department_data;
+				$this->data['position_data'] = $position_data;
 	            $group_data = $this->model_groups->getGroupData();
 	        	$this->data['group_data'] = $group_data;
 
@@ -346,20 +351,6 @@ class Users extends Admin_Controller
 		        		'gender' => $this->input->post('gender'),
 						'address'=> $this->input->post('address'),
 						'address1' => $this->input->post('address1'),
-						'dateobirth'=> $this->input->post('dobirth'),
-						'cardID' => $this->input->post('no.'),
-						'dateID' => $this->input->post('dateID'),
-						'placeID' => $this->input->post('placeID'),
-						'typecontract'=>$this->input->post('contract'),
-						'taxcode' => $this->input->post('tcode'),
-						'salary'=>$this->input->post('salary'),
-						'banka'=>$this->input->post('baccount'),
-						'bank'=>$this->input->post('bank'),
-						'datework'=>$this->input->post('workdate'),
-						'duration'=>$this->input->post('cterm'),
-						'id_department'=>$this->input->post('department'),
-						'id_position' => $this->input->post('position'),
-						'manager_id' => $this->input->post('imsupevisor'),
 		        	);
 
 		        	$update = $this->model_users->edit($data, $id);

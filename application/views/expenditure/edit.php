@@ -230,13 +230,13 @@
             deferRender: true,
             dataType: 'json',
             success:function(){
-              //var html = '<tr id="row_' + row_id +'">' +
-              //  '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" onchange="createMaterialData(1)"></td>'+
-              //  '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
-              //  '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
-              //  '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
-              //  '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
-              //  '</tr>';
+              var html = '<tr id="row_' + row_id +'">' +
+                '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" onchange="createMaterialData(1)"></td>'+
+                '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
+                '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
+                '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
+                '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
+                '</tr>';
               if(count_table_tbody_tr >=1){
                 $("#material_info_table tbody tr:last").after(html);
               }else{

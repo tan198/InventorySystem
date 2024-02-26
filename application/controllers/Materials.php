@@ -10,7 +10,7 @@ class Materials extends Admin_Controller
 
 		$this->not_logged_in();
 
-		$this->data['page_title'] = 'Vật Tư';
+		$this->data['page_title'] = 'Materials';
 
 		$this->load->model('model_materials');
 	}

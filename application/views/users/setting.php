@@ -44,27 +44,37 @@
 
                 <?php echo validation_errors(); ?>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="username"><?php echo $this->lang->line('Username')?></label>
                   <input type="text" class="form-control" id="username" name="username" placeholder="<?php echo $this->lang->line('Username')?>" value="<?php echo $user_data['username'] ?>" autocomplete="off">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="email"><?php echo $this->lang->line('Email')?></label>
                   <input type="email" class="form-control" id="email" name="email" placeholder="<?php echo $this->lang->line('Email')?>" value="<?php echo $user_data['email'] ?>" autocomplete="off">
                 </div>                
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="fname"><?php echo $this->lang->line('First name')?></label>
                   <input type="text" class="form-control" id="fname" name="fname" placeholder="<?php echo $this->lang->line('First name')?>" value="<?php echo $user_data['firstname'] ?>" autocomplete="off">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="lname"><?php echo $this->lang->line('Last name')?></label>
                   <input type="text" class="form-control" id="lname" name="lname" placeholder="<?php echo $this->lang->line('Last name')?>" value="<?php echo $user_data['lastname'] ?>" autocomplete="off">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
+                  <label for="address"><?php echo $this->lang->line('Address')?>1</label>
+                  <input type="text" class="form-control" id="address" name="address" placeholder="<?php echo $this->lang->line('Address') ?>" value="<?php echo $user_data['address'] ?>" autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="address1"><?php echo $this->lang->line('Address')?>2</label>
+                  <input type="text" class="form-control" id="address1" name="address1" placeholder="<?php echo $this->lang->line('Address') ?>" value="<?php echo $user_data['address1'] ?>" autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
                   <label for="phone"><?php echo $this->lang->line('Phone')?></label>
                   <input type="text" class="form-control" id="phone" name="phone" placeholder="<?php echo $this->lang->line('Phone')?>" value="<?php echo $user_data['phone'] ?>" autocomplete="off">
                 </div>

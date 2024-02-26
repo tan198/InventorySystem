@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Department extends Admin_Controller 
+class Tmaterial extends Admin_Controller 
 {
 	public function __construct()
 	{
@@ -10,9 +10,9 @@ class Department extends Admin_Controller
 
 		$this->not_logged_in();
 
-		$this->data['page_title'] = 'Department';
+		$this->data['page_title'] = 'Type Materials';
 
-		$this->load->model('model_department');
+		$this->load->model('model_tmaterial');
 	}
 
 	/* 
@@ -21,11 +21,11 @@ class Department extends Admin_Controller
 	public function index()
 	{
 
-		if(!in_array('viewDepartment', $this->permission)) {
+		if(!in_array('viewTmaterial', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
 
-		$this->render_template('department/index', $this->data);	
+		$this->render_template('tmaterial/index', $this->data);	
 	}	
 
 	/*
@@ -34,10 +34,10 @@ class Department extends Admin_Controller
 	* returns the data into json format. 
 	* This function is invoked from the view page.
 	*/
-	public function fetchDepartmentDataById($id) 
+	public function fetchTmaterialDataById($id) 
 	{
 		if($id) {
-			$data = $this->model_department->getDepartmentData($id);
+			$data = $this->model_tmaterial->getTmaterialData($id);
 			echo json_encode($data);
 		}
 
@@ -48,22 +48,22 @@ class Department extends Admin_Controller
 	* Fetches the category value from the category table 
 	* this function is called from the datatable ajax function
 	*/
-	public function fetchDepartmentData()
+	public function fetchTmaterialData()
 	{
 		$result = array('data' => array());
 
-		$data = $this->model_department->getDepartmentData();
+		$data = $this->model_tmaterial->getTmaterialData();
 
 		foreach ($data as $key => $value) {
 
 			// button
 			$buttons = '';
 
-			if(in_array('updateDepartment', $this->permission)) {
+			if(in_array('updateTmaterial', $this->permission)) {
 				$buttons .= '<button type="button" class="btn btn-default" onclick="editFunc('.$value['id'].')" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i></button>';
 			}
 
-			if(in_array('deleteDepartment', $this->permission)) {
+			if(in_array('deleteTmaterial', $this->permission)) {
 				$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['id'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
 			}
 				
@@ -87,31 +87,31 @@ class Department extends Admin_Controller
 	*/
 	public function create()
 	{
-		if(!in_array('createDepartment', $this->permission)) {
+		if(!in_array('createTmaterial', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
 
 		$response = array();
 
-		$this->form_validation->set_rules('department_name', 'Department name', 'trim|required');
+		$this->form_validation->set_rules('name', 'name', 'trim|required');
 		// $this->form_validation->set_rules('', 'Active', 'trim|required');
 
 		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 
         if ($this->form_validation->run() == TRUE) {
         	$data = array(
-        		'name' => $this->input->post('department_name'),
+        		'name' => $this->input->post('name'),
         		// 'active' => $this->input->post('active'),	
         	);
 
-        	$create = $this->model_department->create($data);
+        	$create = $this->model_tmaterial->create($data);
         	if($create == true) {
         		$response['success'] = true;
         		$response['messages'] = 'Succesfully created';
         	}
         	else {
         		$response['success'] = false;
-        		$response['messages'] = 'Error in the database while creating the department information';			
+        		$response['messages'] = 'Error in the database while creating the tmaterial information';			
         	}
         }
         else {
@@ -132,32 +132,32 @@ class Department extends Admin_Controller
 	public function update($id)
 	{
 
-		if(!in_array('updateDepartment', $this->permission)) {
+		if(!in_array('updateTmaterial', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
 
 		$response = array();
 
 		if($id) {
-			$this->form_validation->set_rules('edit_department_name', 'Edit department Name', 'trim|required');
+			$this->form_validation->set_rules('edit_name', 'Edit Name', 'trim|required');
 			// $this->form_validation->set_rules('edit_active', 'Active', 'trim|required');
 
 			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 
 	        if ($this->form_validation->run() == TRUE) {
 	        	$data = array(
-	        		'name' => $this->input->post('edit_department_name'),
+	        		'name' => $this->input->post('edit_name'),
 	        		// 'active' => $this->input->post('edit_active'),	
 	        	);
 
-	        	$update = $this->model_department->update($data, $id);
+	        	$update = $this->model_tmaterial->update($data, $id);
 	        	if($update == true) {
 	        		$response['success'] = true;
 	        		$response['messages'] = 'Succesfully updated';
 	        	}
 	        	else {
 	        		$response['success'] = false;
-	        		$response['messages'] = 'Error in the database while updated the department type information';			
+	        		$response['messages'] = 'Error in the database while updated the Type material type information';			
 	        	}
 	        }
 	        else {
@@ -175,9 +175,13 @@ class Department extends Admin_Controller
 		echo json_encode($response);
 	}
 
+	/*
+	* It removes the category information from the database 
+	* and returns the json format operation messages
+	*/
 	public function remove()
 	{
-		if(!in_array('deleteDepartment', $this->permission)) {
+		if(!in_array('deleteTmaterial', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
 		
@@ -185,14 +189,14 @@ class Department extends Admin_Controller
 
 		$response = array();
 		if($id) {
-			$delete = $this->model_department->remove($id);
+			$delete = $this->model_tmaterial->remove($id);
 			if($delete == true) {
 				$response['success'] = true;
 				$response['messages'] = "Successfully removed";	
 			}
 			else {
 				$response['success'] = false;
-				$response['messages'] = "Error in the database while removing the department information";
+				$response['messages'] = "Error in the database while removing the type material information";
 			}
 		}
 		else {

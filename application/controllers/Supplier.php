@@ -125,11 +125,11 @@
 
 				if($this->form_validation->run() == TRUE){
 					$data = array(
-						'name'=> $this->input->post('name'),
-						'taxcode' => $this->input->post('tcode'),
-						'address' => $this->input->post('address'),
-						'phone' => $this->input->post('phone'),
-						'note' => $this->input->post('note')
+						'name'=> $this->input->post('edit_name'),
+						'taxcode' => $this->input->post('edit_tcode'),
+						'address' => $this->input->post('edit_address'),
+						'phone' => $this->input->post('edit_phone'),
+						'note' => $this->input->post('edit_note')
 					);
 
 					$update = $this->model_supplier->update($id,$data);

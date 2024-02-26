@@ -21,7 +21,7 @@ class Model_expenditure extends CI_Model
     }
 
 	public function getTotalExpenditure() {
-		$sql = "SELECT taikhoan.idTaiKhoan, SUM(CAST(REPLACE(taobangchi.soTien, ',', '') AS float)) as total
+		$sql = "SELECT taikhoan.idTaiKhoan, SUM(CAST(REPLACE(taobangchi.tongTien, ',', '') AS float)) as total
 				FROM taikhoan
 				LEFT JOIN taobangchi ON taikhoan.idTaiKhoan = taobangchi.idTaiKhoan
 				GROUP BY taikhoan.idTaiKhoan";
@@ -142,85 +142,6 @@ class Model_expenditure extends CI_Model
                 $idBangChi = $row->idBangChi;
 
                 // Sửa lỗi so sánh biến với mảng
-                if(!in_array($idBangChi,$idBangChi_item)){
-                    $data1 = array();
-    
-                    $material_name = $this->input->post('material_name');
-                    $qty = $this->input->post('quantity');
-                    $rate = $this->input->post('rate');
-    
-                    for ($i = 0; $i < count($material_name); $i++) {
-                        $data1[] = array(
-                            'tenVatTu' => $material_name[$i],
-                            'soLuong' => $qty[$i],
-                            'giaTien' => $rate[$i]
-                        );
-                    }
-    
-                    // Thay đổi cách thêm dữ liệu vào cơ sở dữ liệu
-                    $add_mater = $this->db->insert_batch('vattu', $data1);
-                    $idVatTu = $this->db->insert_id();
-                    
-                    var_dump($add_mater);
-                    $materialitem_data = array();
-                    // Lặp qua dữ liệu của 'vattu' để tạo dữ liệu cho 'material_item'
-                    foreach ($data1 as $material) {
-                        $materialitem_data[] = array(
-                            'idBangChi' => $idBangChi,
-                            'idVatTu' => $idVatTu,
-                            'soLuong' => $material['soLuong'],
-                            'rate' => $material['giaTien'],
-                            'tongTien' => $material['soLuong'] * $material['giaTien'],
-                        );
-                        
-                    }
-    
-                    // Thay đổi cách thêm dữ liệu vào cơ sở dữ liệu
-                    $add_mater_item = $this->db->insert_batch('material_item', $materialitem_data);
-                    $this->db->where('idBangChi',$id);
-                    $update = $this->db->update('taobangchi',$data);
-
-                    return ($add_mater == true && $add_mater_item==true && $update == true)? true:false;
-                }
-                //elseif($common_value){
-                //    // Sửa lỗi so sánh biến với mảng và tối ưu hóa thêm dữ liệu
-                //    $idVatTu2 = 
-                //    $data1 = array();
-                    
-                //    $material_name = $this->input->post('material_name');
-                //    $qty = $this->input->post('quantity');
-                //    $rate = $this->input->post('rate');
-    
-                //    for ($i = 0; $i < count($material_name); $i++) {
-                //        $data1[] = array(
-                //            // Sửa lỗi truy cập biến không đúng cách
-                //            'tenVatTu' => $material_name[$i],
-                //            'soLuong' => $qty[$i],
-                //            'giaTien' => $rate[$i]
-                //        );
-                //    }
-                //    // Thay đổi cách thêm dữ liệu vào cơ sở dữ liệu
-                //    $add1 = $this->db->update_batch('vattu',$data1);
-                //    $idVatTu1 = $this->db->insert_id();
-                //    var_dump($add1);
-                //    $materialitem_data = array();
-                //    $material_id = 0;
-                //    // Lặp qua dữ liệu của 'vattu' để tạo dữ liệu cho 'material_item'
-                //    foreach ($data1 as $material) {
-                //        $materialitem_data[] = array(
-                //            'idBangChi' => $idBangChi,
-                //            'idVatTu' =>$idVatTu1,
-                //            'soLuong' => $material['soLuong'],
-                //            'rate' => $material['giaTien'],
-                //            'tongTien' => $material['soLuong'] * $material['giaTien'],
-                            
-                //        );
-                //        $idVatTu1++;
-                //    }
-                //    $add2 = $this->db->insert_batch('material_item', $materialitem_data);
-                //    return ($add1 == true && $add2 == true)? true : false;
-                //}
-                else{
                     $this->db->where('idBangChi', $id);
                     $existing_ids = $this->db->select('idVatTu')->get('material_item')->result_array();
     
@@ -262,7 +183,6 @@ class Model_expenditure extends CI_Model
                     $this->db->update('taobangchi', $data);
     
                     return true;
-                }
             }
             $this->db->where('idBangChi',$id);
             $update = $this->db->update('taobangchi',$data);

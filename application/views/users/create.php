@@ -54,12 +54,13 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label for="phone"><?php echo $this->lang->line('Phone')?></label>
-                  <input type="text" class="form-control" id="phone" name="phone" placeholder="<?php echo $this->lang->line('Phone')?>" autocomplete="off">
-                </div>
-                <div class="form-group col-md-6">
                   <label for="dobirth"><?php echo $this->lang->line('Date of birth')?></label>
                   <input type="date" class="form-control" id="dobirth" name="dobirth" placeholder="<?php echo $this->lang->line('Date of birth')?>" autocomplete="off">
+                </div>
+                
+                <div class="form-group col-md-6">
+                  <label for="phone"><?php echo $this->lang->line('Phone')?></label>
+                  <input type="text" class="form-control" id="phone" name="phone" placeholder="<?php echo $this->lang->line('Phone')?>" autocomplete="off">
                 </div>
 
                 <div class="form-group col-md-6" style="margin-bottom: 0;">
