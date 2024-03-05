@@ -59,7 +59,7 @@
       </div>
       <!-- /.row -->
     </section>
-    <!-- /.content -->
+    <!-- /.content -->   
   </div>
   <!-- /.content-wrapper -->
 

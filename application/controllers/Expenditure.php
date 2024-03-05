@@ -22,6 +22,7 @@ class Expenditure extends Admin_Controller
         $this->load->model('model_category');
 		$this->load->model('model_fund');
         $this->load->model('model_materials');
+        $this->load->model('model_tmaterial');
 	}
 
     /* 
@@ -51,6 +52,7 @@ class Expenditure extends Admin_Controller
             $date_expenditure = date('d/m/Y',  strtotime($value['ngayChi']));
             $category_data = $this -> model_category->getCategoryData($value['idHangMuc']);
             $fund_data = $this -> model_fund->getFundData($value['idTaiKhoan']);
+            $material_id = $this->model_expenditure->getMaterialItemData($value['idBangChi']);
 			// button
             $buttons = '';
             if(in_array('updateExpenditure', $this->permission)) {
@@ -61,7 +63,14 @@ class Expenditure extends Admin_Controller
     			$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idBangChi'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
             }
 
-            $material_status = ($value['materialStatus'] == "1") ? '<span class="label label-success">Yes</span>' : '<span class="label label-warning">No</span>';
+            if($material_id){
+                $material_status = '<span class="label label-success">Yes</span>';
+                $this->model_expenditure->updateMaterialStatus($value['idBangChi'],1);
+            }else{
+                $material_status = '<span class="label label-warning">No</span>';
+                $this->model_expenditure->updateMaterialStatus($value['idBangChi'],0);
+            }
+
             //$currency_unit = number_format((float)$value['soTienThu'],2,'.',','); 
 
 			$result['data'][$key] = array(
@@ -116,6 +125,7 @@ class Expenditure extends Admin_Controller
             $data1 = array();
 
             $material_name = $this->input->post('material_name');
+            $type_material = $this->input->post('type_material');
             $qty = $this->input->post('quantity');
             $rate = $this->input->post('rate');
             
@@ -123,6 +133,7 @@ class Expenditure extends Admin_Controller
             for ($i = 0; $i < count($material_name); $i++) {
                 $data1[] = array(
                     'tenVatTu' => $material_name[$i],
+                    'loaiVatTu' => $type_material[$i],
                     'soLuong' => $qty[$i],
                     'giaTien' => $rate[$i]
                 );
@@ -155,8 +166,8 @@ class Expenditure extends Admin_Controller
         
 			$this->data['category'] = $this->model_category->getCategoryData();
 			$this->data['fund'] = $this->model_fund->getFundData();  
-            //$this->data['materials'] = $this->model_materials->getMaterialsData();      	    	
-
+            $this->data['materials'] = $this->model_materials->getMaterialsData();
+            $this->data['tmaterial'] = $this->model_tmaterial->getTmaterialData();
             $this->render_template('expenditure/create', $this->data);
         }
 	}
@@ -324,7 +335,7 @@ class Expenditure extends Admin_Controller
             }
             else {
                 $response['success'] = false;
-                $response['messages'] = "Error in the database while removing the product information";
+                $response['messages'] = "Error in the database while removing the expenditure information";
             }
         }
         else {
@@ -336,7 +347,7 @@ class Expenditure extends Admin_Controller
 	}
 
 
-    public function reomveMaterial(){
+    public function removeMaterial(){
         $idBangChi = $this->input->post('idBangChi');
         if($idBangChi){
             $deleteRow = $this->model_expenditure->removeMaterial($idBangChi);

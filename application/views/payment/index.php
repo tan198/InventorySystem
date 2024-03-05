@@ -170,7 +170,11 @@ $(document).ready(function() {
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
     'ajax': 'fetchPaymentData',
-    'order': []
+    'order': [[1, 'asc']],
+    select: {
+        style: 'os',
+        selector: 'td:first-child'
+    }
   });
 
   // submit the create from 

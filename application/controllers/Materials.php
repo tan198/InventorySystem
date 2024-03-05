@@ -13,6 +13,7 @@ class Materials extends Admin_Controller
 		$this->data['page_title'] = 'Materials';
 
 		$this->load->model('model_materials');
+		$this->load->model('model_tmaterial');
 	}
 
 	/* 
@@ -24,7 +25,8 @@ class Materials extends Admin_Controller
 		if(!in_array('viewMaterials', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
-
+		$this->data['type_materials'] = $this->model_tmaterial->getTmaterialData();
+		$this->data['materials'] = $this->model_materials->getMaterialsData();
 		$this->render_template('materials/index', $this->data);	
 	}	
 
@@ -56,6 +58,7 @@ class Materials extends Admin_Controller
 
 		foreach ($data as $key => $value) {
 
+			$tmaterial_data =  $this->model_tmaterial->getTmaterialData($value['loaiVatTu']);
 			// button
 			$buttons = '';
 
@@ -70,6 +73,7 @@ class Materials extends Admin_Controller
 			$result['data'][$key] = array(
 				
 				$value['tenVatTu'],
+				$tmaterial_data['name'],
 				$value['soLuong'],
 				$value['giaTien'],
 				//$value['tongTien'],
@@ -81,11 +85,10 @@ class Materials extends Admin_Controller
 		echo json_encode($result);
 	}
 
-	/*
-	* Its checks the category form validation 
-	* and if the validation is successfully then it inserts the data into the database 
-	* and returns the json format operation messages
-	*/
+	public function getTypeMaterial(){
+		$tmaterial =  $this->model_tmaterial->getTmaterialData();
+		echo json_encode($tmaterial);
+	}
 	public function create()
 	{
 		if(!in_array('createMaterials', $this->permission)) {
@@ -95,6 +98,7 @@ class Materials extends Admin_Controller
 		$response = array();
 
 		$this->form_validation->set_rules('materials_name', 'Materials name', 'trim|required');
+		$this->form_validation->set_rules('type_material', 'Type Material', 'trim|required');
 		$this->form_validation->set_rules('quantity', 'Quantity', 'trim|required');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required');
 
@@ -103,6 +107,7 @@ class Materials extends Admin_Controller
         if ($this->form_validation->run() == TRUE) {
         	$data = array(
         		'tenVatTu' => $this->input->post('materials_name'),
+				'loaiVatTu' => $this->input->post('type_material'),
 				'soLuong' => $this->input->post('quantity'),
 				'giaTien' => $this->input->post('amount'),	
         	);
@@ -124,7 +129,9 @@ class Materials extends Admin_Controller
         	}
         }
 
-        echo json_encode($response);
+        //$data['type_materials'] = $this->model_tmaterial->getTmaterialData();
+
+		echo  json_encode($response);
 	}
 
 	/*
@@ -143,6 +150,7 @@ class Materials extends Admin_Controller
 
 		if($id) {
 			$this->form_validation->set_rules('edit_materials_name', 'Edit material name', 'trim|required');
+			$this->form_validation->set_rules('edit_type_material', 'Type Material', 'trim|required');
 			$this->form_validation->set_rules('edit_quantity', 'Edit Quantity', 'trim|required');
 			$this->form_validation->set_rules('edit_amount', 'Edit amount', 'trim|required');
 			
@@ -152,6 +160,7 @@ class Materials extends Admin_Controller
 	        if ($this->form_validation->run() == TRUE) {
 	        	$data = array(
 	        		'tenVatTu' => $this->input->post('edit_materials_name'),
+					'loaiVatTu'=>$this->input->post('edit_type_material'),
 	        		'soLuong' => $this->input->post('edit_quantity'),
 					'giaTien' => $this->input->post('edit_amount'),
 	        	);

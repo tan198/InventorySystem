@@ -86,7 +86,7 @@
 				$material_data = $this->model_materials->getMaterialsData($this->input->post('material')[$x]);
 				$qty = (int) $material_data['soLuong'] - (int) $this->input->post('quantity')[$x];
 				$update = array('soLuong'=> $qty);
-				$this->model_materials->update($update,$this->input->post('material')[$x]);
+				$this->model_materials->update($this->input->post('material')[$x],$update);
 			}
 
 			return ($idBangThu) ? $idBangThu : false;
@@ -119,10 +119,11 @@
 					$material_id = $value['idVatTu'];
 					$qty_materials = $value['soLuong'];
 					$material_data = $this->model_materials->getMaterialsData($material_id);
-					$update_qty_materials = (int) $qty_materials + (int)$material_data['soLuong'];
-					$update_material_data = array('soLuong' => $update_qty_materials);
 
-					$this->model_materials->update($material_id, $update_material_data);
+						$update_qty_materials = (int) $qty_materials + (int)$material_data['soLuong'];
+						$update_material_data = array('soLuong' => $update_qty_materials);
+	
+						$this->model_materials->update($material_id, $update_material_data);
 				}
 
 				$this->db->where('idBangThu', $id);
@@ -157,6 +158,32 @@
 				$this->db->where('idBangThu', $id);
 				$delete_item = $this->db->delete('materialic_item');
 				return ($delete == true && $delete_item) ? true : false;
+			}
+		}
+
+		public function updateMaterialStatus($id,$material_status){
+			if($id){
+				$this->db->where('idBangThu',$id);
+				$this->db->set('materialStatus', $material_status);
+				$updates = $this->db->update( 'taobangthu');
+				return ($updates == true) ? true : false;
+			}
+		}
+
+		public function removeMaterial($id){
+			$this->db->select('id');
+			$this->db->where('idBangThu', $id);
+			$query = $this->db->get('materialic_item');
+	
+			if ($query->num_rows() > 0) {
+				foreach ($query->result() as $row) {
+					$idVatTu = $row->idVatTu;
+	
+					// Xoá từ bảng material_item
+					$this->db->where('idBangChi', $id);
+					$this->db->where('idVatTu', $idVatTu);
+					$this->db->delete('materialic_item');
+				}
 			}
 		}
 	}

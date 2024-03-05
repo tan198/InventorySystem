@@ -216,13 +216,13 @@
             table = $("#material_info_table");
             count_table_tbody_tr = $("#material_info_table tbody tr").length;
             row_id =count_table_tbody_tr + 1;
-            html = '<tr id="row_' + row_id +'">' +
-                '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" onchange="createMaterialData(1)"></td>'+
-                '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
-                '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
-                '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
-                '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
-                '</tr>';
+            //html = '<tr id="row_' + row_id +'">' +
+            //    '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" onchange="createMaterialData(1)"></td>'+
+            //    '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
+            //    '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
+            //    '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
+            //    '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
+            //    '</tr>';
 
             $.ajax({
             url: base_url + '/expenditure/getTableMaterialRow/',
@@ -409,11 +409,20 @@ function formatCurrency(input, blur) {
 
   function removeRow(tr_id)
   {
-    $("#material_info_table tbody tr#row_"+tr_id).remove();
-    subAmount();
-    //if( $("#material_info_table tbody tr#row_"+tr_id).remove()){
-      
-    //}
+    var base_url = "<?php echo base_url(); ?>";
+    var material_id = $('#material_name'+tr_id).val();
+    $.ajax({
+      type: "post",
+      url: base_url + "expenditure/removeMaterial/",
+      data: {idBangChi:tr_id},
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        $("#material_info_table tbody tr#row_"+tr_id).remove();
+        subAmount();
+      }
+    });
+
   }
 
   //function deleteRow(id){}

@@ -172,7 +172,7 @@ class Model_expenditure extends CI_Model
                             'idVatTu' => $materials['idVatTu'],
                             'soLuong' => $materials['soLuong'],
                             'rate' => $materials['giaTien'],
-                            'tongTien' => $materials['soLuong'] * $materials['giaTien'],
+                            'tongTien' =>(int) $materials['soLuong'] * (int) $materials['giaTien'],
                         );
                     }
                     // Update 'material_item' table
@@ -195,6 +195,15 @@ class Model_expenditure extends CI_Model
         $this->db->where('idBangChi',$id);
         $update = $this->db->update('taobangchi',$data);
         return ($update == true) ? true : false;
+    }
+
+    public function updateMaterialStatus($id,$material_status){
+        if($id){
+            $this->db->where('idBangThu',$id);
+            $this->db->set('materialStatus', $material_status);
+            $updates = $this->db->update( 'taobangthu');
+            return ($updates == true) ? true : false;
+        }
     }
 
 
@@ -229,23 +238,37 @@ class Model_expenditure extends CI_Model
 
     public function removeMaterial($id)
     {
+        $response = array('success' => false, 'message' => '');
+    
         $this->db->select('idVatTu');
         $this->db->where('idBangChi', $id);
         $query = $this->db->get('material_item');
-
+    
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
                 $idVatTu = $row->idVatTu;
-
+    
                 // Xoá từ bảng material_item
                 $this->db->where('idBangChi', $id);
-                $this->db->where('idVatTu', $idVatTu);
-                $this->db->delete('material_item');
-
+                if (!$this->db->delete('material_item')) {
+                    $response['message'] .= 'Failed to delete material items. ';
+                }
+    
                 // Xoá từ bảng vattu
                 $this->db->where('idVatTu', $idVatTu);
-                $this->db->delete('vattu');
+                if (!$this->db->delete('vattu')) {
+                    $response['message'] .= 'Failed to delete materials. ';
+                }
             }
         }
+    
+        if (empty($response['message'])) {
+            $response['success'] = true;
+        } else {
+            $response['message'] = rtrim($response['message']);
+        }
+    
+        return $response;
     }
+    
 }

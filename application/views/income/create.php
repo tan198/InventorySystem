@@ -91,8 +91,9 @@
                   <thead>
                     <tr>
                       <th width="25%"><?php echo $this->lang->line('Material Name')?><span class="text-danger"> *</span></th>
-                      <th width="25%"><?php echo $this->lang->line('Quantity')?><span class="text-danger"> *</span></th>
-                      <th width="25%"><?php echo $this->lang->line('Rate')?></th>
+                      <th width="15%"><?php echo $this->lang->line('Type Materials')?></th>
+                      <th width="20%"><?php echo $this->lang->line('Quantity')?><span class="text-danger"> *</span></th>
+                      <th width="20%"><?php echo $this->lang->line('Rate')?></th>
                       <th width="20%"><?php echo $this->lang->line('Amount')?></th>
                       <th style="width:10%"><button type="button" id="add_row1" class="btn btn-default"><i class="fa fa-plus"></i></button></th>
                   </thead>
@@ -106,6 +107,12 @@
                             <?php endforeach ?>
                         </select>
                       </td>
+
+                      <td>
+                        <input type="text" name="type_material[]" id="type_material_1" class="form-control" disabled autocomplete="off">
+                        <input type="hidden" name="type_material[]" id="type_material_1" class="form-control" autocomplete="off">
+                      </td>
+
                       <td>
                         <input type="text" name="quantity[]" id="quantity_1" onkeyup="getTotal('1')" class="form-control">
                       </td>
@@ -214,6 +221,7 @@
                 
                 html += '</select>'+
               '</td>'+
+              '<td><input type="text" name="type_material[]" id="type_material_'+row_id+'" class="form-control" disabled><input type="hidden" name="type_material_value[]" id="type_material_value_'+row_id+'" class="form-control"></td>'+
               '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"onkeyup="getTotal('+row_id+')"></td>'+
               '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" disabled><input type="hidden" name="rate_value[]" id="rate_value_'+row_id+'" class="form-control"></td>'+
               '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value[]" id="amount_value_'+row_id+'" class="form-control"></td>'+
@@ -250,6 +258,7 @@
     if(material_id ==""){
       $("#rate_" + row_id).val("");
       $("#rate_value_" + row_id).val("");
+      $("#type_material_" + row_id).val("");
       $("quantity_" + row_id).val("");
       $("#amount_" + row_id).val("");
       $("#amount_value_" + row_id).val("");
@@ -269,8 +278,14 @@
           total=total.toFixed(2);
           $("#amount_" + row_id).val(total);
           $("#amount_value_" + row_id).val(total);
-
-          
+          var name = " ";
+          <?php foreach($tmaterial as $k => $v): ?>
+            if(response.loaiVatTu == <?php echo $v['id']; ?>){
+              name = "<?php echo $v['name'];?>"
+            }
+          <?php endforeach; ?>
+          $("#type_material_" + row_id).val(name);
+          $("#type_material_value_" + row_id).val(name);
           subAmount();
         }
       });

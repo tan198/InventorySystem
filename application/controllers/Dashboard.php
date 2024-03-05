@@ -25,6 +25,7 @@ class Dashboard extends Admin_Controller
 
 		$user_id = $this->session->userdata('id');
 		$is_admin = ($user_id == 1) ? true :false;
+		$email = $this->session->userdata('email');
 
 		$this->data['is_admin'] = $is_admin;
 		$this->render_template('dashboard', $this->data);

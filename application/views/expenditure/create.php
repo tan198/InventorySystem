@@ -91,8 +91,9 @@
                     <thead>
                       <tr>
                         <th width="25%"><?php echo $this->lang->line('Material Name')?><span class="text-danger"> *</span></th>
-                        <th width="25%"><?php echo $this->lang->line('Quantity')?><span class="text-danger"> *</span></th>
-                        <th width="25%"><?php echo $this->lang->line('Rate')?><span class="text-danger"> *</span></th>
+                        <th width="15%"><?php echo $this->lang->line('Type Materials')?><span class="text-danger"> *</span></th>
+                        <th width="20%"><?php echo $this->lang->line('Quantity')?><span class="text-danger"> *</span></th>
+                        <th width="20%"><?php echo $this->lang->line('Rate')?><span class="text-danger"> *</span></th>
                         <th width="20%"><?php echo $this->lang->line('Amount')?></th>
                         <th style="width:10%"><button type="button" id="add_row1" class="btn btn-default" ><i class="fa fa-plus"></i></button></th>
                     </thead>
@@ -102,11 +103,18 @@
                         <input type="text" name="material_name[]" id="material_name_1" onchange="createMaterialData(1)" class="form-control" >
                         </td>
                         <td>
+                          <select name="type_material[]" id="type_material[]" class="form-control select_group" style="width:100%;">
+                            <?php foreach ($tmaterial as $k  => $v) :?>
+                              <option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>
+                            <?php endforeach ?>
+                          </select>
+                        </td>
+                        <td>
                           <input type="text" name="quantity[]" id="quantity_1"  class="form-control">
                         </td>
                         <td>
                           <input type="text" name="rate[]" id="rate_1" class="form-control"  onkeyup="getTotal(1)"  autocomplete="off">
-                          <!--<input type="hidden" name="rate_value[]" id="rate_value_1" class="form-control" autocomplete="off">-->
+                          <input type="hidden" name="rate_value[]" id="rate_value_1" class="form-control" autocomplete="off">
                         </td>
                         <td>
                           <input type="text" name="amount" id ="amount_1" class="form-control" disabled autocomplete ="off">
@@ -151,7 +159,6 @@
         <!-- col-md-12 -->
       </div>
       <!-- /.row -->
-      
 
     </section>
     <!-- /.content -->
@@ -194,14 +201,17 @@
             var count_table_tbody_tr = $("#material_info_table tbody tr").length;
             var row_id =count_table_tbody_tr + 1;
 
-            $.ajax({
-            url: base_url + '/expenditure/getTableMaterialRow/',
-            type: 'post',
-            deferRender: true,
-            dataType: 'json',
-            success:function(){
-              var html = '<tr id="row_' + row_id +'">' +
-                '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" onchange="createMaterialData(1)"></td>'+
+            var html = '<tr id="row_' + row_id +'">' +
+                '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" ></td>'+
+                '<td>'+
+                '<select class="form-control select_group type_material" data-row-id="'+row_id+'" id = "type_material_'+row_id+'"name="type_material[]" style="width:100%">'+
+                  '<option value=""></option>';
+                  <?php foreach ($tmaterial as $k => $v): ?> 
+                    html += '<option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>'
+                    <?php endforeach?>;
+                
+                html += '</select>'+
+              '</td>'+
                 '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
                 '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
                 '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
@@ -212,8 +222,6 @@
               }else{
                 $("#material_info_table tbody").html(html);
               }
-            }
-            });
             return false;
         });
     });

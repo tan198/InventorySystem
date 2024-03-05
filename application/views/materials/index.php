@@ -49,6 +49,7 @@
               <thead>
               <tr>
                 <th><?php echo $this->lang->line('Materials Name')?></th>
+                <th><?php echo $this->lang->line('Type Materials')?></th>
 				        <th><?php echo $this->lang->line('Quantity')?></th>
 				        <th><?php echo $this->lang->line('Price')?></th>
                 <th><?php echo $this->lang->line('Action')?></th>
@@ -90,6 +91,15 @@
           <div class="form-group">
             <label for="materials_name"><?php echo $this->lang->line('Materials Name')?></label>
             <input type="text" class="form-control" id="materials_name" name="materials_name" placeholder="<?php echo $this->lang->line('Enter Materials Name')?>" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="type_material"><?php echo $this->lang->line('Type Materials') ?></label>
+            <select name="type_material" id="type_material" class="form-control select_group">
+              <?php foreach ($type_materials as $k => $v): ?>
+                  <option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>
+              <?php endforeach ?>
+            </select>
           </div>
         
 
@@ -136,8 +146,16 @@
             <input type="text" class="form-control" id="edit_materials_name" name="edit_materials_name" placeholder="<?php echo $this->lang->line('Enter Materials Name')?>" autocomplete="off">
           </div>
 
+          <div class="form-group">
+            <label for="edit_type_material"><?php echo $this->lang->line('Type Materials') ?></label>
+            <select name="edit_type_material" id="edit_type_material" class="form-control select_group">
+              <?php foreach ($type_materials as $k => $v): ?>
+                  <option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>
+              <?php endforeach ?>
+            </select>
+          </div>
 		  
-		  <div class="form-group">
+		      <div class="form-group">
             <label for="edit_quantity"><?php echo $this->lang->line('Quantity')?></label>
             <input type="text" class="form-control" id="edit_quantity" name="edit_quantity" placeholder="<?php echo $this->lang->line('Enter Quantity')?>" autocomplete="off">
           </div>
@@ -194,6 +212,7 @@
 var manageTable;
 
 $(document).ready(function() {
+  var base_url = "<?php echo base_url(); ?>";
   $("#materialsNav").addClass('active');
   $("#quantity, #amount").on("input", function() {
     toTal();
@@ -300,6 +319,7 @@ function editFunc(id)
     dataType: 'json',
     success:function(response) {
       $("#edit_materials_name").val(response.tenVatTu);
+      $("#edit_type_material").val(response.loaiVatTu);
 	  $("#edit_quantity").val(response.soLuong);
 	  $("#edit_amount").val(response.giaTien);
 	  $("#edit_total").val(response.tongTien);
@@ -376,7 +396,7 @@ function removeFunc(id)
       $.ajax({
         url: form.attr('action'),
         type: form.attr('method'),
-        data: { idVatTuChi:id }, 
+        data: { idVatTu:id }, 
         dataType: 'json',
         success:function(response) {
 

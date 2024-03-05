@@ -110,7 +110,7 @@ class Users extends Admin_Controller
         else {
             // false case
         	$group_data = $this->model_groups->getGroupData();
-			$department_data = $this->model_department->getDepartment();
+			$department_data = $this->model_department->getDepartmentData();
 			$position_data = $this->model_position->getPostision();
 			$user_data = $this->model_users->getUserData();
 
@@ -248,7 +248,7 @@ class Users extends Admin_Controller
 			            // false case
 			        	$user_data = $this->model_users->getUserData($id);
 			        	$groups = $this->model_users->getUserGroup($id);
-						$department_data = $this->model_department->getDepartment();
+						$department_data = $this->model_department->getDepartmentData();
 						$position_data = $this->model_position->getPostision();
 
 			        	$this->data['user_data'] = $user_data;
@@ -268,7 +268,7 @@ class Users extends Admin_Controller
 	            // false case
 	        	$user_data = $this->model_users->getUserData($id);
 	        	$groups = $this->model_users->getUserGroup($id);
-				$department_data = $this->model_department->getDepartment();
+				$department_data = $this->model_department->getDepartmentData();
 				$position_data = $this->model_position->getPostision();
 	        	$this->data['user_data'] = $user_data;
 	        	$this->data['user_group'] = $groups;

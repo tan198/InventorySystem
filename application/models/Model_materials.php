@@ -6,7 +6,7 @@
 
 		public function getMaterialsData($id = null){
 			if($id){
-				$sql = "SELECT * FROM `vattu` WHERE idVatTu=?";
+				$sql = "SELECT * FROM `vattu` WHERE idVatTu = ?";
 				$query = $this->db->query($sql,array($id));
 				return $query->row_array();
 			}
@@ -44,7 +44,11 @@
 		if($id) {
 			$this->db->where('idVatTu', $id);
 			$delete = $this->db->delete('vattu');
-			return ($delete == true) ? true : false;
+			$this->db->where('idVatTu', $id);
+			$delete_item = $this->db->delete('material_item');
+			$this->db->where('idVatTu', $id);
+			$delete_ic = $this->db->delete('materialic_item');
+			return ($delete == true && $delete_item) ? true : false;
 		}
 	}
 	}

@@ -23,6 +23,7 @@ class Income extends Admin_Controller
         $this->load->model('model_category');
 		$this->load->model('model_fund');
         $this->load->model('model_materials');
+        $this->load->model('model_tmaterial');
         $this->load->library('form_validation');
 	}
 
@@ -52,6 +53,7 @@ class Income extends Admin_Controller
             $date_income = date('d/m/Y',  strtotime($value['ngayThu']));
             $incomecategory_data = $this -> model_category->getCategoryData($value['idHangMuc']);
             $fund_data = $this -> model_fund->getFundData($value['idTaiKhoan']);
+            $material_id = $this->model_income->getMaterialItemData($value['idBangThu']);
             //$material = $this->model_expenditure1->getMaterialItemData($value['idVatTu']);
 			// button
             $buttons = '';
@@ -63,7 +65,13 @@ class Income extends Admin_Controller
     			$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idBangThu'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
             }
 
-            $material_status = ($value['materialStatus'] == "1") ? '<span class="label label-success">Yes</span>' : '<span class="label label-warning">No</span>';
+            if($material_id){
+                $material_status = '<span class="label label-success">Yes</span>';
+                $this->model_income->updateMaterialStatus($value['idBangThu'],1);
+            }else{
+                $material_status = '<span class="label label-warning">No</span>';
+                $this->model_income->updateMaterialStatus($value['idBangThu'],0);
+            }
             //$currency_unit = number_format((float)$value['soTienThu'],2,'.',','); 
 
 			$result['data'][$key] = array(
@@ -153,7 +161,8 @@ class Income extends Admin_Controller
         
 			$this->data['incomecategory'] = $this->model_category->getCategoryData();
 			$this->data['fund'] = $this->model_fund->getFundData();  
-            $this->data['materials'] = $this->model_materials->getMaterialsData();      	    	
+            $this->data['materials'] = $this->model_materials->getMaterialsData();
+            $this->data['tmaterial'] = $this->model_tmaterial->getTmaterialData();     	    	
 
             $this->render_template('income/create', $this->data);
         }	
@@ -200,10 +209,6 @@ class Income extends Admin_Controller
         $materials = $this->model_materials->getMaterialsData();
         echo json_encode($materials);
     }
-    /*
-    * This function is invoked from another function to upload the image into the assets folder
-    * and returns the image path
-    */
 	
     /*
     * If the validation is not valid, then it redirects to the edit product page 
@@ -230,7 +235,7 @@ class Income extends Admin_Controller
 		$this->form_validation->set_rules('tamount', 'Amount', 'trim|required');
         $this->form_validation->set_rules('amountt', 'Amountt','trim');
         $this->form_validation->set_rules('material[]', 'Material Name', 'trim|callback_material_require');
-        $this->form_validation->set_rules('quantity[]', 'Quantity', 'trim|callback_quantity_require');
+        $this->form_validation->set_rules('quantity[]', 'Quantity', 'trim');
 
         if ($this->form_validation->run() == TRUE) {
             // true case
@@ -266,10 +271,11 @@ class Income extends Admin_Controller
             foreach($materials_item as $k => $v){
                 $result['materialic_item'][] = $v;
             }
-
+            
             $this->data['income_data'] = $result;
             $this->data['material'] = $this->model_materials->getMaterialsData();
             $this->data['incomecategory'] = $this->model_category->getCategoryData();
+            $this->data['tmaterial'] = $this->model_tmaterial->getTmaterialData();
 			$this->data['fund'] = $this->model_fund->getFundData(); 
             $this->render_template('income/edit', $this->data); 
         }   
@@ -296,7 +302,7 @@ class Income extends Admin_Controller
             }
             else {
                 $response['success'] = false;
-                $response['messages'] = "Error in the database while removing the product information";
+                $response['messages'] = "Error in the database while removing the expenditure information";
             }
         }
         else {
