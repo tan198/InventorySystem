@@ -103,7 +103,7 @@
                         <input type="text" name="material_name[]" id="material_name_1" onchange="createMaterialData(1)" class="form-control" >
                         </td>
                         <td>
-                          <select name="type_material[]" id="type_material[]" class="form-control select_group" style="width:100%;">
+                          <select name="type_material[]" id="type_material_1" class="form-control select_group" style="width:100%;">
                             <?php foreach ($tmaterial as $k  => $v) :?>
                               <option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>
                             <?php endforeach ?>
@@ -114,7 +114,6 @@
                         </td>
                         <td>
                           <input type="text" name="rate[]" id="rate_1" class="form-control"  onkeyup="getTotal(1)"  autocomplete="off">
-                          <input type="hidden" name="rate_value[]" id="rate_value_1" class="form-control" autocomplete="off">
                         </td>
                         <td>
                           <input type="text" name="amount" id ="amount_1" class="form-control" disabled autocomplete ="off">
@@ -238,28 +237,28 @@
       }
     }
 
-    function createMaterialData(row_id){
-      var materialName = $('#material_name_'+row_id).val();
-        qty = $('#quantity_'+ row_id).val();
-        rate =$('#rate_'+ row_id).val();
+    //function createMaterialData(row_id){
+    //  var materialName = $('#material_name_'+row_id).val();
+    //    qty = $('#quantity_'+ row_id).val();
+    //    rate =$('#rate_'+ row_id).val();
         
-        $.ajax({
-          url:base_url + 'expenditure/createMaterialNewValue',
-          type: 'post',
-          //data:{idVatTuChi:material_id},
-          dataType:'json',
-          success:function(response){
-            for (var key in response) {
-                  if (response.hasOwnProperty(key)) {
-                      $("#" + key + "_" + row_id).val(response[key]);
-                  }
-              }
+    //    $.ajax({
+    //      url:base_url + 'expenditure/createMaterialNewValue',
+    //      type: 'post',
+    //      //data:{idVatTuChi:material_id},
+    //      dataType:'json',
+    //      success:function(response){
+    //        for (var key in response) {
+    //              if (response.hasOwnProperty(key)) {
+    //                  $("#" + key + "_" + row_id).val(response[key]);
+    //              }
+    //          }
 
-            getTotal(row_id);
-            subAmount();
-          }
-        });
-    }
+    //        getTotal(row_id);
+    //        subAmount();
+    //      }
+    //    });
+    //}
 
     function subAmount(){
       var tableMaterialLength = $("#material_info_table tbody tr").length;

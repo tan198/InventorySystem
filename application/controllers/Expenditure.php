@@ -274,6 +274,7 @@ class Expenditure extends Admin_Controller
 
             if($data['materialStatus'] == 1){
                 $update = $this->model_expenditure->update($id, $data);
+                var_dump($update);
                 //$create1 = $this->model_expenditure->newRowUpdate($id);
                 if($update == true) {
                     $this->session->set_flashdata('success', 'Successfully updated');
@@ -309,7 +310,8 @@ class Expenditure extends Admin_Controller
             $this->data['expenditure_data'] = $result;
             $this->data['material'] = $this->model_materials->getMaterialsData();
             $this->data['category'] = $this->model_category->getCategoryData();
-			$this->data['fund'] = $this->model_fund->getFundData(); 
+			$this->data['fund'] = $this->model_fund->getFundData();
+            $this->data['tmaterial'] = $this->model_tmaterial->getTmaterialData();
             $this->render_template('expenditure/edit', $this->data); 
         }   
 	}

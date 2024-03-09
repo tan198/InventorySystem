@@ -96,7 +96,6 @@
 			if($data) {
 				$insert = $this->db->insert('taobangthu', $data);
 				return ($insert == true) ? true : false;
-				
 			}
 		}
 
@@ -128,24 +127,41 @@
 
 				$this->db->where('idBangThu', $id);
 				$this->db->delete('materialic_item');
-
-				$count_material = count($this->input->post('material'));
-				for($x = 0; $x < $count_material;$x++){
-					$items = array(
-						'idBangThu' => $id,
-						'idVatTu' => $this->input->post('material')[$x],
-						'soLuong' => $this->input->post('quantity')[$x],
-						'giaTien' => $this->input->post('rate_value')[$x],
-						'tongTien' => $this->input->post('amount_value')[$x],
-					);
-					$this->db->insert('materialic_item',$items);
-
-					$material_data = $this->model_materials->getMaterialsData($this->input->post('material')[$x]);
-					$qty_materials_remain = (int) $material_data['soLuong'] - (int)$this->input->post('quantity')[$x];
-					$update_material =array('soLuong'=>$qty_materials_remain);
-					$this->model_materials->update($this->input->post('material')[$x],$update_material);
+				
+				$material = $this->input->post('material');
+				$quantity = $this->input->post('quantity');
+				$rate_value = $this->input->post('rate_value');
+				$amount_value = $this->input->post('amount_value');
+				
+				// Kiểm tra xem mảng có tồn tại và là mảng hợp lệ không trước khi sử dụng count()
+				if ($material !== null && $quantity !== null && $rate_value !== null && $amount_value !== null 
+					&& is_array($material) && is_array($quantity) && is_array($rate_value) && is_array($amount_value)) {
+					
+					$count_material = count($material);
+					
+					for ($x = 0; $x < $count_material; $x++) {
+						// Kiểm tra xem phần tử tại vị trí $x của mỗi mảng có tồn tại không trước khi truy cập
+						if (isset($material[$x]) && isset($quantity[$x]) && isset($rate_value[$x]) && isset($amount_value[$x])) {
+							$items = array(
+								'idBangThu' => $id,
+								'idVatTu' => $material[$x],
+								'soLuong' => $quantity[$x],
+								'giaTien' => $rate_value[$x],
+								'tongTien' => $amount_value[$x],
+							);
+							$this->db->insert('materialic_item',$items);
+				
+							$material_data = $this->model_materials->getMaterialsData($material[$x]);
+							$qty_materials_remain = (int) $material_data['soLuong'] - (int)$quantity[$x];
+							$update_material = array('soLuong' => $qty_materials_remain);
+							$this->model_materials->update($material[$x], $update_material);
+						} else {
+							// Bỏ qua vòng lặp này hoặc thực hiện xử lý khác tùy thuộc vào yêu cầu của bạn
+							continue;
+						}
+					}
+					return true;
 				}
-				return true;
 			}
 		}
 		

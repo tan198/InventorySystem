@@ -120,8 +120,8 @@
                           <?php foreach ($material as $k => $v): ?>
                             <?php foreach ($tmaterial as $k1 => $v1): ?>
                               <?php if ($val['idVatTu'] == $v['idVatTu'] && $v['loaiVatTu'] == $v1['id']): ?>
-                                <input type="text" name="type_material_<?php echo $x; ?>" id="type_material_<?php echo $x; ?>" class="form-control" value="<?php echo $v1['name']; ?>" disabled autocomplete="off">
-                                <input type="hidden" name="type_material_id_<?php echo $x; ?>" id="type_material_id_<?php echo $x; ?>"  class="form-control" value="<?php echo $v1['name']; ?>" autocomplete="off">
+                                <input type="text" name="type_material_<?php echo $x; ?>" id="type_material_<?php echo $x; ?>" class="form-control" value="<?php echo $v1['name']; ?>" onchange="getMaterialData(1)" disabled autocomplete="off">
+                                <input type="hidden" name="type_material_id_<?php echo $x; ?>" id="type_material_id_<?php echo $x; ?>"  class="form-control" value="<?php echo $v1['name']; ?>" onchange="getMaterialData(1)" autocomplete="off">
                               <?php endif; ?>
                             <?php endforeach; ?>
                           <?php endforeach; ?>
@@ -241,8 +241,8 @@
                 
                 html += '</select>'+
               '</td>'+
-              '<td><input type="text" name="type_material[]" id="type_material_'+row_id+'" class="form-control" disabled><input type="hidden" name="type_material_value[]" id="type_material_value_'+row_id+'" class="form-control"></td>'+
-              '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"onkeyup="getTotal('+row_id+')"></td>'+
+              '<td><input type="text" name="type_material[]" id="type_material_'+row_id+'" class="form-control" disabled onchange="getMaterialData('+row_id+')"><input type="hidden" name="type_material_value[]" id="type_material_value_'+row_id+'" class="form-control"></td>'+
+              '<td><input type="text" name="quantity[]" id="quantity_' + row_id +'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
               '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" disabled><input type="hidden" name="rate_value[]" id="rate_value_'+row_id+'" class="form-control"></td>'+
               '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value[]" id="amount_value_'+row_id+'" class="form-control"></td>'+
               '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
@@ -376,7 +376,7 @@ function formatCurrency(input, blur) {
           $("#rate_" + row_id).val(response.giaTien);
           $("#rate_value_" + row_id).val(response.giaTien);
           $("quantity_" + row_id).val(1);
-          $("quantity_value_" + row_id).val(1);
+          //$("quantity_value_" + row_id).val(1);
 
           var total =Number(response.giaTien) * 1;
           total=total.toFixed(2);

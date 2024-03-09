@@ -32,7 +32,7 @@
 
 	public function update($id, $data)
 	{
-		if($data && $id) {
+		if($id && $data) {
 			$this->db->where('idVatTu', $id);
 			$update = $this->db->update('vattu', $data);
 			return ($update == true) ? true : false;

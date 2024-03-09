@@ -66,6 +66,7 @@ class Model_expenditure extends CI_Model
         return $query->result_array();
     }
 
+
     public function getStatusMaterial()
     {
         $sql = "SELECT * FROM `taobangchi` WHERE material_status=? ORDER BY idBangChi DESC";
@@ -127,6 +128,15 @@ class Model_expenditure extends CI_Model
         }
     }
 
+    public function updateMaterialItem($id, $update_material_item){
+        if($id && $update_material_item){
+            $this->db->where('idBangChi', $id);
+            $update_item = $this->db->update('material_item', $update_material_item);
+            return $update_item; // No need for ternary operator here
+        }
+        return false; // Add explicit false return for clarity
+    }
+    
     public function update($id, $data){
         if ($id) {
             $idBangChi_item = $this->db->select('idBangChi')->get('material_item')->result_array();
@@ -149,6 +159,7 @@ class Model_expenditure extends CI_Model
     
                     $material_name = $this->input->post('material_name');
                     $qty = $this->input->post('quantity');
+                    $tmaterial = $this->input->post('type_material');
                     $rate = $this->input->post('rate');
     
                     $data1 = array();
@@ -156,6 +167,7 @@ class Model_expenditure extends CI_Model
                         $data1[] = array(
                             'idVatTu' => $idVatTu,
                             'tenVatTu' => $material_name[$index],
+                            'loaiVatTu' => $tmaterial[$index] ,
                             'soLuong' => $qty[$index],
                             'giaTien' => $rate[$index],
                         );
@@ -189,7 +201,7 @@ class Model_expenditure extends CI_Model
             return ($update == true) ? true : false;
         }
     }
-    
+
 
     public function update1($id,$data){
         $this->db->where('idBangChi',$id);
@@ -199,9 +211,9 @@ class Model_expenditure extends CI_Model
 
     public function updateMaterialStatus($id,$material_status){
         if($id){
-            $this->db->where('idBangThu',$id);
+            $this->db->where('idBangChi',$id);
             $this->db->set('materialStatus', $material_status);
-            $updates = $this->db->update( 'taobangthu');
+            $updates = $this->db->update( 'taobangchi');
             return ($updates == true) ? true : false;
         }
     }
