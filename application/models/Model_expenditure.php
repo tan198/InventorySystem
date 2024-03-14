@@ -128,80 +128,87 @@ class Model_expenditure extends CI_Model
         }
     }
 
-    public function updateMaterialItem($id, $update_material_item){
-        if($id && $update_material_item){
-            $this->db->where('idBangChi', $id);
-            $update_item = $this->db->update('material_item', $update_material_item);
-            return $update_item; // No need for ternary operator here
+    public function createNewRow($id){
+        if($id){
+            $data[] = array(
+                'tenVatTu' => $this->input->post('material_name1'),
+                'loaiVatTu' => $this->input->post('type_material1'),
+                'soLuong' => $this->input->post('quantity1'),
+                'giaTien' => $this->input->post('rate1'),
+            );
+
+            $create = $this->db->insert_batch('vattu', $data);
+            $idVatTu = $this->db->insert_id();
+
+            if($create){
+                $material_item = array();
+                foreach($data as $material){
+                    $material_item[] = array(
+                        'idBangChi' => $id,
+                        'idVatTu' =>  $idVatTu,
+                        'loaiVatTu' => $material['loaiVatTu'],
+                        'soLuong' => $material['soLuong'],
+                        'rate' => $material['giaTien'],
+                        'tongTien' => $material['soLuong'] * $material['giaTien']
+                    );
+                    $idVatTu++;
+                }
+
+                $materialitem_inserted = $this->db->insert_batch('material_item', $material_item);
+
+                return ($materialitem_inserted) ? true : false;
+            }
+
+            return true;
         }
-        return false; // Add explicit false return for clarity
     }
     
-    public function update($id, $data){
-        if ($id) {
-            $idBangChi_item = $this->db->select('idBangChi')->get('material_item')->result_array();
-            $idVatTu_item = $this->db->select('idVatTu')->where('idBangChi',$id)->get('material_item')->result_array();
-            $material_id = $this->db->select('idVatTu')->get('vattu')->result_array();
-            $list_idVatTu_item = array_column($idVatTu_item,'idVatTu');
-            $list_material_id = array_column($material_id,'idVatTu');
-            $common_value = array_intersect($list_idVatTu_item,$list_material_id);
-            $this->db->where('idBangChi',$id);
-            $query = $this->db->get('taobangchi');
-            if ($query->num_rows() > 0){
-                $row = $query->row();
-                $idBangChi = $row->idBangChi;
-
-                // Sửa lỗi so sánh biến với mảng
-                    $this->db->where('idBangChi', $id);
-                    $existing_ids = $this->db->select('idVatTu')->get('material_item')->result_array();
+    public function update($id, $data) {
+        if ($id){
+            $this->db->select('idVatTu');
+            $this->db->where('idBangChi', $id);
+            $query = $this->db->get('material_item');
+            $rows = $query->result();
     
-                    $existing_ids = array_column($existing_ids, 'idVatTu');
-    
-                    $material_name = $this->input->post('material_name');
-                    $qty = $this->input->post('quantity');
-                    $tmaterial = $this->input->post('type_material');
-                    $rate = $this->input->post('rate');
-    
-                    $data1 = array();
-                    foreach ($existing_ids as $index => $idVatTu) {
-                        $data1[] = array(
-                            'idVatTu' => $idVatTu,
-                            'tenVatTu' => $material_name[$index],
-                            'loaiVatTu' => $tmaterial[$index] ,
-                            'soLuong' => $qty[$index],
-                            'giaTien' => $rate[$index],
-                        );
-    
-                    }
-    
-                    // Update 'vattu' table
-                    $this->db->update_batch('vattu', $data1, 'idVatTu');
-                    $material_item = array();
-                    $material_id = 0;
-                    foreach ($data1 as $materials) {
-                        $material_item[] = array(
-                            'idBangChi' => $id,
-                            'idVatTu' => $materials['idVatTu'],
-                            'soLuong' => $materials['soLuong'],
-                            'rate' => $materials['giaTien'],
-                            'tongTien' =>(int) $materials['soLuong'] * (int) $materials['giaTien'],
-                        );
-                    }
-                    // Update 'material_item' table
-                    $this->db->update_batch('material_item', $material_item,'idVatTu');
-    
-                    // Update 'taobangchi' table
-                    $this->db->where('idBangChi', $id);
-                    $this->db->update('taobangchi', $data);
-    
-                    return true;
+            $data1 = array();
+            $material_name = $this->input->post('material_name');
+            $type_material = $this->input->post('type_material');
+            $qty = $this->input->post('quantity');
+            $rate = $this->input->post('rate');
+            foreach ($rows as $index => $row) {
+                $idVatTu = $row->idVatTu;
+            
+                $data1[] = array(
+                    'idVatTu' => $idVatTu,
+                    'tenVatTu' => $material_name[$index], 
+                    'loaiVatTu' => $type_material[$index],
+                    'soLuong' => $qty[$index],
+                    'giaTien' => $rate[$index]
+                );
             }
-            $this->db->where('idBangChi',$id);
-            $update = $this->db->update('taobangchi',$data);
+    
+            // Perform batch update for vatTu table
+            $this->db->update_batch('vattu', $data1, 'idVatTu');
+    
+            $material_item = array();
+            foreach ($data1 as $materials) {
+                $material_item[] = array(
+                    'idBangChi' => $id,
+                    'idVatTu' => $materials['idVatTu'],
+                    'loaiVatTu' => $materials['loaiVatTu'],
+                    'soLuong' => $materials['soLuong'],
+                    'rate' => $materials['giaTien'],
+                    'tongTien' =>(int) $materials['soLuong'] * (int) $materials['giaTien'],
+                );
+            }
+            // Update 'material_item' table
+            $this->db->update_batch('material_item', $material_item,'idVatTu');
+    
+            $this->db->where('idBangChi', $id);
+            $update = $this->db->update('taobangchi', $data);
             return ($update == true) ? true : false;
         }
     }
-
 
     public function update1($id,$data){
         $this->db->where('idBangChi',$id);

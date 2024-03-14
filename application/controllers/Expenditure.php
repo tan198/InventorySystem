@@ -220,22 +220,14 @@ class Expenditure extends Admin_Controller
             echo json_encode($material_data);
         }
     }
-    public function getTableMaterialRow(){
-        $idVatTu  = $this->input->post('idVatTu');
-        $materials = $this->model_materials->getMaterialsData( $idVatTu);
-        echo json_encode($materials);
-    }
 
-    public function createTableMaterialRow(){
-        $idBangChi = $this->input->post('idBangchi');
-        if($idBangChi){
-            $new_row = $this->model_expenditure->newRowUpdate($idBangChi);
-            echo json_encode($new_row);
+    public function addRowMaterial($id){
+        if($id){
+            $material_addrow = $this->model_expenditure->createNewRow($id);
+            echo json_encode($material_addrow);
         }
     }
    
-    
-
     
 	public function update($id)
 	{      
@@ -274,7 +266,6 @@ class Expenditure extends Admin_Controller
 
             if($data['materialStatus'] == 1){
                 $update = $this->model_expenditure->update($id, $data);
-                var_dump($update);
                 //$create1 = $this->model_expenditure->newRowUpdate($id);
                 if($update == true) {
                     $this->session->set_flashdata('success', 'Successfully updated');

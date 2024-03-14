@@ -99,7 +99,7 @@
                         <th width="20%"><?php echo $this->lang->line('Quantity');?><span class="text-danger">*</span></th>
                         <th width="20%"><?php echo $this->lang->line('Rate');?><span class="text-danger">*</span></th>
                         <th width="20%"><?php echo $this->lang->line('Amount');?></th>
-                        <th style="width:10%"><button type="button" id="add_row" class="btn btn-default"><i class="fa fa-plus"></i></button></th>
+                        <th style="width:10%"><button type="button" id="add_row" formaction="<?php base_url('expenditure/addNewRow') ?>" class="btn btn-default"><i class="fa fa-plus"></i></button></th>
                     </thead>
                     <tbody>
 
@@ -111,15 +111,11 @@
                             <input type="text" name="material_name[]" id="material_name_ <?php echo $x; ?>" data-row-id="row_1" class="form-control" style="width:100%;"autocomplete="off" value="<?php foreach($material as $k => $v){if ($val['idVatTu'] == $v['idVatTu']){echo $v['tenVatTu'];}} ?>">
                           </td>
                           <td>
-                              <select name="type_material[]" class="form-control select_group type_material" id="type_material_<?php echo $x; ?>" style="width: 100%" onkeyup="getMaterialData(1)">
+                              <select name="type_material[]" class="form-control select_group type_material" id="type_material_<?php echo $x; ?>" style="width: 100%" >
                                   <option value=""></option>
-                                  <?php foreach($material as $k =>$v):?>
-                                    <?php if($val['idVatTu'] == $v['idVatTu']):?>
-                                      <?php foreach($tmaterial as $k1 => $v1): ?>
-                                        <option value="<?php $v['loaiVatTu']?>" <?php if($v['loaiVatTu'] == $v1['id']){echo "selected='selected'"; }?>><?php echo $v1['name']?></option>
-                                      <?php endforeach; ?>
-                                    <?php endif; ?>
-                                  <?php endforeach; ?>
+                                  <?php foreach ($tmaterial as $k => $v):?>
+                                    <option value="<?php echo $v['id']?>" <?php if($val['loaiVatTu'] == $v['id']){echo "selected='selected'";}?>><?php echo $v['name'] ?></option>
+                                  <?php endforeach ?>
                               </select>
                           </td>
                           <td>
@@ -230,37 +226,12 @@
       $("#add_row").unbind('click').bind('click',function(){
               table = $("#material_info_table");
               count_table_tbody_tr = $("#material_info_table tbody tr").length;
-
-
-
               row_id =count_table_tbody_tr + 1;
-              //html = '<tr id="row_' + row_id +'">' +
-              //    '<td><input type="text" name="material_name" id="material_name_' + row_id +'" class="form-control" ></td>'+
-              //    '<td>'+
-              //    '<select class="form-control select_group type_material" data-row-id="'+row_id+'" id = "type_material_'+row_id+'"name="type_material[]" style="width:100%">'+
-              //      '<option value=""></option>';
-              //      <?php foreach ($tmaterial as $k => $v): ?> 
-              //        html += '<option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>'
-              //        <?php endforeach?>;
-                  
-              //    html += '</select>'+
-              //  '</td>'+
-              //    '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
-              //    '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
-              //    '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
-              //    '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
-              //    '</tr>';
 
-              $.ajax({
-              url: base_url + '/expenditure/getTableMaterialRow/',
-              type: 'post',
-              deferRender: true,
-              dataType: 'json',
-              success:function(){
-                var html = '<tr id="row_' + row_id +'">' +
-                  '<td><input type="text" name="material_name[]" id="material_name_' + row_id +'" class="form-control" ></td>'+
+              var html = '<tr id="row_' + row_id +'">' +
+                  '<td><input type="text" name="material_name1[]" id="material_name_' + row_id +'" class="form-control" ></td>'+
                   '<td>'+
-                  '<select class="form-control select_group type_material" data-row-id="'+row_id+'" id = "type_material_'+row_id+'"name="type_material[]" style="width:100%">'+
+                  '<select class="form-control select_group type_material1" data-row-id="'+row_id+'" id = "type_material_'+row_id+'"name="type_material1[]" style="width:100%">'+
                     '<option value=""></option>';
                     <?php foreach ($tmaterial as $k => $v): ?> 
                       html += '<option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>'
@@ -268,9 +239,9 @@
                   
                   html += '</select>'+
                 '</td>'+
-                  '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
-                  '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
-                  '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
+                  '<td><input type="number" name="quantity1[]" id="quantity_' + row_id +'" class="form-control"></td>'+
+                  '<td><input type="text" name="rate1[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
+                  '<td><input type="text" name="amount1[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
                   '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
                   '</tr>';
 
@@ -279,8 +250,37 @@
                 }else{
                   $("#material_info_table tbody").html(html);
                 }
-              }
-              });
+              //$.ajax({
+              //url: base_url + '/expenditure/addRowMaterial',
+              //type: 'post',
+              //deferRender: true,
+              ////data:{id:id},
+              //dataType: 'json',
+              //success:function(){
+              //  var html = '<tr id="row_' + row_id +'">' +
+              //    '<td><input type="text" name="material_name1[]" id="material_name_' + row_id +'" class="form-control" ></td>'+
+              //    '<td>'+
+              //    '<select class="form-control select_group type_material1" data-row-id="'+row_id+'" id = "type_material_'+row_id+'"name="type_material1[]" style="width:100%">'+
+              //      '<option value=""></option>';
+              //      <?php foreach ($tmaterial as $k => $v): ?> 
+              //        html += '<option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>'
+              //        <?php endforeach?>;
+                  
+              //    html += '</select>'+
+              //  '</td>'+
+              //    '<td><input type="number" name="quantity1[]" id="quantity_' + row_id +'" class="form-control"></td>'+
+              //    '<td><input type="text" name="rate1[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
+              //    '<td><input type="text" name="amount1[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
+              //    '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
+              //    '</tr>';
+
+              //  if(count_table_tbody_tr >=1){
+              //    $("#material_info_table tbody tr:last").after(html);
+              //  }else{
+              //    $("#material_info_table tbody").html(html);
+              //  }
+              //}
+              //});
               return false;
           });
       });

@@ -237,29 +237,6 @@
       }
     }
 
-    //function createMaterialData(row_id){
-    //  var materialName = $('#material_name_'+row_id).val();
-    //    qty = $('#quantity_'+ row_id).val();
-    //    rate =$('#rate_'+ row_id).val();
-        
-    //    $.ajax({
-    //      url:base_url + 'expenditure/createMaterialNewValue',
-    //      type: 'post',
-    //      //data:{idVatTuChi:material_id},
-    //      dataType:'json',
-    //      success:function(response){
-    //        for (var key in response) {
-    //              if (response.hasOwnProperty(key)) {
-    //                  $("#" + key + "_" + row_id).val(response[key]);
-    //              }
-    //          }
-
-    //        getTotal(row_id);
-    //        subAmount();
-    //      }
-    //    });
-    //}
-
     function subAmount(){
       var tableMaterialLength = $("#material_info_table tbody tr").length;
       var totalSubAmount= 0;
