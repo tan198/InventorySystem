@@ -221,14 +221,6 @@ class Expenditure extends Admin_Controller
         }
     }
 
-    public function addRowMaterial($id){
-        if($id){
-            $material_addrow = $this->model_expenditure->createNewRow($id);
-            echo json_encode($material_addrow);
-        }
-    }
-   
-    
 	public function update($id)
 	{      
         if(!in_array('updateExpenditure', $this->permission)) {
@@ -339,11 +331,10 @@ class Expenditure extends Admin_Controller
         echo json_encode($response);
 	}
 
-
     public function removeMaterial(){
-        $idBangChi = $this->input->post('idBangChi');
-        if($idBangChi){
-            $deleteRow = $this->model_expenditure->removeMaterial($idBangChi);
+        $idVatTu = $this->input->post('idVatTu');
+        if($idVatTu){
+            $deleteRow = $this->model_expenditure->removeMaterial($idVatTu);
         }
         echo json_encode($deleteRow);
     }
@@ -354,7 +345,7 @@ class Expenditure extends Admin_Controller
         $sheet = $spreadsheet->getActiveSheet();
         $styleArray = [
             'font' => [
-                'name' => 'Arial',
+                'name' => 'Time New Roman',
                 'size' => 12,
                 'color' => ['rgb' => '000000'], // Mã màu RGB
             ],

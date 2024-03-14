@@ -158,7 +158,7 @@ $(document).ready(function() {
         { data: 'nguoiChi' },
         { data: 'ngayChi' },
         { data: 'soTien' },
-        { data: 'tongTien' },
+        { data: 'tongTien'},
         { data: 'action' },
     ],
     order: [[1,'asc']],

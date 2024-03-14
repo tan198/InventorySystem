@@ -99,7 +99,7 @@
                         <th width="20%"><?php echo $this->lang->line('Quantity');?><span class="text-danger">*</span></th>
                         <th width="20%"><?php echo $this->lang->line('Rate');?><span class="text-danger">*</span></th>
                         <th width="20%"><?php echo $this->lang->line('Amount');?></th>
-                        <th style="width:10%"><button type="button" id="add_row" formaction="<?php base_url('expenditure/addNewRow') ?>" class="btn btn-default"><i class="fa fa-plus"></i></button></th>
+                        <th style="width:10%"><button type="button" id="add_row" class="btn btn-default"><i class="fa fa-plus"></i></button></th>
                     </thead>
                     <tbody>
 
@@ -128,7 +128,7 @@
                             <input type="text" name="amount[]" id ="amount_<?php echo $x; ?>" class="form-control" disabled value="<?php echo $val['tongTien'] ?>" autocomplete ="off">
                             <input type="hidden" name="amount_value[]" id="amount_value_<?php echo $x; ?>" class="form-control" value="<?php echo $val['tongTien'] ?>" autocomplete="off">
                           </td>
-                          <td><button type="button" class="btn btn-default" onclick="removeRow('1')"><i class="fa fa-close"></i></button></td>
+                          <td><button type="button" class="btn btn-default" onclick="removeRow(1)"><i class="fa fa-close"></i></button></td>
                         </tr>
                         <?php $x++; ?>
                       <?php endforeach; ?>
@@ -250,37 +250,6 @@
                 }else{
                   $("#material_info_table tbody").html(html);
                 }
-              //$.ajax({
-              //url: base_url + '/expenditure/addRowMaterial',
-              //type: 'post',
-              //deferRender: true,
-              ////data:{id:id},
-              //dataType: 'json',
-              //success:function(){
-              //  var html = '<tr id="row_' + row_id +'">' +
-              //    '<td><input type="text" name="material_name1[]" id="material_name_' + row_id +'" class="form-control" ></td>'+
-              //    '<td>'+
-              //    '<select class="form-control select_group type_material1" data-row-id="'+row_id+'" id = "type_material_'+row_id+'"name="type_material1[]" style="width:100%">'+
-              //      '<option value=""></option>';
-              //      <?php foreach ($tmaterial as $k => $v): ?> 
-              //        html += '<option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>'
-              //        <?php endforeach?>;
-                  
-              //    html += '</select>'+
-              //  '</td>'+
-              //    '<td><input type="number" name="quantity1[]" id="quantity_' + row_id +'" class="form-control"></td>'+
-              //    '<td><input type="text" name="rate1[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
-              //    '<td><input type="text" name="amount1[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
-              //    '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
-              //    '</tr>';
-
-              //  if(count_table_tbody_tr >=1){
-              //    $("#material_info_table tbody tr:last").after(html);
-              //  }else{
-              //    $("#material_info_table tbody").html(html);
-              //  }
-              //}
-              //});
               return false;
           });
       });
@@ -381,49 +350,6 @@
       }
     }
 
-    function getMaterialData(row_id){
-      var base_url = "<?php echo base_url(); ?>";
-      var material_id = $('#material_name'+row_id).val();
-      if(material_id ==""){
-        $("#rate_" + row_id).val("");
-        $("#rate_value_" + row_id).val("");
-        $("#type_material_" + row_id).val("");
-        $("quantity_" + row_id).val("");
-        $("#amount_" + row_id).val("");
-        $("#amount_value_" + row_id).val("");
-      }else{
-        $.ajax({
-          url:base_url + 'expenditure/getMaterialValueById',
-          type: 'post',
-          data:{idVatTu:material_id},
-          dataType:'json',
-          success:function(response){
-            console.log(response);
-            $("#material_name_" + row_id).val(response.tenVatTu);
-            $("#type_material_" + row_id).val(response.loaiVatTu);
-            $("#rate_" + row_id).val(response.giaTien);
-            $("#rate_value_" + row_id).val(response.giaTien);
-            $("#quantity_" + row_id).val(1);
-            $("#quantity_value_" + row_id).val(1);
-
-            var total =Number(response.giaTien) * 1;
-            total=total.toFixed(2);
-            $("#amount_" + row_id).val(total);
-            $("#amount_value_" + row_id).val(total);
-            $("#type_material_" + row_id).val(response.loaiVatTu);
-            var name = " ";
-            <?php foreach($tmaterial as $k => $v): ?>
-              if(response.loaiVatTu == <?php echo $v['id']; ?>){
-                name = "<?php echo $v['name'];?>"
-              }
-            <?php endforeach; ?>
-
-            subAmount();
-          }
-        });
-      }
-    }
-
     function subAmount(){
       var tableMaterialLength = $("#material_info_table tbody tr").length;
       var totalSubAmount= 0;
@@ -453,23 +379,21 @@
       
     }
 
-    function removeRow(tr_id)
-    {
-      var base_url = "<?php echo base_url(); ?>";
-      var material_id = $('#material_name'+tr_id).val();
-      $.ajax({
+    function removeRow(tr_id, id) {
+    var base_url = "<?php echo base_url(); ?>";
+    $.ajax({
         type: "post",
         url: base_url + "expenditure/removeMaterial/",
-        data: {idBangChi:tr_id},
+        data: { idBangChi: id },
         dataType: "json",
         success: function (response) {
-          console.log(response);
-          $("#material_info_table tbody tr#row_"+tr_id).remove();
-          subAmount();
+            console.log(response);
+            // Remove the row with the corresponding tr_id
+           $("#material_info_table tbody tr#row_" + tr_id).remove();
+            subAmount();
         }
-      });
-
-    }
+    });
+}
 
     //function deleteRow(id){}
   </script>
