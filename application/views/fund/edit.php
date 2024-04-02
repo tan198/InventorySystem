@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage
-      <small>Fund</small>
+    <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Funds')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Fund</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Funds')?></li>
     </ol>
   </section>
 
@@ -37,7 +37,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Edit Fund</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Edit Funds')?></h3>
           </div>
           <!-- /.box-header -->
           <form role="form" action="<?php base_url('fund/update') ?>" method="post" enctype="multipart/form-data">
@@ -46,12 +46,12 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="account_name">Balance Name</label>
-                  <input type="text" class="form-control" id="account_name" name="account_name" placeholder="Enter account name" value="<?php echo $fund_data['tenTaiKhoan']; ?>" autocomplete="off" />
+                  <label for="account_name"><?php echo $this->lang->line('Account Name')?></label>
+                  <input type="text" class="form-control" id="account_name" name="account_name" placeholder="<?php echo $this->lang->line('Enter account name')?>" value="<?php echo $fund_data['tenTaiKhoan']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="accounttype">Balance Type</label>
+                  <label for="accounttype"><?php echo $this->lang->line('Payment Type')?></label>
                   <select class="form-control select_group" id="accounttype" name="accounttype">
                     <?php foreach ($accounttype as $k => $v): ?>
                       <option value="<?php echo $v['id'] ?>" <?php if($fund_data['loaithanhtoan_id'] == $v['id']) { echo "selected='selected'"; } ?> ><?php echo $v['loaiThanhToan'] ?></option>
@@ -60,21 +60,21 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="currency">Currency</label>
+                  <label for="currency"><?php echo $this->lang->line('Currency')?></label>
                   <input type="text" class="form-control" id="currency" name="currency" placeholder="Enter currency" value="<?php echo $fund_data['loaiTien']; ?>" autocomplete="off" />
                 </div>
 
                 <div class="form-group">
-                  <label for="initial_amount">Amount</label>
-                  <input type="text" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" id="initial_amount" name="initial_amount" placeholder="Enter amount" value="<?php echo $fund_data['soTienBanDau'];?>" autocomplete="off" />
+                  <label for="initial_amount"><?php echo $this->lang->line('Amount')?></label>
+                  <input type="text" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" id="initial_amount" name="initial_amount" placeholder="<?php echo $this->lang->line('Enter amount')?>" value="<?php echo $fund_data['soTienBanDau'];?>" autocomplete="off" />
                 </div>
 
               </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="<?php echo base_url('fund/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
+                <a href="<?php echo base_url('fund/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           <!-- /.box-body -->

@@ -55,4 +55,4 @@ class Reports extends Admin_Controller
 
 		$this->render_template('reports/index', $this->data);
 	}
-}	
+}

@@ -5,12 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage
-      <small>Payment Type</small>
+    <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Payment Type')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Payment Type</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Payment Type')?></li>
     </ol>
   </section>
 
@@ -35,21 +35,21 @@
         <?php endif; ?>
 
         <?php if(in_array('createPayment', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Payment Type</button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Payment Type')?></button>
           <br /> <br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Manage Payment Type</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Payment Type')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th>Payment Type Name</th>
-                <th>Action</th>
+                <th><?php echo $this->lang->line('Payment Type Name')?></th>
+                <th><?php echo $this->lang->line('Action')?></th>
                 <?php if(in_array('updatePayment', $user_permission) || in_array('deletePayment', $user_permission)): ?>
                 <?php endif; ?>
               </tr>
@@ -78,7 +78,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Add Payment Type</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Payment Type')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('payment/create') ?>" method="post" id="createForm">
@@ -86,14 +86,14 @@
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="brand_name">Payment Type Name</label>
-            <input type="text" class="form-control" id="payment_name" name="payment_name" placeholder="Enter payment type" autocomplete="off">
+            <label for="payment_name"><?php echo $this->lang->line('Payment Type Name')?></label>
+            <input type="text" class="form-control" id="payment_name" name="payment_name" placeholder="<?php echo $this->lang->line('Enter Payment Type ')?>" autocomplete="off">
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -109,7 +109,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Edit Payment</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Payment Type')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('payment/update') ?>" method="post" id="updateForm">
@@ -118,14 +118,14 @@
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_brand_name">Payment Type </label>
-            <input type="text" class="form-control" id="edit_payment_name" name="edit_payment_name" placeholder="Enter payment type" autocomplete="off">
+            <label for="edit_payment_name"><?php echo $this->lang->line('Payment Type')?> </label>
+            <input type="text" class="form-control" id="edit_payment_name" name="edit_payment_name" placeholder="<?php echo $this->lang->line('Enter Payment Type ')?>" autocomplete="off">
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -141,16 +141,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Remove Payment Type</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Payment Type')?></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('payment/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-          <p>Do you really want to remove?</p>
+          <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
       </form>
 
@@ -170,7 +170,11 @@ $(document).ready(function() {
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
     'ajax': 'fetchPaymentData',
-    'order': []
+    'order': [[1, 'asc']],
+    select: {
+        style: 'os',
+        selector: 'td:first-child'
+    }
   });
 
   // submit the create from 
@@ -241,7 +245,7 @@ function editFunc(id)
     dataType: 'json',
     success:function(response) {
 
-      $("#edit_payment_name").val(response.name);
+      $("#edit_payment_name").val(response.loaiThanhToan);
     //   $("#edit_active").val(response.active);
 
       // submit the edit from 

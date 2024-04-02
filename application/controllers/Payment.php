@@ -111,7 +111,7 @@ class Payment extends Admin_Controller
         	}
         	else {
         		$response['success'] = false;
-        		$response['messages'] = 'Error in the database while creating the brand information';			
+        		$response['messages'] = 'Error in the database while creating the payment information';			
         	}
         }
         else {
@@ -139,7 +139,7 @@ class Payment extends Admin_Controller
 		$response = array();
 
 		if($id) {
-			$this->form_validation->set_rules('edit_payment_name', 'loaiThanhToan', 'trim|required');
+			$this->form_validation->set_rules('edit_payment_name', 'Edit Payment Name', 'trim|required');
 			// $this->form_validation->set_rules('edit_active', 'Active', 'trim|required');
 
 			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
@@ -157,7 +157,7 @@ class Payment extends Admin_Controller
 	        	}
 	        	else {
 	        		$response['success'] = false;
-	        		$response['messages'] = 'Error in the database while updated the brand information';			
+	        		$response['messages'] = 'Error in the database while updated the payment type information';			
 	        	}
 	        }
 	        else {
@@ -196,7 +196,7 @@ class Payment extends Admin_Controller
 			}
 			else {
 				$response['success'] = false;
-				$response['messages'] = "Error in the database while removing the brand information";
+				$response['messages'] = "Error in the database while removing the payment information";
 			}
 		}
 		else {

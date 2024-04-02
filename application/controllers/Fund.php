@@ -60,12 +60,22 @@ class Fund extends Admin_Controller
                     break;
                 }
             }
+
+
         }
 
-        $totalIncome1 = number_format((float)$totalIncome,2,'.',','); 
-        $total1 = number_format((float)$total,2,'.',',');
-        $remain1 = ((float)str_replace(',','',$value['soTienBanDau']) + (float)$totalIncome - (float)$total);
-        $remain = number_format($remain1,2,'.',',');
+            $totalIncome1 = number_format((float)$totalIncome,2,'.',','); 
+            $total1 = number_format((float)$total,2,'.',',');
+            $remain1 = ((float)str_replace(',','',$value['soTienBanDau']) + (float)$totalIncome - (float)$total);
+            $remain = number_format($remain1,2,'.',',');
+
+            $data1 = array(
+                'income' => $totalIncome1,
+                'expense' => $total1,
+                'remain' =>$remain
+            );
+
+            $this->model_fund->update($data1,$value['idTaiKhoan']);
 			// button
             $buttons = '';
             if(in_array('updateFund', $this->permission)) {
@@ -113,15 +123,18 @@ class Fund extends Admin_Controller
 		
 	
         if ($this->form_validation->run() == TRUE) {
+            $expenditure_totals = $this->model_expenditure->getTotalExpenditure();
+            $income_totals = $this->model_income->getTotalIncome();
+            $initialAmount = $this->input->post('initial_amount');
             // true case
 
         	$data = array(
         		'tenTaiKhoan' => $this->input->post('account_name'),
         		'loaithanhtoan_id' => $this->input->post('accounttype'),
         		'loaiTien' => $this->input->post('currency'),
-        		'soTienBanDau' => $this->input->post('initial_amount'),
-                // 'daThu'=> $this->input->post('incomed'),
-        		// 'daChi' => $this->input->post('expenditured'),
+        		'soTienBanDau' => $initialAmount,
+                 'income'=> $income_totals,
+        		 'expense' => $this->$expenditure_totals,
         		// 'conLai' => $this->input->post('remain'),
         	);
 
@@ -230,7 +243,7 @@ class Fund extends Admin_Controller
             }
             else {
                 $response['success'] = false;
-                $response['messages'] = "Error in the database while removing the product information";
+                $response['messages'] = "Error in the database while removing the fund information";
             }
         }
         else {

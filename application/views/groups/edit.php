@@ -5,13 +5,15 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Manage
-        <small>Groups</small>
+      <?php echo $this->lang->line('Manage')?>
+        <small><?php echo $this->lang->line('Groups')?>
+</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="<?php echo base_url('groups/') ?>">Groups</a></li>
-        <li class="active">Edit</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+        <li><a href="<?php echo base_url('groups/') ?>"><?php echo $this->lang->line('Groups')?>
+</a></li>
+        <li class="active"><?php echo $this->lang->line('Edit')?></li>
       </ol>
     </section>
 
@@ -35,7 +37,7 @@
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Edit Group</h3>
+              <h3 class="box-title"><?php echo $this->lang->line('Edit Group')?></h3>
             </div>
             <form role="form" action="<?php base_url('groups/update') ?>" method="post">
               <div class="box-body">
@@ -43,11 +45,11 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
-                  <label for="group_name">Group Name</label>
+                  <label for="group_name"><?php echo $this->lang->line('Group Name')?></label>
                   <input type="text" class="form-control" id="group_name" name="group_name" placeholder="Enter group name" value="<?php echo $group_data['group_name']; ?>">
                 </div>
                 <div class="form-group">
-                  <label for="permission">Permission</label>
+                  <label for="permission"><?php echo $this->lang->line('Permission')?></label>
 
                   <?php $serialize_permission = unserialize($group_data['permission']); ?>
                   
@@ -55,15 +57,15 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th>Create</th>
-                        <th>Update</th>
-                        <th>View</th>
-                        <th>Delete</th>
+                        <th><?php echo $this->lang->line('Create')?></th>
+                        <th><?php echo $this->lang->line('Update')?></th>
+                        <th><?php echo $this->lang->line('View')?></th>
+                        <th><?php echo $this->lang->line('Delete')?></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Users</td>
+                        <td><?php echo $this->lang->line('Users')?></td>
                         <td><input type="checkbox" class="minimal" name="permission[]" id="permission" class="minimal" value="createUser" <?php if($serialize_permission) {
                           if(in_array('createUser', $serialize_permission)) { echo "checked"; } 
                         } ?> ></td>
@@ -84,7 +86,7 @@
                          ?>></td>
                       </tr>
                       <tr>
-                        <td>Groups</td>
+                        <td><?php echo $this->lang->line('Groups')?></td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="createGroup" <?php 
                         if($serialize_permission) {
                           if(in_array('createGroup', $serialize_permission)) { echo "checked"; }  
@@ -107,7 +109,7 @@
                          ?>></td>
                       </tr>
                       <tr>
-                        <td>Brands</td>
+                        <td><?php echo $this->lang->line('Brands')?></td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="createBrand" <?php if($serialize_permission) {
                           if(in_array('createBrand', $serialize_permission)) { echo "checked"; } 
                         } ?>></td>
@@ -122,7 +124,7 @@
                         } ?>></td>
                       </tr>
                       <tr>
-                        <td>Category</td>
+                        <td><?php echo $this->lang->line('Category')?></td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="createCategory" <?php if($serialize_permission) {
                           if(in_array('createCategory', $serialize_permission)) { echo "checked"; } 
                         } ?>></td>
@@ -137,7 +139,7 @@
                         } ?>></td>
                       </tr>
                       <tr>
-                        <td>Stores</td>
+                        <td><?php echo $this->lang->line('Stores')?></td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="createStore" <?php if($serialize_permission) {
                           if(in_array('createStore', $serialize_permission)) { echo "checked"; } 
                         } ?>></td>
@@ -152,7 +154,7 @@
                         } ?>></td>
                       </tr>
                       <tr>
-                        <td>Attributes</td>
+                        <td><?php echo $this->lang->line('Attributes')?></td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="createAttribute" <?php if($serialize_permission) {
                           if(in_array('createAttribute', $serialize_permission)) { echo "checked"; } 
                         } ?>></td>
@@ -167,7 +169,7 @@
                         } ?>></td>
                       </tr>
                       <tr>
-                        <td>Products</td>
+                        <td><?php echo $this->lang->line('Products')?></td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="createProduct" <?php if($serialize_permission) {
                           if(in_array('createProduct', $serialize_permission)) { echo "checked"; } 
                         } ?>></td>
@@ -182,7 +184,7 @@
                         } ?>></td>
                       </tr>
                       <tr>
-                        <td>Orders</td>
+                        <td><?php echo $this->lang->line('Orders')?></td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="createOrder" <?php if($serialize_permission) {
                           if(in_array('createOrder', $serialize_permission)) { echo "checked"; } 
                         } ?>></td>
@@ -197,7 +199,7 @@
                         } ?>></td>
                       </tr>
                       <tr>
-                        <td>Reports</td>
+                        <td><?php echo $this->lang->line('Reports')?></td>
                         <td> - </td>
                         <td> - </td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="viewReports" <?php if($serialize_permission) {
@@ -206,7 +208,7 @@
                         <td> - </td>
                       </tr>
                       <tr>
-                        <td>Company</td>
+                        <td><?php echo $this->lang->line('Company')?></td>
                         <td> - </td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="updateCompany" <?php if($serialize_permission) {
                           if(in_array('updateCompany', $serialize_permission)) { echo "checked"; } 
@@ -215,7 +217,7 @@
                         <td> - </td>
                       </tr>
                       <tr>
-                        <td>Profile</td>
+                        <td><?php echo $this->lang->line('Profile')?></td>
                         <td> - </td>
                         <td> - </td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="viewProfile" <?php if($serialize_permission) {
@@ -224,7 +226,7 @@
                         <td> - </td>
                       </tr>
                       <tr>
-                        <td>Setting</td>
+                        <td><?php echo $this->lang->line('Setting')?></td>
                         <td>-</td>
                         <td><input type="checkbox" name="permission[]" id="permission" class="minimal" value="updateSetting" <?php if($serialize_permission) {
                           if(in_array('updateSetting', $serialize_permission)) { echo "checked"; } 
@@ -240,8 +242,8 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Update Changes</button>
-                <a href="<?php echo base_url('groups/') ?>" class="btn btn-warning">Back</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Update Changes')?></button>
+                <a href="<?php echo base_url('groups/') ?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
               </div>
             </form>
           </div>

@@ -11,13 +11,25 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=5.3.7"
+		"php": "^8.1.0",
+		"stuk/jszip": "^3.0",
+		"ext-gd": "*",
+		"ext-fileinfo": "*",
+		"openskill/datatable": "^0.2.1",
+		"phpoffice/phpspreadsheet": "^2.0",
+		"datatables.net/datatables.net-dt": "^2.0",
+		"datatables.net/datatables.net-buttons-dt": "^3.0",
+		"datatables.net/datatables.net-select-bs5": "^2.0",
+		"datatables.net/datatables.net-buttons-bs5": "^3.0",
+		"gaomingcode/jszip": "^3.6",
+		"gaomingcode/pdfmake": "^0.1.71",
+		"twbs/bootstrap": "5.0.2"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*",
-		"phpunit/phpunit": "4.* || 5.*"
+		"phpunit/phpunit": "^9.0"
 	}
 }

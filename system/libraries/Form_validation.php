@@ -1055,8 +1055,8 @@ class CI_Form_validation {
 	public function required($str)
 	{
 		return is_array($str)
-			? (empty($str) === FALSE)
-			: (trim($str) !== '');
+        ? (empty($str) === FALSE)
+        : ($str !== null && trim($str) !== '');
 	}
 
 	// --------------------------------------------------------------------

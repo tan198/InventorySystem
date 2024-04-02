@@ -16,7 +16,19 @@ class Model_groups extends CI_Model
 		}
 
 		$sql = "SELECT * FROM `groups` WHERE id != ?";
-		$query = $this->db->query($sql, array(1));
+		$query = $this->db->query($sql, array(0));
+		return $query->result_array();
+	}
+
+	public function getGroupUserData($group_id){
+		if($group_id){
+			$sql = "SELECT * FROM `groups` WHERE id = ?";
+			$query = $this->db->query($sql, array($group_id));
+			return $query->row_array();
+		}
+
+		$sql = "SELECT * FROM `gruops` WHERE id != ?";
+		$query = $this->db->query($sql,array(1));
 		return $query->result_array();
 	}
 
@@ -54,7 +66,6 @@ class Model_groups extends CI_Model
 		WHERE user_group.user_id = ?";
 		$query = $this->db->query($sql, array($user_id));
 		$result = $query->row_array();
-
 		return $result;
 
 	}
