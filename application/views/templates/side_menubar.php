@@ -89,6 +89,14 @@
                 <?php if(in_array('updateFund', $user_permission) || in_array('viewFund', $user_permission) || in_array('deleteFund', $user_permission)): ?>
                 <li id="manageFundNav"><a href="<?php echo base_url('fund') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Funds')?></a></li>
                 <?php endif; ?>
+
+                <?php if(in_array('createPayment', $user_permission) || in_array('updatePayment', $user_permission) || in_array('viewPayment', $user_permission) || in_array('deletePayment', $user_permission)): ?>
+                  <li id="paymentNav">
+                    <a href="<?php echo base_url('payment/') ?>">
+                  <i class="fa fa-files-o"></i> <span> <?php echo $this->lang->line('Payment Type')?> </span>
+              </a>
+            </li>
+          <?php endif; ?>
               </ul>
             </li>
           <?php endif; ?>
@@ -105,7 +113,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-          <?php if(in_array('createExpenditure', $user_permission) || in_array('updateExpenditure', $user_permission) || in_array('viewExpenditure', $user_permission) || in_array('deleteExpenditure', $user_permission)): ?>
+          <?php if(in_array('createExpenditure', $user_permission) || in_array('updateExpenditure', $user_permission) || in_array('viewExpenditure', $user_permission) || in_array('deleteExpenditure', $user_permission) || in_array('createAdvances', $user_permission)): ?>
             <li class="treeview" id="mainExpenditureNav">
               <a href="#">
                 <i class="fa fa-cube"></i>
@@ -115,9 +123,6 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <?php if(in_array('createExpenditure', $user_permission)): ?>
-                  <li id="addExpenditureNav"><a href="<?php echo base_url('expenditure/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Expenditure')?></a></li>
-                <?php endif; ?>
                 <?php if(in_array('updateExpenditure', $user_permission) || in_array('viewExpenditure', $user_permission) || in_array('deleteExpenditure', $user_permission)): ?>
                 <li id="manageExpenditureNav"><a href="<?php echo base_url('expenditure') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Expenditure')?></a></li>
                 <?php endif; ?>
@@ -154,7 +159,7 @@
 
     
                                       <!--category-->
-          <?php if(in_array('createCategory', $user_permission) || in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
+          <?php if(in_array('createCategory', $user_permission) || in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission) || in_array('createNamecate', $user_permission)|| in_array('updateNamecate', $user_permission)|| in_array('viewNamecate', $user_permission)|| in_array('deleteNamecate',$user_permission)): ?>
             <li class="treeview" id="mainCategoryNav">
               <a href="#">
                 <i class="fa fa-cube"></i>
@@ -164,24 +169,23 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <?php if(in_array('createCategory', $user_permission)): ?>
-                  <li id="addCategoryNav"><a href="<?php echo base_url('category/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Category')?></a></li>
-                <?php endif; ?>
                 <?php if(in_array('updateCategory', $user_permission) || in_array('viewCategory', $user_permission) || in_array('deleteCategory', $user_permission)): ?>
-                <li id="manageCategoryNav"><a href="<?php echo base_url('category') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Category')?></a></li>
+                  <li id="manageCategoryNav"><a href="<?php echo base_url('category') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Category')?></a></li>
+                <?php endif; ?>
+
+                <?php if(in_array('createNamecate', $user_permission)|| in_array('updateNamecate', $user_permission)|| in_array('viewNamecate', $user_permission)|| in_array('deleteNamecate',$user_permission)): ?>
+                  <li id="namecateNav">
+                    <a href="<?php echo base_url('namecate/') ?>">
+                      <i class="fa fa-files-o"></i> <span> <?php echo $this->lang->line('List Name Of Categories')?> </span>
+                    </a>
+                  </li>
                 <?php endif; ?>
               </ul>
             </li>
           <?php endif; ?>
 
                                           <!--Payment-->
-          <?php if(in_array('createPayment', $user_permission) || in_array('updatePayment', $user_permission) || in_array('viewPayment', $user_permission) || in_array('deletePayment', $user_permission)): ?>
-            <li id="paymentNav">
-              <a href="<?php echo base_url('payment/') ?>">
-                <i class="fa fa-files-o"></i> <span> <?php echo $this->lang->line('Payment Type')?> </span>
-              </a>
-            </li>
-          <?php endif; ?>
+
 
           <?php if(in_array('viewMaterial', $user_permission) || in_array('viewTmaterial', $user_permission)): ?>
             <li class="treeview" id="mainTMNav">
@@ -273,7 +277,7 @@
             <li id="departmentNav"><a href="<?php echo base_url('department/') ?>"><i class="fa fa-user-o"></i> <span><?php echo $this->lang->line('Department')?> </span></a></li>
           <?php endif; ?>
 
-          <?php if(in_array('updatePosition', $user_permission)|| in_array('viewPosition', $user_permission)|| in_array('deletePosition',$user_permission)): ?>
+          <?php if(in_array('updatePosition', $user_permission)|| in_array('viewPosition', $user_permission)|| in_array('deletePosition',$user_permission)|| in_array('createPosition',$user_permission)): ?>
             <li id="managePositionNav"><a href="<?php echo base_url('position')?>"><i class="fa fa-circle-o"></i><?php echo $this->lang->line('List Position') ?></a> </li>
           <?php endif; ?>
           </ul>
@@ -286,7 +290,7 @@
           <li class="treeview" id="mainSettings">
             <a href="#">
               <i class="fa fa-cog"></i>
-              <span><?php echo lang("Settings"); ?></span>
+              <span><?php echo lang("Personal"); ?></span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>

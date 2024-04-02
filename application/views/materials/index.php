@@ -320,9 +320,9 @@ function editFunc(id)
     success:function(response) {
       $("#edit_materials_name").val(response.tenVatTu);
       $("#edit_type_material").val(response.loaiVatTu);
-	  $("#edit_quantity").val(response.soLuong);
-	  $("#edit_amount").val(response.giaTien);
-	  $("#edit_total").val(response.tongTien);
+      $("#edit_quantity").val(response.soLuong);
+      $("#edit_amount").val(response.giaTien);
+      $("#edit_total").val(response.tongTien);
 	  
       // submit the edit from 
       $("#updateForm").unbind('submit').bind('submit', function() {

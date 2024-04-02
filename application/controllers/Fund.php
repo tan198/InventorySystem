@@ -243,7 +243,7 @@ class Fund extends Admin_Controller
             }
             else {
                 $response['success'] = false;
-                $response['messages'] = "Error in the database while removing the product information";
+                $response['messages'] = "Error in the database while removing the fund information";
             }
         }
         else {

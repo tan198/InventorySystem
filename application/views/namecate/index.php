@@ -5,13 +5,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Manage Attributes
-      <small>Value</small>
+    <?php echo $this->lang->line('Manage')?>
+      <small><?php echo $this->lang->line('Name Categories')?></small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active"><a href="<?php echo base_url('attributes/') ?>">Attributes</a></li>
-      <li class="active">Attributes Value</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line('Home')?></a></li>
+      <li class="active"><?php echo $this->lang->line('Name Categories')?></li>
     </ol>
   </section>
 
@@ -20,12 +19,6 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
       <div class="col-md-12 col-xs-12">
-
-        <div class="box">
-          <div class="box-body">
-            <h4>Attribute name: <?php echo $attribute_data['name']; ?></h4>
-          </div>
-        </div>
 
         <div id="messages"></div>
 
@@ -41,25 +34,25 @@
           </div>
         <?php endif; ?>
 
-        <?php //if(in_array('createGroup', $user_permission)): ?>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Value</button>
+        <?php if(in_array('createNamecate', $user_permission)): ?>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><?php echo $this->lang->line('Add Name Categories')?></button>
           <br /> <br />
-        <?php //endif; ?>
-
+        <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Manage Attributes Value</h3>
+            <h3 class="box-title"><?php echo $this->lang->line('Manage Name Categories')?></h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
             <table id="manageTable" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th>Attribute Value</th>
-                <?php //if(in_array('updateGroup', $user_permission) || in_array('deleteGroup', $user_permission)): ?>
-                  <th>Action</th>
-                <?php //endif; ?>
+                <th><?php echo $this->lang->line('Categories')?></th>
+                <th><?php echo $this->lang->line('Name Category')?></th>
+                <th><?php echo $this->lang->line('Action')?></th>
+                <?php if(in_array('updateNamecate', $user_permission) || in_array('deleteNamecate', $user_permission)): ?>
+                <?php endif; ?>
               </tr>
               </thead>
 
@@ -79,62 +72,78 @@
 </div>
 <!-- /.content-wrapper -->
 
-
+<?php if(in_array('createNamecate', $user_permission)): ?>
 <!-- create brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Add Attribute Value</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Add Name Categories')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('attributes/createValue') ?>" method="post" id="createForm">
+      <form role="form" action="<?php echo base_url('namecate/create') ?>" method="post" id="createForm">
 
         <div class="modal-body">
-          <div class="form-group">
-            <label for="brand_name">Attribute Value</label>
-            <input type="text" class="form-control" id="attribute_value_name" name="attribute_value_name" placeholder="Enter attribute value" autocomplete="off">
-          </div>
-        </div>
+
+		<div class="form-group">
+            <label for="categories"><?php echo $this->lang->line('Categories') ?></label>
+            <select name="categories" id="categories" class="form-control select_group">
+              <?php foreach ($categories as $k => $v): ?>
+                  <option value="<?php echo $v['idHangMuc'] ?>"><?php echo $v['loaiHangMuc'] ?></option>
+              <?php endforeach ?>
+            </select>
+		</div>
+
+		<div class="form-group">
+			<label for="name_category"><?php echo $this->lang->line('Category Name')?></label>
+			<input type="text" class="form-control" id="name_category" name="name_category" placeholder="<?php echo $this->lang->line('Enter Category Name')?>" autocomplete="off">
+		</div>
 
         <div class="modal-footer">
-          <input type="hidden" name="attribute_parent_id" id="attribute_parent_id" value="<?php echo $attribute_data['id']; ?>">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
-
-
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<?php endif; ?>
 
+<?php if(in_array('updateNamecate', $user_permission)): ?>
 <!-- edit brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Edit Attribute Value</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Edit Name Categories')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('attributes/updateValue') ?>" method="post" id="updateForm">
+      <form role="form" action="<?php echo base_url('namecate/update') ?>" method="post" id="updateForm">
 
         <div class="modal-body">
           <div id="messages"></div>
 
+		  <div class="form-group">
+            <label for="edit_categories"><?php echo $this->lang->line('Categories') ?></label>
+            <select name="edit_categories" id="edit_categories" class="form-control select_group">
+              <?php foreach ($categories as $k => $v): ?>
+                  <option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>
+              <?php endforeach ?>
+            </select>
+          </div>
+
           <div class="form-group">
-            <label for="edit_brand_name">Attribute Value</label>
-            <input type="text" class="form-control" id="edit_attribute_value_name" name="edit_attribute_value_name" placeholder="Enter attribute value" autocomplete="off">
+            <label for="edit_name_cate"><?php echo $this->lang->line('Category Name')?></label>
+            <input type="text" class="form-control" id="edit_name_cate" name="edit_name_cate" placeholder="<?php echo $this->lang->line('Enter Materials Name')?>" autocomplete="off">
           </div>
         </div>
 
         <div class="modal-footer">
-          <input type="hidden" name="attribute_parent_id" id="attribute_parent_id" value="<?php echo $attribute_data['id']; ?>">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close')?></button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save changes')?></button>
         </div>
 
       </form>
@@ -143,19 +152,21 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<?php endif; ?>
 
+<?php if(in_array('deleteNamecate', $user_permission)): ?>
 <!-- remove brand modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="removeModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Remove Attribute Value</h4>
+        <h4 class="modal-title"><?php echo $this->lang->line('Remove Name Categories')?></h4>
       </div>
 
-      <form role="form" action="<?php echo base_url('attributes/removeValue') ?>" method="post" id="removeForm">
+      <form role="form" action="<?php echo base_url('namecate/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-          <p>Do you really want to remove?</p>
+          <p><?php echo $this->lang->line('Do you really want to remove?')?></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -167,41 +178,38 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
+<?php endif; ?>
 
 
 <script type="text/javascript">
 var manageTable;
-var base_url = "<?php echo base_url(); ?>";
 
 $(document).ready(function() {
-
-  
-
-  $("#attributeNav").addClass('active');
-
+  var base_url = "<?php echo base_url(); ?>";
+  $("#namecateNav").addClass('active');
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
-    'ajax': base_url+'attributes/fetchAttributeValueData/'+<?php echo $attribute_data['id']; ?>,
+    'ajax': base_url + 'namecate/fetchNameCate',
     'order': []
   });
 
   // submit the create from 
   $("#createForm").unbind('submit').on('submit', function() {
     var form = $(this);
+	
 
     // remove the text-danger
     $(".text-danger").remove();
 
+	
     $.ajax({
       url: form.attr('action'),
       type: form.attr('method'),
       data: form.serialize(), // /converting the form data into array and sending it to server
       dataType: 'json',
       success:function(response) {
-
+		
         manageTable.ajax.reload(null, false); 
-
         if(response.success === true) {
           $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
@@ -215,6 +223,8 @@ $(document).ready(function() {
           // reset the form
           $("#createForm")[0].reset();
           $("#createForm .form-group").removeClass('has-error').removeClass('has-success');
+		  	
+		  
 
         } else {
 
@@ -239,31 +249,28 @@ $(document).ready(function() {
         }
       }
     }); 
-
     return false;
   });
 
 });
 
+
+
 // edit function
-// id => attribute value id
 function editFunc(id)
 { 
-
   $.ajax({
-    url: base_url+'attributes/fetchAttributeValueById/'+id,
+    url:base_url + 'fetchNameCateDataById/'+id,
     type: 'post',
     dataType: 'json',
     success:function(response) {
-
-      console.log(response);
-
-      $("#edit_attribute_value_name").val(response.value);
+      $("#edit_catergories").val(response.id_hangmuc);
+      $("#edit_name_category").val(response.name);
 
       // submit the edit from 
       $("#updateForm").unbind('submit').bind('submit', function() {
         var form = $(this);
-
+		
         // remove the text-danger
         $(".text-danger").remove();
 
@@ -314,7 +321,6 @@ function editFunc(id)
 
         return false;
       });
-
     }
   });
 }
@@ -333,7 +339,7 @@ function removeFunc(id)
       $.ajax({
         url: form.attr('action'),
         type: form.attr('method'),
-        data: { attribute_value_id:id }, 
+        data: { idVatTu:id }, 
         dataType: 'json',
         success:function(response) {
 

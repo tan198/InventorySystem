@@ -151,7 +151,6 @@ class Users extends Admin_Controller
 			$this->form_validation->set_rules('placeID','PlaceID', 'trim|required');
 			$this->form_validation->set_rules('department', 'Department', 'trim|required');
 			$this->form_validation->set_rules('position', 'Position', 'trim|required');
-			$this->form_validation->set_rules('imsupevisor','Supervisor', 'trim|required');
 			$this->form_validation->set_rules('contract','Type Contract', 'trim|required');
 			$this->form_validation->set_rules('tcode', 'Tax Code', 'trim|required');
 			$this->form_validation->set_rules('salary', 'Salary', 'trim|required');
@@ -186,7 +185,6 @@ class Users extends Admin_Controller
 						'duration'=>$this->input->post('cterm'),
 						'id_department'=>$this->input->post('department'),
 						'id_position' => $this->input->post('position'),
-						'manager_id' => $this->input->post('imsupevisor'),
 
 		        	);
 
@@ -231,7 +229,6 @@ class Users extends Admin_Controller
 							'duration'=>$this->input->post('cterm'),
 							'id_department'=>$this->input->post('department'),
 							'id_position' => $this->input->post('position'),
-							'manager_id' => $this->input->post('imsupevisor'),
 			        	);
 
 			        	$update = $this->model_users->edit($data, $id, $this->input->post('groups'));

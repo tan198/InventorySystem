@@ -48,6 +48,7 @@
                   <div class="form-group">
                     <label for="expenditurecategory"><?php echo $this->lang->line('Expenditure Category')?><span class="text-danger"> *</span></label>
                     <select class="form-control select_group" id="expenditurecategory" name="expenditurecategory">
+                      <option value=""><?php echo $this->lang->line('Select Category')?></option>
                       <?php foreach ($category as $k => $v): ?>
                         <option value="<?php echo $v['idHangMuc'] ?>"><?php echo $v['loaiHangMuc'] ?></option>
                       <?php endforeach ?>
@@ -56,7 +57,12 @@
 
                   <div class="form-group">
                     <label for="name_expenditure"><?php echo $this->lang->line('Name Expenditure Catagory')?><span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="name_expenditure" name="name_expenditure" placeholder="" autocomplete="off" />
+                    <select name="name_expenditure" id="name_expenditure" class="form-control select_group name_expenditure">
+                      <option value=""><?php echo $this->lang->line('Select Name Expenditure')?></option>
+                      <?php foreach ($namecate as $k => $v): ?>
+                        <option value="<?php echo $v['id']?>" ><?php echo $v['name'] ?> </option>
+                      <?php endforeach;?>
+                    </select>
                   </div>
 
                   <div class="form-group">
@@ -122,9 +128,15 @@
                         <td><button type="button" class="btn btn-default" onclick="removeRow('1')"><i class="fa fa-close"></i></button></td>
                     </tbody>
                   </table>
+
                   <div class="form-group">
-                    <label for="payer_name"><?php echo $this->lang->line('Payer')?><span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" id="payer_name" name="payer_name" placeholder="Enter payer name" autocomplete="off"/>
+                    <label for="supplier"><?php echo $this->lang->line('Supplier')?><span class="text-danger"> *</span></label>
+                    <select class="form-control select_group" name="supplier" id="supplier">
+                      <option value=""><?php echo $this->lang->line('Select Suplier') ?></option>
+                      <?php foreach ($supplier as $k => $v): ?>
+                        <option value="<?php echo $v['id'] ?>"><?php echo $v['name']?></option>
+                      <?php endforeach?>
+                    </select>
                   </div>
 
                   <div class="form-group">
@@ -133,7 +145,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="tamount"><?php echo $this->lang->line('Amount')?><span class="text-danger"> *</span></label>
+                    <label for="tamount"><?php echo $this->lang->line('Ship')?><span class="text-danger"> *</span></label>
                     <input type="text" class="form-control" id="tamount" name="tamount" placeholder="Enter amount" autocomplete="off" value="0" onkeyup="subAmount()" />
                   </div>
 
@@ -187,6 +199,27 @@
             $('#material_' + row_id).val('').change();
             removeRow(row_id);
           }
+      });
+
+      $("#expenditurecategory").change(function(){
+        var category = $(this).val();
+        $.ajax({
+        url: base_url + '/namecate/getListName/' + category,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            // Xóa tất cả các option hiện có trong select box name_expenditure
+            $('#name_expenditure').empty();
+            
+            // Thêm các option mới dựa trên dữ liệu nhận được từ ajax response
+            $.each(data, function(index, value){
+              
+                $('#name_expenditure').append('<option value="' + value.id+ '">' + value.name + '</option>');
+            });
+            $(".name_expenditure").select2();
+          }
+
+        });
       });
 
       

@@ -63,7 +63,7 @@
 
                 <div class="form-group col-md-6">
                   <label for="dobirth"><?php echo $this->lang->line('Date of birth')?></label>
-                  <input type="text" class="form-control" id="dobirth" name="dobirth" value="<?php echo $user_data['dateobirth'] ?>" autocomplete="off">
+                  <input type="date" class="form-control" id="dobirth" name="dobirth" value="<?php echo $user_data['dateobirth'] ?>" autocomplete="off">
                 </div>
 
                 <div class="form-group col-md-6">

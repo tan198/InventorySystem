@@ -34,12 +34,14 @@
           </div>
         <?php endif; ?>
 
-        <?php if(in_array('createExpenditure', $user_permission)): ?>
-          <a href="<?php echo base_url('expenditure/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Expenditure');?></a>
+        <?php if(in_array('createExpenditure', $user_permission) || in_array('createAdvances', $user_permission)): ?>
+          <a href="<?php echo base_url('expenditure/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Buy Materials');?></a>
+          <a href="<?php echo base_url('advances/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Advances');?></a>
+          <a href="<?php echo base_url('transaction/create')?>" class="btn btn-primary"><?php echo $this->lang->line('Orther Expenditure')?></a>
           <a href="<?php echo base_url('expenditure/exportexcel') ?>" class="btn btn-primary mb-2">Export</a>
           <br> <br>
-
         <?php endif; ?>
+
 
         <div class="box">
           <div class="box-header">
@@ -50,14 +52,10 @@
             <table id="manageTable" class="table table-bordered table-hover">
               <thead>
               <tr>
-                <th><?php echo $this->lang->line('Expenditure Category');?></th>
-                <th><?php echo $this->lang->line('Expenditure Name');?></th>
-                <th><?php echo $this->lang->line('Material Status');?></th>
-                <!--<th>Material</th>-->
+                <th><?php echo $this->lang->line('Type Expenditure');?></th>
+                <th><?php echo $this->lang->line('Receiver');?></th>
                 <th><?php echo $this->lang->line('Fund Name');?></th>
-                <th><?php echo $this->lang->line('Payer');?></th>
                 <th><?php echo $this->lang->line('Date Expenditure');?></th>
-                <th><?php echo $this->lang->line('Amount');?></th>
                 <th><?php echo $this->lang->line('Total Amount');?></th>
                 
                 <?php if(in_array('updateExpenditure', $user_permission) || in_array('deleteExpenditure', $user_permission)): ?>
@@ -68,7 +66,7 @@
 
               <tfoot>
                 <tr>
-                  <th colspan="7" style="text-align:right"><?php echo $this->lang->line('Total:');?></th>
+                  <th colspan="4" style="text-align:right"><?php echo $this->lang->line('Total:');?></th>
                   <th></th>
                 </tr>
               </tfoot>
@@ -141,9 +139,9 @@ var base_url = "<?php echo base_url(); ?>";
 $(document).ready(function() {
 
   $("#mainExpendituretNav").addClass('active');
+  $(".alert").delay(500).fadeOut(500);
   // initialize the datatable 
   manageTable = $('#manageTable').DataTable({
-    "serverSide": false,
     ajax: {
         "url": base_url + 'expenditure/fetchExpenditureData',
         "type": 'GET',
@@ -151,13 +149,10 @@ $(document).ready(function() {
         "dataSrc": 'data',
     },
     columns: [
-        { data: 'idHangMuc' },
-        { data: 'tenHangMuc' },
-        { data: 'materialStatus' },
+        { data: 'typeExp'},
+        { data: 'nguoiNhan' },
         { data: 'idTaiKhoan' },
-        { data: 'nguoiChi' },
         { data: 'ngayChi' },
-        { data: 'soTien' },
         { data: 'tongTien'},
         { data: 'action' },
     ],
@@ -173,20 +168,20 @@ $(document).ready(function() {
         };
 
         total = api
-            .column(7)
+            .column(4)
             .data()
             .reduce(function(a, b) {
                 return intVal(a) + intVal(b);
             }, 0);
 
         pageTotal = api
-            .column(7, { page: 'current' })
+            .column(4, { page: 'current' })
             .data()
             .reduce(function(a, b) {
                 return intVal(a) + intVal(b);
             }, 0);
 
-        $(api.column(7).footer()).html(
+        $(api.column(4).footer()).html(
             pageTotal.toLocaleString('en-US')
         );
     },
@@ -207,22 +202,14 @@ function showDetailModal(data) {
     var modalBody = $('#detailModal .modal-body');
     modalBody.empty();
 
-    modalBody.append('<p><strong><?php echo $this->lang->line('Expenditure Name:');?></strong> ' + data.tenHangMuc + '</p>');
-    modalBody.append('<p><strong><?php echo $this->lang->line('Material Status:');?></strong> ' + data.materialStatus + '</p>');
+    shownote(data.idBangChi, function(ghiChu,tenVatTu){
 
-    showMaterialsData(data.idBangChi, function(tenVatTu) {
-      if (tenVatTu) {
-          modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?><br></strong> ' + tenVatTu + '</p>');
-      } else {
-        modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?></strong> <?php echo $this->lang->line('Not available');?></p>');
-      }
-    });
-    shownote(data.idBangChi, function(ghiChu){
-      
-      if(ghiChu){
+      if(ghiChu[0] !== ""){
         modalBody.append('<p><strong><?php echo $this->lang->line('Note:');?></br></strong> ' + ghiChu + '</p>');
-      }else{
-        modalBody.append('<p><strong><?php echo $this->lang->line('Note:');?></strong> Not available</p>');
+      }
+      if (tenVatTu[0] !== null) {
+        
+          modalBody.append('<p><strong><?php echo $this->lang->line('Material Name:');?><br></strong> ' + tenVatTu + '</p>');
       }
     });
 
@@ -238,10 +225,10 @@ function shownote(idBangChi, callback){
     dataType: 'json',
     data: {idBangChi:idBangChi},
     success: function(response) {
-      console.log(response.ghiChu);
-      if (response.ghiChu !== undefined) {
+      console.log(response);
+      if (response.ghiChu !== undefined || response.tenVatTu !== undefined) {
         // Truyền trực tiếp note vào callback
-        callback(response.ghiChu);
+        callback(response.ghiChu,response.tenVatTu);
       } else {
           console.error('Error: Invalid response structure');
       }
@@ -256,8 +243,6 @@ function showMaterialsData(idBangChi, callback) {
         dataType: 'json',
         data: { idBangChi:idBangChi }, 
         success: function(response) {
-          console.log('ID sent to server:',idBangChi);
-          console.log('Response from server:', response);
           if (response && response.tenVatTu !== undefined) {
             // Truyền trực tiếp tenVatTu vào callback
             callback(response.tenVatTu);

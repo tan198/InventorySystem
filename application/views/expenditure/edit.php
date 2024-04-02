@@ -56,7 +56,11 @@
 
                   <div class="form-group">
                     <label for="name_expenditure"><?php echo $this->lang->line('Name Expenditure Catagory');?> <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="name_expenditure" name="name_expenditure" value="<?php echo $expenditure_data['expenditures']['tenHangMuc'] ?>" autocomplete="off" />
+                    <select class="form-control select_group" id="name_expenditure" name="name_expenditure" >
+                        <!--<?php foreach ($namecate as $k => $v):?>
+                          <option value="<?php echo $v['id']?>" <?php if($expenditure_data['expenditures']['tenHangMuc'] == $v['id']) {echo "selected='selected'";} ?>><?php echo $v['name']?></option>
+                        <?php endforeach;?>-->
+                    </select>
                   </div>
 
                   <div class="form-group">
@@ -128,7 +132,7 @@
                             <input type="text" name="amount[]" id ="amount_<?php echo $x; ?>" class="form-control" disabled value="<?php echo $val['tongTien'] ?>" autocomplete ="off">
                             <input type="hidden" name="amount_value[]" id="amount_value_<?php echo $x; ?>" class="form-control" value="<?php echo $val['tongTien'] ?>" autocomplete="off">
                           </td>
-                          <td><button type="button" class="btn btn-default" onclick="removeRow(1)"><i class="fa fa-close"></i></button></td>
+                          <td><button type="button" class="btn btn-default" onclick="removeRow(<?php echo $x;?>,<?php echo $val['idVatTu'];?>)"><i class="fa fa-close"></i></button></td>
                         </tr>
                         <?php $x++; ?>
                       <?php endforeach; ?>
@@ -146,14 +150,14 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="tamount"><?php echo $this->lang->line('Amount')?><span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="tamount" name="tamount" placeholder="Enter amount" value="<?php echo $expenditure_data['expenditures']['soTien'] ?>" autocomplete="off" onkeyup="subAmount()" />
+                    <label for="tamount"><?php echo $this->lang->line('Ship')?><span class="text-danger">*</span></label>
+                    <input type="text" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" data-type="currency" class="form-control" id="tamount" name="tamount" placeholder="Enter amount" value="<?php echo $expenditure_data['expenditures']['soTien'] ?>" autocomplete="off" onkeyup="subAmount()" />
                   </div>
 
                   <div class="form-group">
                     <label for="amountt"><?php echo $this->lang->line('Total Amount')?></label>
-                    <input type="text" name ="amountt" id="amountt" class="form-control" value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>" onkeyup="subAmount1()" disabled autocomplete="off">
-                    <input type="hidden" name= "amountt_value" id="amountt_value" class="form-control"  value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>" onkeyup="subAmount1()"autocomplete="off">
+                    <input type="text" name ="amountt" id="amountt" class="form-control" value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency"onkeyup="subAmount1()" disabled autocomplete="off">
+                    <input type="hidden" name= "amountt_value" id="amountt_value" class="form-control" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>" onkeyup="subAmount1()"autocomplete="off">
                   </div>
               </div>
                 <!-- /.box-body -->
@@ -223,6 +227,48 @@
         removeRow(row_id);
       }
 
+      var selected = $('#expenditurecategory :selected').val();
+      if(selected){
+        
+        $.ajax({
+          url:base_url + '/namecate/getListName/' +selected,
+          type: 'GET',
+          dataType: 'json',
+          success: function (response){
+            $.each(response, function(index, value){
+              <?php foreach ($namecate as $k => $v):?>
+                if(value.id == <?php echo $v['id']?>){
+                  $('#name_expenditure').append('<option value="' + value.id+ '">' + value.name + '</option>');
+                }
+              <?php endforeach; ?>  
+            })
+          }
+        })
+      }
+
+      $("#expenditurecategory").change(function(){
+        var category = $(this).val();
+        $.ajax({
+        url: base_url + '/namecate/getListName/' + category,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            // Xóa tất cả các option hiện có trong select box name_expenditure
+            $('#name_expenditure').empty();
+            
+            // Thêm các option mới dựa trên dữ liệu nhận được từ ajax response
+            $.each(data, function(index, value){
+              
+                $('#name_expenditure').append('<option value="' + value.id+ '">' + value.name + '</option>');
+            });
+            $(".name_expenditure").select2();
+          }
+
+        });
+      });
+
+
+      //add new row
       $("#add_row").unbind('click').bind('click',function(){
               table = $("#material_info_table");
               count_table_tbody_tr = $("#material_info_table tbody tr").length;
@@ -337,7 +383,6 @@
   }
 
 
-
     function getTotal(row = null){
       if(row){
         var total = Number($("#rate_" + row).val()) * Number($("#quantity_" + row).val());
@@ -383,17 +428,18 @@
     var base_url = "<?php echo base_url(); ?>";
     $.ajax({
         type: "post",
-        url: base_url + "expenditure/removeMaterial/",
-        data: { idBangChi: id },
+        url: base_url + "expenditure/removeMaterial/" + id,
         dataType: "json",
         success: function (response) {
             console.log(response);
+            console.log(id);
             // Remove the row with the corresponding tr_id
-           $("#material_info_table tbody tr#row_" + tr_id).remove();
-            subAmount();
+
         }
     });
-}
+    $("#material_info_table tbody tr#row_" + tr_id).remove();
+    subAmount();
+  }
 
     //function deleteRow(id){}
   </script>

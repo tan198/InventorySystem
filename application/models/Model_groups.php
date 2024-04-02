@@ -66,7 +66,6 @@ class Model_groups extends CI_Model
 		WHERE user_group.user_id = ?";
 		$query = $this->db->query($sql, array($user_id));
 		$result = $query->row_array();
-
 		return $result;
 
 	}

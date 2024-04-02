@@ -65,10 +65,10 @@ class Income extends Admin_Controller
     			$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idBangThu'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
             }
 
-            if($material_id){
+            if($material_id ){
                 $material_status = '<span class="label label-success">Yes</span>';
                 $this->model_income->updateMaterialStatus($value['idBangThu'],1);
-            }else{
+            }elseif($material_id){
                 $material_status = '<span class="label label-warning">No</span>';
                 $this->model_income->updateMaterialStatus($value['idBangThu'],0);
             }
@@ -182,16 +182,21 @@ class Income extends Admin_Controller
 
     public function quantity_require(){
         $this->load->model('model_materials');
+        $this->load->model('model_income');
+        $material_status = $this->input->post('material_status');
         $count_material = count($this->input->post('material'));
         for($i=0; $i < $count_material; $i++){
             $materialid = $this->input->post('material')[$i];
             $inputqty = $this->input->post('quantity')[$i];
             $material_data = $this->model_materials->getMaterialsData($materialid);
+            
         }
 
-        if($material_data['soLuong'] < $inputqty || $material_data['soLuong'] === 0){
-            $this->form_validation->set_message('quantity_require','The Quantity you entered is more than what we have in stock.');
-            return false;
+        if( $material_status == 1){
+            if($material_data['soLuong'] < $inputqty || $material_data['soLuong'] === 0){
+                $this->form_validation->set_message('quantity_require','The Quantity you entered is more than what we have in stock.');
+                return false;
+            }
         }
 
         return true;

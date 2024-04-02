@@ -119,7 +119,7 @@ class Materials extends Admin_Controller
         	}
         	else {
         		$response['success'] = false;
-        		$response['messages'] = 'Error in the database while creating the brand information';			
+        		$response['messages'] = 'Error in the database while creating the materials information';			
         	}
         }
         else {
@@ -172,7 +172,7 @@ class Materials extends Admin_Controller
 	        	}
 	        	else {
 	        		$response['success'] = false;
-	        		$response['messages'] = 'Error in the database while updated the brand information';			
+	        		$response['messages'] = 'Error in the database while updated the materials information';			
 	        	}
 	        }
 	        else {
@@ -211,7 +211,7 @@ class Materials extends Admin_Controller
 			}
 			else {
 				$response['success'] = false;
-				$response['messages'] = "Error in the database while removing the brand information";
+				$response['messages'] = "Error in the database while removing the materials information";
 			}
 		}
 		else {

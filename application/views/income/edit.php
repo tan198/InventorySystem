@@ -220,6 +220,8 @@
       //removeRow(row_id);
     }
 
+
+
   $("#add_row").unbind('click').bind('click',function(){
       var table = $("#material_info_table");
       var count_table_tbody_tr = $("#material_info_table tbody tr").length;
@@ -230,7 +232,6 @@
         type: 'post',
         dataType: 'json',
         success:function(response){
-          console.log(response)
           var html = '<tr id="row_' + row_id +'">' +
             '<td>'+
             '<select class="form-control select_group material" data-row-id="'+row_id+'" id = "material_'+row_id+'"name="material[]" style="width:100%" onchange="getMaterialData('+row_id+')">'+

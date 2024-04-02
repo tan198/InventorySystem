@@ -30,7 +30,10 @@ class Model_expenditure extends CI_Model
 	}
 
     public function getNoteExpenditure1($idBangChi = null){
-        $sql = "SELECT ghiChu FROM `taobangchi` WHERE idBangChi=?";
+        $sql = "SELECT vattu.tenVatTu, ghiChu FROM `taobangchi`
+                LEFT JOIN material_item ON taobangchi.idBangChi = material_item.idBangChi
+                LEFT JOIN vattu ON material_item.idVatTu = vattu.idVatTu
+                WHERE taobangchi.idBangChi = ?";
         $query=$this->db->query($sql,array($idBangChi));
         return $query->result_array();
     }
@@ -234,6 +237,15 @@ class Model_expenditure extends CI_Model
         }
     }
 
+    public function updateTypeExpenditure($id,$typeExpenditure){
+        if($id){
+            $this->db->where('idBangChi',$id);
+            $this->db->set('typeExp', $typeExpenditure);
+            $updatesType = $this->db->update('taobangchi');
+            return ($updatesType == true)?true:false;
+        }
+    }
+
 
 
     public function remove($id)
@@ -265,31 +277,14 @@ class Model_expenditure extends CI_Model
     }
 
     public function removeMaterial($id){
-        $response = array('success' => false, 'message' => '');
-    
-        $this->db->select('idVatTu');
-        $this->db->where('idBangChi', $id);
-        $query = $this->db->get('material_item');
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $row) {
-                $idVatTu = $row->idVatTu;
-                // Xoá từ bảng vattu
-                $this->db->where('idVatTu', $idVatTu);
-                $this->db->where('vattu');
-                if (!$this->db->delete('vattu')) {
-                    $response['message'] .= 'Failed to delete materials. ';
-                }
-                // Xoá từ bảng material_item
-                $this->db->where('idVatTu', $idVatTu);
-                $this->db->delete('material_item');
-                if (!$this->db->delete('material_item')) {
-                    $response['message'] .= 'Failed to delete material items. ';
-                }
-    
 
-            }
-        }
-        return $response;
+        $this->db->where('idVatTu',$id);
+        $delete_item = $this->db->delete('vattu');
+
+        $this->db->where('idVatTu', $id);
+        $delete1 = $this->db->delete('material_item');
+
+        return ( $delete1 == true && $delete_item ) ? true : false;
     }
     
 }

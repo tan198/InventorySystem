@@ -32,8 +32,8 @@
             </div>
           <?php endif; ?>
           
-          <?php if(in_array('createExpenditureCategory', $user_permission)): ?>
-            <a href="<?php echo base_url('expenditurecategory/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Category')?></a>
+          <?php if(in_array('createCategory', $user_permission)): ?>
+            <a href="<?php echo base_url('category/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Category')?></a>
             <br /> <br />
           <?php endif; ?>
 

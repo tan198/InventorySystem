@@ -16,13 +16,24 @@ class Expenditure extends Admin_Controller
 
 		$this->not_logged_in();
 
-		$this->data['page_title'] = 'Expenditure';
+        $current_lang = $this->session->userdata('site_lang');
+
+        if ($current_lang == 'english') {
+            $this->lang->load('content_lang','english');
+        } elseif ($current_lang == 'vietnam') {
+            $this->lang->load('content_lang','vietnam');
+        }
+        
+        $this->data['page_title'] =  $this->lang->line('Expenditure');
 
 		$this->load->model('model_expenditure');
         $this->load->model('model_category');
 		$this->load->model('model_fund');
         $this->load->model('model_materials');
         $this->load->model('model_tmaterial');
+        $this->load->model('model_users');
+        $this->load->model('model_supplier');
+        $this->load->model('model_namecategory');
 	}
 
     /* 
@@ -48,43 +59,85 @@ class Expenditure extends Admin_Controller
 
 
 		foreach ($data as $key => $value) {
-            //var_dump($material_info);
+
             $date_expenditure = date('d/m/Y',  strtotime($value['ngayChi']));
             $category_data = $this -> model_category->getCategoryData($value['idHangMuc']);
             $fund_data = $this -> model_fund->getFundData($value['idTaiKhoan']);
             $material_id = $this->model_expenditure->getMaterialItemData($value['idBangChi']);
-			// button
-            $buttons = '';
-            if(in_array('updateExpenditure', $this->permission)) {
-    			$buttons .= '<a href="'.base_url('expenditure/update/'.$value['idBangChi']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
-            }
 
-            if(in_array('deleteExpenditure', $this->permission)) { 
-    			$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idBangChi'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
-            }
-
-            if($material_id){
+            $material_status = $value['materialStatus'];
+            if($material_id && $value['nguoiNhan'] == 0){
                 $material_status = '<span class="label label-success">Yes</span>';
                 $this->model_expenditure->updateMaterialStatus($value['idBangChi'],1);
-            }else{
+            }elseif($material_id == 0 && $value['nguoiNhan'] == 0){
                 $material_status = '<span class="label label-warning">No</span>';
                 $this->model_expenditure->updateMaterialStatus($value['idBangChi'],0);
+            }elseif($value['nguoiNhan'] && $material_id == 0){
+                $material_status = $this->model_expenditure->updateMaterialStatus($value['idBangChi'],null);
+            }
+
+           
+            $type_expenditure = $value['typeExp'];
+            if($material_status == null){
+                $this->model_expenditure->updateTypeExpenditure($value['idBangChi'],1);
+                $type_expenditure = '<span class="label label-default">Advances</span>';
+            } else {
+                $this->model_expenditure->updateTypeExpenditure($value['idBangChi'],2);
+                $type_expenditure = '<span class="label label-info">Buy Material</span>';
+            }
+            
+            
+            
+
+
+            //var_dump($receiver);
+
+            
+
+            $receiver_name = '';
+            if($material_status != null){
+                $receiver = $this->model_supplier->getSupplierData($value['nguoiNhan']);
+                //var_dump($receiver);
+                $receiver_name = isset($receiver['name']) ? $receiver['name'] : '';
+            }else{
+                $receiver = $this->model_users->getUserData($value['nguoiNhan']) ;
+
+                $firstname = isset($receiver['firstname']) ? $receiver['firstname'] : '';
+                $lastname = isset($receiver['lastname']) ? $receiver['lastname'] : '';
+    
+                $receiver_name = trim($firstname . ' ' . $lastname);
+            }
+
+
+
+			// button
+            $buttons = '';
+            if($material_status !== null){
+                if(in_array('updateExpenditure', $this->permission)) {
+                    $buttons .= '<a href="'.base_url('expenditure/update/'.$value['idBangChi']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+                }
+            }else{
+                if(in_array('updateAdvances',  $this->permission)){
+                    $buttons .= '<a href="'.base_url('advances/update/'.$value['idBangChi']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+                }
+            }
+            if(in_array('deleteExpenditure', $this->permission)) { 
+                $buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idBangChi'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
             }
 
             //$currency_unit = number_format((float)$value['soTienThu'],2,'.',','); 
 
 			$result['data'][$key] = array(
                 'idBangChi' => $value['idBangChi'],
-                'idHangMuc'=>$category_data['loaiHangMuc'],
-                'tenHangMuc'=>$value['tenHangMuc'],
-                'materialStatus'=>$material_status,
+                'typeExp'=> $type_expenditure,
+                'nguoiNhan'=>$receiver_name,
                 'idTaiKhoan'=>$fund_data['tenTaiKhoan'],
-				'nguoiChi'=>$value['nguoiChi'],
 				'ngayChi'=>$date_expenditure,
-                'soTien'=>$value['soTien'],
                 'tongTien'=>$value['tongTien'],
 				'action'=>$buttons
 			);
+
+            //var_dump($result);
 		} // /foreach
     
 		echo json_encode($result);
@@ -101,7 +154,7 @@ class Expenditure extends Admin_Controller
             redirect('dashboard', 'refresh');
         }
 
-		$this->form_validation->set_rules('payer_name', 'Payer name', 'trim|required');
+		$this->form_validation->set_rules('supplier', 'Payer name', 'trim|required');
 		$this->form_validation->set_rules('expenditurecategory', 'Expenditurecategory', 'required');
 		$this->form_validation->set_rules('date_expenditure', 'Date expenditure', 'required');
         $this->form_validation->set_rules('fund', 'Fund', 'required');
@@ -110,9 +163,11 @@ class Expenditure extends Admin_Controller
 	
         if ($this->form_validation->run() == TRUE) {
             // true case
-
+            $user_id = $this->session->userdata('id');
         	$data = array(
-        		'nguoiChi' => $this->input->post('payer_name'),
+                'nguoiChi' => $user_id,
+                //'typeExp' =>  $this->input->post('typeExp'),
+        		'nguoiNhan' => $this->input->post('supplier'),
         		'idHangMuc' => $this->input->post('expenditurecategory'),
                 'tenHangMuc' => $this->input->post('name_expenditure'),
                 'materialStatus' => $this->input->post('material_status'),
@@ -165,9 +220,12 @@ class Expenditure extends Admin_Controller
             }else{
         
 			$this->data['category'] = $this->model_category->getCategoryData();
-			$this->data['fund'] = $this->model_fund->getFundData();  
+			$this->data['fund'] = $this->model_fund->getFundData();
+            $this->data['supplier'] = $this->model_supplier->getSupplierData();  
             $this->data['materials'] = $this->model_materials->getMaterialsData();
+            $this->data['users'] = $this->model_users->getUserData();
             $this->data['tmaterial'] = $this->model_tmaterial->getTmaterialData();
+            $this->data['namecate'] = $this->model_namecategory->getNameCategory();
             $this->render_template('expenditure/create', $this->data);
         }
 	}
@@ -200,17 +258,11 @@ class Expenditure extends Admin_Controller
         $note = null;
 
         foreach($expenditure_data as $v){
-            // Debugging: Check the structure of each item
-            
-            
-                $note[] = nl2br($v['ghiChu']);
-                //echo 'Note: ' . $v['ghiChu'] . '<br>';
-            
-            //var_dump($note);
+            $materialname[] = $v['tenVatTu'];
+            $note[0] = nl2br($v['ghiChu']);
         }
-        // Debugging: Check the final note array
-        //print_r($note);
-        echo json_encode(array('ghiChu' => $note));
+
+        echo json_encode(array('ghiChu' => $note, 'tenVatTu'=> $materialname));
     }
     
     public function getMaterialValueById(){
@@ -294,7 +346,9 @@ class Expenditure extends Admin_Controller
             $this->data['material'] = $this->model_materials->getMaterialsData();
             $this->data['category'] = $this->model_category->getCategoryData();
 			$this->data['fund'] = $this->model_fund->getFundData();
+            $this->data['supplier'] = $this->model_supplier->getSupplierData();
             $this->data['tmaterial'] = $this->model_tmaterial->getTmaterialData();
+            $this->data['namecate'] = $this->model_namecategory->getNameCategory();
             $this->render_template('expenditure/edit', $this->data); 
         }   
 	}
@@ -331,10 +385,11 @@ class Expenditure extends Admin_Controller
         echo json_encode($response);
 	}
 
-    public function removeMaterial(){
-        $idVatTu = $this->input->post('idVatTu');
+    public function removeMaterial($idVatTu){
+
         if($idVatTu){
             $deleteRow = $this->model_expenditure->removeMaterial($idVatTu);
+            var_dump($deleteRow);
         }
         echo json_encode($deleteRow);
     }
