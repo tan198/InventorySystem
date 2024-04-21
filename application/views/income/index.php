@@ -36,7 +36,9 @@
 
         <?php if(in_array('createIncome', $user_permission)): ?>
           <a href="<?php echo base_url('income/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Add Income');?></a>
-          <a href="<?php echo base_url('income/exportexcel') ?>" class="btn btn-primary mb-2">Export</a>
+          <a href="<?php echo base_url('refund/create')?>" class="btn btn-primary"><?php echo $this->lang->line('Refund');?></a>
+          <a href="<?php echo base_url('otherincome/create')?>" class="btn btn-primary"><?php echo $this->lang->line('Other Income');?></a>
+          <a href="<?php echo base_url('income/exportexcel') ?>" class="btn btn-primary mb-2"><?php echo $this->lang->line('Export Excel');?></a>
           <br> <br>
 
         <?php endif; ?>
@@ -50,13 +52,10 @@
             <table id="manageTable" class="table table-bordered table-hover" >
               <thead>
               <tr>
-              <th><?php echo $this->lang->line('Income Category')?></th>
-                <th><?php echo $this->lang->line('Income Name')?></th>
-                <th><?php echo $this->lang->line('Material Status')?></th>
-                <th><?php echo $this->lang->line('Payment Type')?></th>
+                <th><?php echo $this->lang->line('Types Income')?></th>
                 <th><?php echo $this->lang->line('Receiver')?></th>
+                <th><?php echo $this->lang->line('Payment Type')?></th>
                 <th><?php echo $this->lang->line('Date Income')?></th>
-                <th><?php echo $this->lang->line('Amount')?></th>
                 <th><?php echo $this->lang->line('Total Amount')?></th>
                 
                 <?php if(in_array('updateIncome', $user_permission) || in_array('deleteIncome', $user_permission)): ?>
@@ -67,7 +66,7 @@
 
               <tfoot>
                 <tr>
-                  <th colspan="7" style="text-align:right"><?php echo $this->lang->line('Total:');?></th>
+                  <th colspan="4" style="text-align:right"><?php echo $this->lang->line('Total:');?></th>
                   <th></th>
                 </tr>
               </tfoot>
@@ -150,13 +149,10 @@ $(document).ready(function() {
         "dataSrc": 'data',
     },
     columns: [
-        { data: 'idHangMuc' },
-        { data: 'tenHangMuc' },
-        { data: 'materialStatus' },
-        { data: 'idTaiKhoan' },
+        {data: 'type_income'},
         { data: 'nguoiThu' },
+        { data: 'idTaiKhoan' },
         { data: 'ngayThu' },
-        { data: 'soTienThu' },
         { data: 'tongTien' },
         { data: 'action' },
     ],
@@ -172,20 +168,20 @@ $(document).ready(function() {
         };
 
         total = api
-            .column(7)
+            .column(4)
             .data()
             .reduce(function(a, b) {
                 return intVal(a) + intVal(b);
             }, 0);
 
         pageTotal = api
-            .column(7, { page: 'current' })
+            .column(4, { page: 'current' })
             .data()
             .reduce(function(a, b) {
                 return intVal(a) + intVal(b);
             }, 0);
 
-        $(api.column(7).footer()).html(
+        $(api.column(4).footer()).html(
             pageTotal.toLocaleString('en-US')
         );
     },
@@ -204,9 +200,6 @@ $(document).ready(function() {
 function showDetailModal(data) {
     var modalBody = $('#detailModal .modal-body');
     modalBody.empty();
-
-    modalBody.append('<p><strong><?php echo $this->lang->line('Name Income:');?></strong> ' + data.tenHangMuc + '</p>');
-    modalBody.append('<p><strong><?php echo $this->lang->line('Material Status:');?></strong> ' + data.materialStatus + '</p>');
 
     showMaterialsData(data.idBangThu, function(tenVatTu) {
       console.log(data.idBangThu);

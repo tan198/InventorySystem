@@ -2,11 +2,11 @@
 	<section class="content-header">
       <h1>
 		<?php echo $this->lang->line('Manage')?>
-		<small><?php echo $this->lang->line('Advances')?></small>
+		<small><?php echo $this->lang->line('Refund')?></small>
 	  </h1>
 	  <ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i><?php echo $this->lang->line('Home')?></a></li>
-		<li class="active"><?php echo $this->lang->line('Advances')?></li>
+		<li class="active"><?php echo $this->lang->line('Refund')?></li>
 	  </ol>
 	</section>
 
@@ -29,10 +29,10 @@
 
 				<div class="box">
 					<div class="box-header">
-						<h3 class="box-title"><?php echo $this->lang->line('Edit Advances')?></h3>
+						<h3 class="box-title"><?php echo $this->lang->line('Edit Refund')?></h3>
 					</div>
 
-					<form role="form" action="<?php base_url('advances/update')?>" method="post" enctype="multipart/form-data">
+					<form role="form" action="<?php base_url('refund/update')?>" method="post" enctype="multipart/form-data">
 						<div class="box-body">
 							<?php echo validation_errors(); ?>
 
@@ -40,21 +40,21 @@
 								<label for="payer_name"><?php echo $this->lang->line('Payer')?><span class="text-danger"> *</span></label>
 								<select name="payer_name" id="payer_name" class="form-control select_group">
 									<?php foreach($users as $k => $v): ?>
-										<option value="<?php echo $v['id']?>" <?php if($advances['nguoiChi'] == $v['id']){ echo "selected='selected'"; } ?>><?php echo $v['firstname'] .' '. $v['lastname']?></option>
+										<option value="<?php echo $v['id']?>" <?php if($refund['nguoiChi'] == $v['id']){ echo "selected='selected'"; } ?>><?php echo $v['firstname'] .' '. $v['lastname']?></option>
 									<?php endforeach ?>
 								</select>
 							</div>
 
 							<div class="form-group">
 								<label for="note"><?php echo $this->lang->line('Note')?><span class="text-danger"> *</span></label>
-								<textarea type="text" name="note" id="note" class="form-control" placeholder="" autocomplete="off"><?php echo $advances['ghiChu'] ?></textarea>
+								<textarea type="text" name="note" id="note" class="form-control" placeholder="" autocomplete="off"><?php echo $refund['ghiChu'] ?></textarea>
 							</div>
 
 							<div class="form-group">
 								<label for="receiver_name"><?php echo $this->lang->line('Receiver') ?><span class="text-danger"> *</span></label>
 								<select name="receiver_name" id="receiver_name" class="form-control select_group">
 									<?php foreach($users as $k => $v): ?>
-										<option value="<?php echo $v['id']?>" <?php if($v['id'] == $advances['nguoiNhan']){echo "selected='selected'";} ?>><?php echo $v['firstname'] .' '. $v['lastname']?></option>
+										<option value="<?php echo $v['id']?>" <?php if($v['id'] == $refund['nguoiThu']){echo "selected='selected'";} ?>><?php echo $v['firstname'] .' '. $v['lastname']?></option>
 									<?php endforeach?>
 								</select>
 							</div>
@@ -64,7 +64,7 @@
 								<select name="fund" id="fund" class="form-control select_group">
 									<option value=""></option>
 									<?php foreach($fund as $k => $v): ?>
-										<option value="<?php echo $v['idTaiKhoan'] ?>"<?php if($advances['idTaiKhoan'] == $v['idTaiKhoan']) {echo "selected='selected'";} ?>> <?php echo $v['tenTaiKhoan'] ?></option>
+										<option value="<?php echo $v['idTaiKhoan'] ?>"<?php if($refund['idTaiKhoan'] == $v['idTaiKhoan']) {echo "selected='selected'";} ?>> <?php echo $v['tenTaiKhoan'] ?></option>
 									<?php endforeach;?>
 								</select>
 							</div>
@@ -72,7 +72,7 @@
 								<label for="payment"><?php echo $this->lang->line('Type Payment')?></label>
 								<?php foreach($fund as $k => $v):?>
 									<?php foreach($payment as $k1 => $v1):?>
-										<?php if($advances['idTaiKhoan'] == $v['idTaiKhoan'] && $v['loaithanhtoan_id'] == $v1['id']):?>
+										<?php if($refund['idTaiKhoan'] == $v['idTaiKhoan'] && $v['loaithanhtoan_id'] == $v1['id']):?>
 											<input type="text" name="payment" id="payment" class="form-control" value="<?php echo $v1['loaiThanhToan']?>" disabled autocomplete="off">
 											<input type="hidden" name="payment" id="payment" class="form-control" value="<?php echo $v1['loaiThanhToan']?>" autocomplete="off">
 										<?php endif; ?>
@@ -81,19 +81,19 @@
 							</div>
 
 							<div class="form-group">
-								<label for="date_advances"><?php echo $this->lang->line('Date')?><span class="text-danger"> *</span></label>
-								<input class="form-control" type="date" name="date_advances" id="date_advances" autocomplete ="off" value="<?php echo $advances['ngayChi']?>"/>
+								<label for="date_refund"><?php echo $this->lang->line('Date')?><span class="text-danger"> *</span></label>
+								<input class="form-control" type="date" name="date_refund" id="date_refund" autocomplete ="off" value="<?php echo $refund['ngayThu']?>"/>
 							</div>
 
 							<div class="form-group">
 								<label for="amount"><?php echo $this->lang->line('Amount')?><span class="text-danger"> *</span></label>
-								<input type="text" name="amount" id="amount" class="form-control" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" value="<?php echo $advances['tongTien']?>" autocomplete="off"  />
+								<input type="number" name="amount" id="amount" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" value="<?php echo $refund['tongTien']?>" autocomplete="off"  />
 							</div>
 						</div>
 
 						<div class="box-footer">
 							<button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save Changes'); ?></button>
-							<a href="<?php echo base_url('expenditure/')?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
+							<a href="<?php echo base_url('income/')?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
 						</div>
 					</form>
 				</div>
@@ -106,13 +106,13 @@
 $(document).ready(function(){
 	var base_url = "<?php echo base_url();?>"
 	$(".select_group").select2();
-	$("#mainExpenditureNav").addClass('active');
-    $("#manageExpenditureNav").addClass('active');
+	$("#mainIncomeNav").addClass('active');
+    $("#manageIncomeNav").addClass('active');
 
 	$("#fund").change(function(){
 		var selected = $(this).val();
 		$.ajax({
-			url: base_url + 'advances/getPaymentById/'+ selected,
+			url: base_url + 'refund/getPaymentById/'+ selected,
 			type: 'GET',
 			//data: {idTaiKhoan: selected},
 			success: function(data){
@@ -132,76 +132,76 @@ $(document).ready(function(){
     });
 
     function formatNumber(n) {
-	// format number 1000000 to 1,234,567
-	return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-	}
+  // format number 1000000 to 1,234,567
+  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
 
 
-	function formatCurrency(input, blur) {
-	// appends $ to value, validates decimal side
-	// and puts cursor back in right position.
-	
-	// get input value
-	var input_val = input.val();
-	
-	// don't validate empty input
-	if (input_val === "") { return; }
-	
-	// original length
-	var original_len = input_val.length;
+function formatCurrency(input, blur) {
+  // appends $ to value, validates decimal side
+  // and puts cursor back in right position.
+  
+  // get input value
+  var input_val = input.val();
+  
+  // don't validate empty input
+  if (input_val === "") { return; }
+  
+  // original length
+  var original_len = input_val.length;
 
-	// initial caret position 
-	var caret_pos = input.prop("selectionStart");
-		
-	// check for decimal
-	if (input_val.indexOf(".") >= 0) {
+  // initial caret position 
+  var caret_pos = input.prop("selectionStart");
+    
+  // check for decimal
+  if (input_val.indexOf(".") >= 0) {
 
-		// get position of first decimal
-		// this prevents multiple decimals from
-		// being entered
-		var decimal_pos = input_val.indexOf(".");
+    // get position of first decimal
+    // this prevents multiple decimals from
+    // being entered
+    var decimal_pos = input_val.indexOf(".");
 
-		// split number by decimal point
-		var left_side = input_val.substring(0, decimal_pos);
-		var right_side = input_val.substring(decimal_pos);
+    // split number by decimal point
+    var left_side = input_val.substring(0, decimal_pos);
+    var right_side = input_val.substring(decimal_pos);
 
-		// add commas to left side of number
-		left_side = formatNumber(left_side);
+    // add commas to left side of number
+    left_side = formatNumber(left_side);
 
-		// validate right side
-		right_side = formatNumber(right_side);
-		
-		// On blur make sure 2 numbers after decimal
-		if (blur === "blur") {
-		right_side += "00";
-		}
-		
-		// Limit decimal to only 2 digits
-		right_side = right_side.substring(0, 2);
+    // validate right side
+    right_side = formatNumber(right_side);
+    
+    // On blur make sure 2 numbers after decimal
+    if (blur === "blur") {
+      right_side += "00";
+    }
+    
+    // Limit decimal to only 2 digits
+    right_side = right_side.substring(0, 2);
 
-		// join number by .
-		input_val =  left_side + "." + right_side;
+    // join number by .
+    input_val =  left_side + "." + right_side;
 
-	} else {
-		// no decimal entered
-		// add commas to number
-		// remove all non-digits
-		input_val = formatNumber(input_val);
-		//input_val =  input_val;
-		
-		// final formatting
-		if (blur === "blur") {
-		input_val += ".00";
-		}
-	}
-	
-	// send updated string to input
-		input.val(input_val);
+  } else {
+    // no decimal entered
+    // add commas to number
+    // remove all non-digits
+    input_val = formatNumber(input_val);
+    //input_val =  input_val;
+    
+    // final formatting
+    if (blur === "blur") {
+      input_val += ".00";
+    }
+  }
+  
+  // send updated string to input
+  input.val(input_val);
 
-		// put caret back in the right position
-		var updated_len = input_val.length;
-		caret_pos = updated_len - original_len + caret_pos;
-		input[0].setSelectionRange(caret_pos, caret_pos);
-		}
+  // put caret back in the right position
+  var updated_len = input_val.length;
+  caret_pos = updated_len - original_len + caret_pos;
+  input[0].setSelectionRange(caret_pos, caret_pos);
+}
 })
 </script>

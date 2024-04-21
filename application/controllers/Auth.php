@@ -8,6 +8,17 @@ class Auth extends Admin_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$current_lang = $this->session->userdata('site_lang');
+
+        if ($current_lang == 'english') {
+            $this->lang->load('form_validation', 'english');
+            $this->lang->load('content_lang','english');
+            
+        } 
+        elseif ($current_lang == 'vietnam') {
+            $this->lang->load('content_lang','vietnam');
+            $this->lang->load('form_validation', 'vietnam');
+        }
 
 		$this->load->model('model_auth');
 	}
@@ -21,8 +32,8 @@ class Auth extends Admin_Controller
 
 		$this->logged_in();
 
-		$this->form_validation->set_rules('email', 'Email', 'required');
-        $this->form_validation->set_rules('password', 'Password', 'required');
+		$this->form_validation->set_rules('email', $this->lang->line('Email'), 'required');
+        $this->form_validation->set_rules('password', $this->lang->line('Password'), 'required');
 
         if ($this->form_validation->run() == TRUE) {
             // true case
@@ -44,12 +55,12 @@ class Auth extends Admin_Controller
            			redirect('dashboard', 'refresh');
            		}
            		else {
-           			$this->data['errors'] = 'Incorrect username/password combination';
+           			$this->data['errors'] = $this->lang->line('Incorrect username/password combination');
            			$this->load->view('login', $this->data);
            		}
            	}
            	else {
-           		$this->data['errors'] = 'Email does not exists';
+           		$this->data['errors'] = $this->lang->line('Email does not exists');
 
            		$this->load->view('login', $this->data);
            	}	

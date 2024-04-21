@@ -87,7 +87,7 @@
                         Yes
                       </label>
                       <label>
-                        <input type="radio" name="material_status"class="material_status" onkeyup="subAmount1()" id="No" value="0" <?php
+                        <input type="radio" name="material_status"class="material_status" onkeyup="subAmount()" id="No" value="0" <?php
                             if($expenditure_data['expenditures']['materialStatus'] == 0) {echo "checked";}
                         ?>>
                         No
@@ -123,10 +123,10 @@
                               </select>
                           </td>
                           <td>
-                            <input type="text" name="quantity[]" id="quantity_<?php echo $x; ?>" class="form-control" onkeyup="getTotal(<?php echo $x; ?>)"  value="<?php echo $val['soLuong'] ?>" autocomplete="off">
+                            <input type="text" name="quantity[]" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="quantity_<?php echo $x; ?>" class="form-control" onkeyup="getTotal(<?php echo $x; ?>)"  value="<?php echo $val['soLuong'] ?>" autocomplete="off">
                           </td>
                           <td>
-                            <input type="text" name="rate[]" id="rate_<?php echo $x; ?>" class="form-control" onkeyup="getTotal(<?php echo $x; ?>)"  value="<?php echo $val['rate'] ?>" autocomplete="off">
+                            <input type="text" name="rate[]" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="rate_<?php echo $x; ?>" class="form-control" onkeyup="getTotal(<?php echo $x; ?>)"  value="<?php echo $val['rate'] ?>" autocomplete="off">
                           </td>
                           <td>
                             <input type="text" name="amount[]" id ="amount_<?php echo $x; ?>" class="form-control" disabled value="<?php echo $val['tongTien'] ?>" autocomplete ="off">
@@ -151,13 +151,13 @@
 
                   <div class="form-group">
                     <label for="tamount"><?php echo $this->lang->line('Ship')?><span class="text-danger">*</span></label>
-                    <input type="text" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" data-type="currency" class="form-control" id="tamount" name="tamount" placeholder="Enter amount" value="<?php echo $expenditure_data['expenditures']['soTien'] ?>" autocomplete="off" onkeyup="subAmount()" />
+                    <input type="text"  class="form-control" id="tamount" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" name="tamount" placeholder="Enter amount" value="<?php echo $expenditure_data['expenditures']['soTien'] ?>" autocomplete="off" onkeyup="subAmount()" />
                   </div>
 
                   <div class="form-group">
                     <label for="amountt"><?php echo $this->lang->line('Total Amount')?></label>
-                    <input type="text" name ="amountt" id="amountt" class="form-control" value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency"onkeyup="subAmount1()" disabled autocomplete="off">
-                    <input type="hidden" name= "amountt_value" id="amountt_value" class="form-control" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>" onkeyup="subAmount1()"autocomplete="off">
+                    <input type="text" name ="amountt" id="amountt" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>" onkeyup="subAmount()" disabled autocomplete="off">
+                    <input type="hidden" name= "amountt_value" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="amountt_value" class="form-control"  value="<?php echo $expenditure_data['expenditures']['tongTien'] ?>" onkeyup="subAmount()"autocomplete="off">
                   </div>
               </div>
                 <!-- /.box-body -->
@@ -195,8 +195,6 @@
       var count_table_tbody_tr = $("#material_info_table tbody tr").length;
       var row_id =count_table_tbody_tr + 1;
 
-      console.log('Row ID:', row_id);
-
       $("input[name='material_status']").change(function() {
         if ($(this).val() == 1) {
           $("#material_info_table").show();
@@ -226,6 +224,8 @@
         $("#amountt_value"+row_id).val(amount).change();
         removeRow(row_id);
       }
+
+      //Hiển thị theo các tên hạng mục theo hạng mục
 
       var selected = $('#expenditurecategory :selected').val();
       if(selected){
@@ -285,9 +285,9 @@
                   
                   html += '</select>'+
                 '</td>'+
-                  '<td><input type="number" name="quantity1[]" id="quantity_' + row_id +'" class="form-control"></td>'+
-                  '<td><input type="text" name="rate1[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
-                  '<td><input type="text" name="amount1[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
+                  '<td><input type="number" name="quantity1[]" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="quantity_' + row_id +'" class="form-control"></td>'+
+                  '<td><input type="text" name="rate1[]" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
+                  '<td><input type="text" name="amount1[]" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
                   '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
                   '</tr>';
 
@@ -383,10 +383,10 @@
   }
 
 
-    function getTotal(row = null){
+  function getTotal(row = null){
       if(row){
-        var total = Number($("#rate_" + row).val()) * Number($("#quantity_" + row).val());
-        total =total.toFixed(2);
+        var total = parseFloat(($("#rate_" + row).val()).replace(/,/g,"")) * parseFloat(($("#quantity_" + row).val()).replace(/,/g,""));
+        total =total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         $("#amount_"+row).val(total);
         $("#amount_value_" + row).val(total);
         subAmount();
@@ -402,27 +402,26 @@
         var tr = $("#material_info_table tbody tr")[x];
         var count = $(tr).attr('id');
         count =count.substring(4);
-        totalSubAmount = Number(totalSubAmount) +Number($("#amount_" + count).val());
+        totalSubAmount = parseFloat(totalSubAmount) + parseFloat(($("#amount_" + count).val()).replace(/,/g , ''));
       }
 
       totalSubAmount =totalSubAmount.toFixed(2);
-      var amount = $("#tamount").val();
+      var amount = parseFloat($("#tamount").val().replace(/,/g,""));
       var totalAmount = (Number(amount) + Number(totalSubAmount));
-      totalAmount = totalAmount.toFixed(2);
-
+      totalAmount = totalAmount.toLocaleString(undefined,{ minimumFractionDigits: 2, maximumFractionDigits: 2 });
     
         $("#amountt").val(totalAmount);
         $("#amountt_value").val(totalAmount);
       
     }
 
-    function subAmount1(){
-      var amount = $("#tamount").val();
-      Number(amount).toFixed(2);
-        $("#amountt").val(amount);
-        $("#amountt_value").val(amount);
+    //function subAmount1(){
+    //  var amount = $("#tamount").val();
+    //  Number(amount).toFixed(2);
+    //    $("#amountt").val(amount);
+    //    $("#amountt_value").val(amount);
       
-    }
+    //}
 
     function removeRow(tr_id, id) {
     var base_url = "<?php echo base_url(); ?>";

@@ -17,14 +17,28 @@ class Income extends Admin_Controller
 
 		$this->not_logged_in();
 
-		$this->data['page_title'] = 'Income';
+        $current_lang = $this->session->userdata('site_lang');
+
+        if (!$current_lang || $current_lang == 'english') {
+            $this->lang->load('form_validation', 'english');
+            $this->lang->load('content_lang','english');
+            
+        } 
+        elseif ($current_lang == 'vietnam') {
+            $this->lang->load('content_lang','vietnam');
+            $this->lang->load('form_validation', 'vietnam');
+        }
+
+		$this->data['page_title'] = $this->lang->line('Income');
 
 		$this->load->model('model_income');
         $this->load->model('model_category');
 		$this->load->model('model_fund');
         $this->load->model('model_materials');
         $this->load->model('model_tmaterial');
-        $this->load->library('form_validation');
+        $this->load->model('model_customer');
+        $this->load->model('model_users');
+        $this->load->model('model_namecategory');
 	}
 
     /* 
@@ -54,36 +68,73 @@ class Income extends Admin_Controller
             $incomecategory_data = $this -> model_category->getCategoryData($value['idHangMuc']);
             $fund_data = $this -> model_fund->getFundData($value['idTaiKhoan']);
             $material_id = $this->model_income->getMaterialItemData($value['idBangThu']);
-            //$material = $this->model_expenditure1->getMaterialItemData($value['idVatTu']);
-			// button
+
+            //Trạng thái của vật tư
+            $material_status = $value['materialStatus'];
+            if($material_id && $value['nguoiChi'] == 0){
+                $material_status = '<span class="label label-success">Yes</span>';
+                $this->model_income->updateMaterialStatus($value['idBangThu'],1);
+            }elseif($material_id == 0 && $value['nguoiChi'] == 0){
+                $material_status = '<span class="label label-warning">No</span>';
+                $this->model_income->updateMaterialStatus($value['idBangTHu'],0);
+            }elseif($value['nguoiChi'] && $material_id == 0){
+                $material_status = $this->model_income->updateMaterialStatus($value['idBangThu'],null);
+            } 
+
+            //Trạng thái loại khoản thu
+            $type_income = $value['type_income'];
+            $typeother = $value['phanloai'];
+            if($material_status == null && $typeother == null){
+                $this->model_income->updateTypeIncome($value['idBangThu'],1);
+                $type_income = '<span class="label label-default">Refund</span>';
+            } elseif($material_status == null && $typeother != null){
+                $this->model_income->updateTypeIncome($value['idBangThu'],3);
+                $type_income = '<span class="label label-primary">Others Income</span>';
+            }else{
+                $this->model_income->updateTypeIncome($value['idBangThu'],2);
+                $type_income = '<span class="label label-info">Material</span>';
+            }
+            $receiver_name = '';
+            if($material_status != null){
+                $receiver = $this->model_customer->getCustomerData($value['nguoiThu']);
+              
+                $receiver_name = isset($receiver['name']) ? $receiver['name'] : '';
+            }else{
+                $receiver = $this->model_users->getUserData($value['nguoiThu']) ;
+
+                $firstname = isset($receiver['firstname']) ? $receiver['firstname'] : '';
+                $lastname = isset($receiver['lastname']) ? $receiver['lastname'] : '';
+    
+                $receiver_name = trim($firstname . ' ' . $lastname);
+            }
+           
+            // button
             $buttons = '';
-            if(in_array('updateIncome', $this->permission)) {
-    			$buttons .= '<a href="'.base_url('income/update/'.$value['idBangThu']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+
+            if($material_status == null && $typeother == null){
+                if(in_array('updateRefund', $this->permission)){
+                    $buttons .= '<a href="'.base_url('refund/update/'.$value['idBangThu']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+                }
+            }elseif($material_status == null && $typeother != null){
+                if(in_array('updateOtherIncome', $this->permission)) {
+                    $buttons .= '<a href="'.base_url('otherincome/update/'.$value['idBangThu']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+                }
+            }else{
+                if(in_array('updateIncome', $this->permission)) {
+                    $buttons .= '<a href="'.base_url('income/update/'.$value['idBangThu']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+                }
             }
 
             if(in_array('deleteIncome', $this->permission)) { 
-    			$buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idBangThu'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
+                $buttons .= ' <button type="button" class="btn btn-default" onclick="removeFunc('.$value['idBangThu'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
             }
-
-            if($material_id ){
-                $material_status = '<span class="label label-success">Yes</span>';
-                $this->model_income->updateMaterialStatus($value['idBangThu'],1);
-            }elseif($material_id){
-                $material_status = '<span class="label label-warning">No</span>';
-                $this->model_income->updateMaterialStatus($value['idBangThu'],0);
-            }
-            //$currency_unit = number_format((float)$value['soTienThu'],2,'.',','); 
 
 			$result['data'][$key] = array(
                 'idBangThu' => $value['idBangThu'],
-                'idHangMuc'=>$incomecategory_data['loaiHangMuc'],
-                'tenHangMuc'=>$value['tenHangMuc'],
-                'materialStatus'=>$material_status,
+                'type_income'=> $type_income,
+                'nguoiThu'=>$receiver_name,
                 'idTaiKhoan'=>$fund_data['tenTaiKhoan'],
-				'nguoiThu'=>$value['nguoiThu'],
-                //$material['tenVatTu'],
 				'ngayThu'=>$date_income,
-                'soTienThu'=>$value['soTienThu'],
                 'tongTien'=>$value['tongTien'],
                 
 				'action'=>$buttons
@@ -115,7 +166,7 @@ class Income extends Admin_Controller
 		$this->form_validation->set_rules('date_income', 'Date income', 'required');
         $this->form_validation->set_rules('material_status', 'Material Status', 'required');
         $this->form_validation->set_rules('fund', 'Fund', 'required');
-		$this->form_validation->set_rules('tamount', 'Amount', 'trim|required');
+		//$this->form_validation->set_rules('tamount', 'Amount', 'trim|required');
         $this->form_validation->set_rules('amountt', 'Amountt','trim');
         $this->form_validation->set_rules('material[]', 'Material Name', 'trim|callback_material_require');
         $this->form_validation->set_rules('quantity[]', 'Quantity', 'trim|callback_quantity_require');
@@ -130,7 +181,6 @@ class Income extends Admin_Controller
                 'materialStatus' => $this->input->post('material_status'),
         		'ngayThu' => $this->input->post('date_income'),
                 'ghiChu' => $this->input->post('note_income'),
-        		'soTienThu' => $this->input->post('tamount'),
                 'tongTien' => $this->input->post('amountt_value'),
         		'idTaiKhoan' => $this->input->post('fund'),
         	);
@@ -162,7 +212,9 @@ class Income extends Admin_Controller
 			$this->data['incomecategory'] = $this->model_category->getCategoryData();
 			$this->data['fund'] = $this->model_fund->getFundData();  
             $this->data['materials'] = $this->model_materials->getMaterialsData();
-            $this->data['tmaterial'] = $this->model_tmaterial->getTmaterialData();     	    	
+            $this->data['tmaterial'] = $this->model_tmaterial->getTmaterialData();
+            $this->data['customer'] = $this->model_customer->getCustomerData();
+            $this->data['namecate'] = $this->model_namecategory->getNameCategory();     	    	
 
             $this->render_template('income/create', $this->data);
         }	
@@ -237,7 +289,6 @@ class Income extends Admin_Controller
 		$this->form_validation->set_rules('date_income', 'Date income', 'required');
         $this->form_validation->set_rules('material_status', 'Material Status', 'required');
         $this->form_validation->set_rules('fund', 'Fund', 'required');
-		$this->form_validation->set_rules('tamount', 'Amount', 'trim|required');
         $this->form_validation->set_rules('amountt', 'Amountt','trim');
         $this->form_validation->set_rules('material[]', 'Material Name', 'trim|callback_material_require');
         $this->form_validation->set_rules('quantity[]', 'Quantity', 'trim');
@@ -252,7 +303,6 @@ class Income extends Admin_Controller
                 'materialStatus' => $this->input->post('material_status'),
                 'ghiChu' => $this->input->post('note_income'),
         		'ngayThu' => $this->input->post('date_income'),
-        		'soTienThu' => $this->input->post('tamount'),
                 'tongTien' => $this->input->post('amountt_value'),
         		'idTaiKhoan' => $this->input->post('fund'),
         	);
@@ -281,6 +331,8 @@ class Income extends Admin_Controller
             $this->data['material'] = $this->model_materials->getMaterialsData();
             $this->data['incomecategory'] = $this->model_category->getCategoryData();
             $this->data['tmaterial'] = $this->model_tmaterial->getTmaterialData();
+            $this->data['users'] = $this->model_users->getUserData();
+            $this->data['namecate'] = $this->model_namecategory->getNameCategory();
 			$this->data['fund'] = $this->model_fund->getFundData(); 
             $this->render_template('income/edit', $this->data); 
         }   
@@ -307,7 +359,7 @@ class Income extends Admin_Controller
             }
             else {
                 $response['success'] = false;
-                $response['messages'] = "Error in the database while removing the expenditure information";
+                $response['messages'] = "Error in the database while removing the income information";
             }
         }
         else {

@@ -116,14 +116,14 @@
                           </select>
                         </td>
                         <td>
-                          <input type="text" name="quantity[]" id="quantity_1"  class="form-control">
+                          <input type="text" name="quantity[]" id="quantity_1"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" onkeyup="getTotal(1)" class="form-control">
                         </td>
                         <td>
-                          <input type="text" name="rate[]" id="rate_1" class="form-control"  onkeyup="getTotal(1)"  autocomplete="off">
+                          <input type="text" name="rate[]" id="rate_1" class="form-control"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency"  onkeyup="getTotal(1)"  autocomplete="off">
                         </td>
                         <td>
-                          <input type="text" name="amount" id ="amount_1" class="form-control" disabled autocomplete ="off">
-                          <input type="hidden" name="amount_value[]" id="amount_value_1" class="form-control" autocomplete="off">
+                          <input type="text" name="amount" id ="amount_1" class="form-control" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" disabled autocomplete ="off">
+                          <input type="hidden" name="amount_value[]" id="amount_value_1" class="form-control" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" autocomplete="off">
                         </td>
                         <td><button type="button" class="btn btn-default" onclick="removeRow('1')"><i class="fa fa-close"></i></button></td>
                     </tbody>
@@ -146,13 +146,13 @@
 
                   <div class="form-group">
                     <label for="tamount"><?php echo $this->lang->line('Ship')?><span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" id="tamount" name="tamount" placeholder="Enter amount" autocomplete="off" value="0" onkeyup="subAmount()" />
+                    <input type="text"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" id="tamount" name="tamount" placeholder="Enter amount" autocomplete="off" value="0" onkeyup="subAmount()" />
                   </div>
 
                   <div class="form-group">
                     <label for="amountt"><?php echo $this->lang->line('Total Amount')?></label>
-                    <input type="text" name ="amountt" id="amountt" class="form-control" disabled autocomplete="off">
-                    <input type="hidden" name= "amountt_value" id="amountt_value" class="form-control" autocomplete="off">
+                    <input type="text"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" name ="amountt" id="amountt" class="form-control" disabled autocomplete="off">
+                    <input type="hidden"  pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" name= "amountt_value" id="amountt_value" class="form-control" autocomplete="off">
                   </div>
 
                 </div>
@@ -201,6 +201,7 @@
           }
       });
 
+
       $("#expenditurecategory").change(function(){
         var category = $(this).val();
         $.ajax({
@@ -223,11 +224,6 @@
       });
 
       
-      var btnCust = '<button type="button" class="btn btn-secondary" title="Add picture tags" ' + 
-          'onclick="alert(\'Call your custom code here.\')">' +
-          '<i class="glyphicon glyphicon-tag"></i>' +
-          '</button>'; 
-      
         $("#add_row1").unbind('click').bind('click',function(){
             var table = $("#material_info_table");
             var count_table_tbody_tr = $("#material_info_table tbody tr").length;
@@ -244,9 +240,9 @@
                 
                 html += '</select>'+
               '</td>'+
-                '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" class="form-control"></td>'+
-                '<td><input type="text" name="rate[]" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
-                '<td><input type="text" name="amount[]" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" id="amount_value_'+row_id+'" class="form-control"></td>'+
+                '<td><input type="number" name="quantity[]" id="quantity_' + row_id +'" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control"></td>'+
+                '<td><input type="text" name="rate[]" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="rate_'+row_id+'" class="form-control" onkeyup="getTotal('+row_id+')"></td>'+
+                '<td><input type="text" name="amount[]" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="amount_'+row_id+'" class="form-control" disabled><input type="hidden" name="amount_value" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="amount_value_'+row_id+'" class="form-control"></td>'+
                 '<td><button type="button" class="btn btn-default" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-close"></i></button></td>'+
                 '</tr>';
               if(count_table_tbody_tr >=1){
@@ -256,12 +252,96 @@
               }
             return false;
         });
+
+
+        $("input[data-type='currency']").on({
+          keyup: function() {
+            formatCurrency($(this));
+          },
+          blur: function() { 
+            formatCurrency($(this), "blur");
+          }
+        });
     });
+
+
+    function formatNumber(n) {
+  // format number 1000000 to 1,234,567
+  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
+
+function formatCurrency(input, blur) {
+  // appends $ to value, validates decimal side
+  // and puts cursor back in right position.
+  
+  // get input value
+  var input_val = input.val();
+  
+  // don't validate empty input
+  if (input_val === "") { return; }
+  
+  // original length
+  var original_len = input_val.length;
+
+  // initial caret position 
+  var caret_pos = input.prop("selectionStart");
+    
+  // check for decimal
+  if (input_val.indexOf(".") >= 0) {
+
+    // get position of first decimal
+    // this prevents multiple decimals from
+    // being entered
+    var decimal_pos = input_val.indexOf(".");
+
+    // split number by decimal point
+    var left_side = input_val.substring(0, decimal_pos);
+    var right_side = input_val.substring(decimal_pos);
+
+    // add commas to left side of number
+    left_side = formatNumber(left_side);
+
+    // validate right side
+    right_side = formatNumber(right_side);
+    
+    // On blur make sure 2 numbers after decimal
+    if (blur === "blur") {
+      right_side += "00";
+    }
+    
+    // Limit decimal to only 2 digits
+    right_side = right_side.substring(0, 2);
+
+    // join number by .
+    input_val =  left_side + "." + right_side;
+
+  } else {
+    // no decimal entered
+    // add commas to number
+    // remove all non-digits
+    input_val = formatNumber(input_val);
+    //input_val =  input_val;
+    
+    // final formatting
+    if (blur === "blur") {
+      input_val += ".00";
+    }
+  }
+  
+  // send updated string to input
+  input.val(input_val);
+
+  // put caret back in the right position
+  var updated_len = input_val.length;
+  caret_pos = updated_len - original_len + caret_pos;
+  input[0].setSelectionRange(caret_pos, caret_pos);
+}
 
     function getTotal(row = null){
       if(row){
-        var total = Number($("#rate_" + row).val()) * Number($("#quantity_" + row).val());
-        total =total.toFixed(2);
+        var total = parseFloat(($("#rate_" + row).val()).replace(/,/g,"")) * parseFloat(($("#quantity_" + row).val()).replace(/,/g,""));
+        total =total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         $("#amount_"+row).val(total);
         $("#amount_value_" + row).val(total);
         subAmount();
@@ -277,14 +357,13 @@
         var tr = $("#material_info_table tbody tr")[x];
         var count = $(tr).attr('id');
         count =count.substring(4);
-        totalSubAmount = Number(totalSubAmount) +Number($("#amount_" + count).val());
+        totalSubAmount = parseFloat(totalSubAmount) + parseFloat(($("#amount_" + count).val()).replace(/,/g , ''));
       }
 
       totalSubAmount =totalSubAmount.toFixed(2);
-      var amount = $("#tamount").val();
+      var amount = parseFloat($("#tamount").val().replace(/,/g,""));
       var totalAmount = (Number(amount) + Number(totalSubAmount));
-      totalAmount = totalAmount.toFixed(2);
-
+      totalAmount = totalAmount.toLocaleString(undefined,{ minimumFractionDigits: 2, maximumFractionDigits: 2 });
     
         $("#amountt").val(totalAmount);
         $("#amountt_value").val(totalAmount);
@@ -299,4 +378,6 @@
       
       $("#amountt_value").val(tamount_value);
     }
+
+    
   </script>

@@ -100,11 +100,8 @@
     $("#mainFundNav").addClass('active');
     $("#addFundNav").addClass('active');
     
-    var btnCust = '<button type="button" class="btn btn-secondary" title="Add picture tags" ' + 
-        'onclick="alert(\'Call your custom code here.\')">' +
-        '<i class="glyphicon glyphicon-tag"></i>' +
-        '</button>'; 
-        $("input[data-type='currency']").on({
+
+    $("input[data-type='currency']").on({
       keyup: function() {
         formatCurrency($(this));
       },

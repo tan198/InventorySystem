@@ -6,7 +6,19 @@
 			parent::__construct();
 
 			$this->not_logged_in();
-			$this->data['page_title'] = 'Customer';
+
+			$current_lang = $this->session->userdata('site_lang');
+
+			if (!$current_lang || $current_lang == 'english') {
+				$this->lang->load('form_validation', 'english');
+				$this->lang->load('content_lang','english');
+				
+			} 
+			elseif ($current_lang == 'vietnam') {
+				$this->lang->load('content_lang','vietnam');
+				$this->lang->load('form_validation', 'vietnam');
+			}
+			$this->data['page_title'] = $this->lang->line('Customer');
 			$this->load->model('model_customer');
 		}
 

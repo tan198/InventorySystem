@@ -18,10 +18,14 @@ class Expenditure extends Admin_Controller
 
         $current_lang = $this->session->userdata('site_lang');
 
-        if ($current_lang == 'english') {
+        if (!$current_lang || $current_lang == 'english') {
+            $this->lang->load('form_validation', 'english');
             $this->lang->load('content_lang','english');
-        } elseif ($current_lang == 'vietnam') {
+            
+        } 
+        elseif ($current_lang == 'vietnam') {
             $this->lang->load('content_lang','vietnam');
+            $this->lang->load('form_validation', 'vietnam');
         }
         
         $this->data['page_title'] =  $this->lang->line('Expenditure');
@@ -76,28 +80,27 @@ class Expenditure extends Admin_Controller
                 $material_status = $this->model_expenditure->updateMaterialStatus($value['idBangChi'],null);
             }
 
-           
+            //phân loại khoản chi tạm ứng, mua vật tư, các loại chi khác
+
+            $typeother = $value['phanloai'];
             $type_expenditure = $value['typeExp'];
-            if($material_status == null){
+            if($material_status == null && $typeother == null){
                 $this->model_expenditure->updateTypeExpenditure($value['idBangChi'],1);
                 $type_expenditure = '<span class="label label-default">Advances</span>';
-            } else {
+            } elseif($material_status == null && $typeother != null){
+                $this->model_expenditure->updateTypeExpenditure($value['idBangChi'],3);
+                $type_expenditure = '<span class="label label-primary">Others Expenditure</span>';
+            }else{
                 $this->model_expenditure->updateTypeExpenditure($value['idBangChi'],2);
                 $type_expenditure = '<span class="label label-info">Buy Material</span>';
             }
-            
-            
-            
 
-
-            //var_dump($receiver);
-
+            //phân loại tên người nhận và nhà cung cấp
             
-
             $receiver_name = '';
             if($material_status != null){
                 $receiver = $this->model_supplier->getSupplierData($value['nguoiNhan']);
-                //var_dump($receiver);
+              
                 $receiver_name = isset($receiver['name']) ? $receiver['name'] : '';
             }else{
                 $receiver = $this->model_users->getUserData($value['nguoiNhan']) ;
@@ -112,13 +115,18 @@ class Expenditure extends Admin_Controller
 
 			// button
             $buttons = '';
-            if($material_status !== null){
-                if(in_array('updateExpenditure', $this->permission)) {
-                    $buttons .= '<a href="'.base_url('expenditure/update/'.$value['idBangChi']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
-                }
-            }else{
+            if($material_status == null && $typeother == null){
                 if(in_array('updateAdvances',  $this->permission)){
                     $buttons .= '<a href="'.base_url('advances/update/'.$value['idBangChi']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+                }
+
+            }elseif($material_status == null && $typeother != null){
+                if(in_array('updateOtherExpenditure',  $this->permission)){
+                    $buttons .= '<a href="'.base_url('otherexpenditure/update/'.$value['idBangChi']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+                }
+            }else{
+                if(in_array('updateExpenditure', $this->permission)) {
+                    $buttons .= '<a href="'.base_url('expenditure/update/'.$value['idBangChi']).'" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
                 }
             }
             if(in_array('deleteExpenditure', $this->permission)) { 
@@ -136,9 +144,7 @@ class Expenditure extends Admin_Controller
                 'tongTien'=>$value['tongTien'],
 				'action'=>$buttons
 			);
-
-            //var_dump($result);
-		} // /foreach
+		} 
     
 		echo json_encode($result);
 	}
@@ -146,7 +152,7 @@ class Expenditure extends Admin_Controller
     /*
     * If the validation is not valid, then it redirects to the create page.
     * If the validation for each input field is valid then it inserts the data into the database 
-    * and it stores the operation message into the session flashdata and display on the manage product page
+    * and it stores the operation message into the session flashdata and display on the manage page
     */
 	public function create()
 	{
@@ -154,8 +160,8 @@ class Expenditure extends Admin_Controller
             redirect('dashboard', 'refresh');
         }
 
-		$this->form_validation->set_rules('supplier', 'Payer name', 'trim|required');
-		$this->form_validation->set_rules('expenditurecategory', 'Expenditurecategory', 'required');
+		$this->form_validation->set_rules('supplier', $this->lang->line('Supplier'), 'trim|required');
+		$this->form_validation->set_rules('expenditurecategory', $this->lang->line('Expenditure Category'), 'required');
 		$this->form_validation->set_rules('date_expenditure', 'Date expenditure', 'required');
         $this->form_validation->set_rules('fund', 'Fund', 'required');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim');
@@ -198,7 +204,6 @@ class Expenditure extends Admin_Controller
                     $create = $this->model_expenditure->create1($data,$data1);
                     if($create == true ) {
                         $this->session->set_flashdata('success', 'Successfully created');
-                        var_dump($create);
                         redirect('expenditure/', 'refresh');
                     }
                     else {
@@ -289,7 +294,7 @@ class Expenditure extends Admin_Controller
 		$this->form_validation->set_rules('date_expenditure', 'Date expenditure', 'required');
         $this->form_validation->set_rules('material_status', 'Material Status', 'required');
         $this->form_validation->set_rules('fund', 'Fund', 'required');
-		$this->form_validation->set_rules('tamount', 'Amount', 'trim|required');
+		$this->form_validation->set_rules('tamount', 'Amount', 'trim');
         $this->form_validation->set_rules('amountt', 'Amountt','trim');
         //$this->form_validation->set_rules('quantity[]', 'Quantity', 'trim|callback_quantity_require');
 
@@ -310,7 +315,6 @@ class Expenditure extends Admin_Controller
 
             if($data['materialStatus'] == 1){
                 $update = $this->model_expenditure->update($id, $data);
-                //$create1 = $this->model_expenditure->newRowUpdate($id);
                 if($update == true) {
                     $this->session->set_flashdata('success', 'Successfully updated');
                     redirect('expenditure/', 'refresh');

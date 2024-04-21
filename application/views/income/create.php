@@ -56,7 +56,11 @@
 
                 <div class="form-group">
                   <label for="name_income"><?php echo $this->lang->line('Name Income Category')?><span class="text-danger"> *</span></label>
-                  <input type="text" class="form-control" id="name_income" name="name_income" placeholder="" autocomplete="off" />
+                  <select class="form-control select_group" id="name_income" name="name_income">
+                    <?php foreach ($namecate as $k => $v): ?>
+                      <option value="<?php echo $v['id'] ?>"><?php echo $v['name'] ?></option>
+                    <?php endforeach ?>
+                  </select>
                 </div>
 
                 <div class="form-group">
@@ -78,11 +82,11 @@
                   <div class="radio form-check-inline" id= "material_status">
                     <label>
                       <input type="radio" name="material_status" class="material_status" id="Yes" value="1">
-                      Yes
+                      <?php echo $this->lang->line('Yes')?>
                     </label>
                     <label>
                       <input type="radio" name="material_status"class="material_status" id="No" value="0">
-                      No
+                      <?php echo $this->lang->line('No')?>
                     </label>
                   </div>
                 </div>
@@ -129,18 +133,23 @@
                 </table>
                 <div class="form-group">
                   <label for="receiver_name" ><?php echo $this->lang->line('Receiver')?><span class="text-danger"> *</span></label>
-                  <input type="text" class="form-control" id="receiver_name" name="receiver_name" placeholder="Enter receiver name" autocomplete="off"/>
+                  <select class="form-control select_group" id="receiver_name" name="receiver_name">
+                      <option value=""></option>
+                        <?php foreach ($customer as $k => $v):?>
+                          <option value="<?php echo $v['id']?>"><?php echo  $v['name']?></option>
+                        <?php endforeach ?>
+                  </select>
                 </div>
 
                 <div class="form-group">
                   <label for="date_income"><?php echo $this->lang->line('Date Income')?><span class="text-danger"> *</span></label>
                   <input type="date" class="form-control" id="date_income" name="date_income" placeholder="Enter date income" autocomplete="off" />
                 </div>
-
+<!--
                 <div class="form-group">
                   <label for="tamount"><?php echo $this->lang->line('Amount')?><span class="text-danger"> *</span></label>
                   <input type="text" class="form-control" id="tamount" name="tamount" placeholder="Enter amount" autocomplete="off" onkeyup="subAmount()" />
-                </div>
+                </div>-->
 
                 <div class="form-group">
                   <label for="amountt"><?php echo $this->lang->line('Total Amount')?></label>
@@ -303,8 +312,8 @@
     }
 
     totalSubAmount =totalSubAmount.toFixed(2);
-    var amount = $("#tamount").val();
-    var totalAmount = (Number(amount) + Number(totalSubAmount));
+    //var amount = $("#tamount").val();
+    var totalAmount = (Number(totalSubAmount));
     totalAmount = totalAmount.toFixed(2);
 
   
@@ -313,12 +322,33 @@
     
   }
 
+  $("#incomecategory").change(function(){
+        var category = $(this).val();
+        $.ajax({
+        url: base_url + '/namecate/getListName/' + category,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            // Xóa tất cả các option hiện có trong select box 
+            $('#name_income').empty();
+            
+            // Thêm các option mới dựa trên dữ liệu nhận được từ ajax respons
+            $.each(data, function(index, value){
+              
+                $('#name_income').append('<option value="' + value.id+ '">' + value.name + '</option>');
+            });
+            $(".name_income").select2();
+          }
+
+        });
+      });
+
   function removeRow(tr_id)
   {
     $("#material_info_table tbody tr#row_"+tr_id).remove();
     subAmount();
-    var tamount_value = $("#tamount").val();
+    //var tamount_value = $("#tamount").val();
     
-    $("#amountt_value").val(tamount_value);
+    //$("#amountt_value").val(tamount_value);
   }
 </script>

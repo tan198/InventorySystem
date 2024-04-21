@@ -17,6 +17,14 @@
 			return $query->result_array();
 		}
 
+		public function updateTypeIncome($id,$typeIncome){
+			if($id){
+				$this->db->where('idBangThu',$id);
+				$this->db->set('type_Income', $typeIncome);
+				$updatesType = $this->db->update('taobangthu');
+				return ($updatesType == true)?true:false;
+			}
+		}
 		
 		public function getTotalIncome() {
 		$sql = "SELECT taikhoan.idTaiKhoan, SUM(CAST(REPLACE(taobangthu.tongTien, ',', '') AS float)) as totalIncome

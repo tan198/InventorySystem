@@ -34,10 +34,10 @@
           </div>
         <?php endif; ?>
 
-        <?php if(in_array('createExpenditure', $user_permission) || in_array('createAdvances', $user_permission)): ?>
+        <?php if(in_array('createExpenditure', $user_permission) || in_array('createAdvances', $user_permission) || in_array('createOtherExpenditure', $user_permission)): ?>
           <a href="<?php echo base_url('expenditure/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Buy Materials');?></a>
           <a href="<?php echo base_url('advances/create') ?>" class="btn btn-primary"><?php echo $this->lang->line('Advances');?></a>
-          <a href="<?php echo base_url('transaction/create')?>" class="btn btn-primary"><?php echo $this->lang->line('Orther Expenditure')?></a>
+          <a href="<?php echo base_url('otherexpenditure/create')?>" class="btn btn-primary"><?php echo $this->lang->line('Orther Expenditure')?></a>
           <a href="<?php echo base_url('expenditure/exportexcel') ?>" class="btn btn-primary mb-2">Export</a>
           <br> <br>
         <?php endif; ?>

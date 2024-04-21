@@ -2,11 +2,11 @@
 	<section class="content-header">
 		<h1>
 			<?php echo $this->lang->line('Manage');?>
-			<small><?php echo $this->lang->line('Advances')?></small>
+			<small><?php echo $this->lang->line('Refund')?></small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"><?php echo $this->lang->line("Home")?></i></a></li>
-			<li class="active"><?php echo $this->lang->line('Advances')?></li>
+			<li class="active"><?php echo $this->lang->line('Refund')?></li>
 		</ol>
 	</section>
 
@@ -29,10 +29,10 @@
 
 				<div class="box">
 					<div class="box-header">
-						<h3 class="box-title"><?php echo $this->lang->line('Add Advances')?></h3>
+						<h3 class="box-title"><?php echo $this->lang->line('Add Refund')?></h3>
 					</div>
 
-					<form role="form" action="<?php base_url('advances/create')?>" method="post" enctype="multipart/form-data">
+					<form role="form" action="<?php base_url('refund/create')?>" method="post" enctype="multipart/form-data">
 						<div class="box-body">
 							<?php echo validation_errors(); ?>
 
@@ -75,19 +75,19 @@
 							</div>
 
 							<div class="form-group">
-								<label for="date_advances"><?php echo $this->lang->line('Date')?><span class="text-danger"> *</span></label>
-								<input class="form-control" type="date" name="date_advances" id="date_advances" autocomplete ="off"/>
+								<label for="date_refund"><?php echo $this->lang->line('Date')?><span class="text-danger"> *</span></label>
+								<input class="form-control" type="date" name="date_refund" id="date_refund" autocomplete ="off"/>
 							</div>
 
 							<div class="form-group">
 								<label for="amount"><?php echo $this->lang->line('Amount')?><span class="text-danger"> *</span></label>
-								<input type="text" name="amount" id="amount" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" class="form-control" autocomplete="off" />
+								<input type="number" name="amount" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency" id="amount" class="form-control" autocomplete="off" />
 							</div>
 						</div>
 
 						<div class="box-footer">
 							<button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Save Changes'); ?></button>
-							<a href="<?php echo base_url('expenditure/')?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
+							<a href="<?php echo base_url('income/')?>" class="btn btn-warning"><?php echo $this->lang->line('Back')?></a>
 						</div>
 					</form>
 				</div>
@@ -100,12 +100,12 @@
 	var base_url = "<?php echo base_url(); ?>";
 	$(document).ready(function(){
 		$(".select_group").select2();
-		$("#mainExpenditureNav").addClass('active');
+		$("#mainIncomeNav").addClass('active');
 
 		$("#fund").change(function(){
 			var selected = $(this).val();
 			$.ajax({
-				url: base_url + 'advances/getPaymentById/'+ selected,
+				url: base_url + 'refund/getPaymentById/'+ selected,
 				type: 'GET',
 				//data: {idTaiKhoan: selected},
 				success: function(data){
@@ -115,7 +115,7 @@
 			})
 		});
 
-	$("input[data-type='currency']").on({
+		$("input[data-type='currency']").on({
       keyup: function() {
         formatCurrency($(this));
       },
@@ -125,76 +125,76 @@
     });
 
     function formatNumber(n) {
-	// format number 1000000 to 1,234,567
-	return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-	}
+  // format number 1000000 to 1,234,567
+  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
 
 
-	function formatCurrency(input, blur) {
-	// appends $ to value, validates decimal side
-	// and puts cursor back in right position.
-	
-	// get input value
-	var input_val = input.val();
-	
-	// don't validate empty input
-	if (input_val === "") { return; }
-	
-	// original length
-	var original_len = input_val.length;
+function formatCurrency(input, blur) {
+  // appends $ to value, validates decimal side
+  // and puts cursor back in right position.
+  
+  // get input value
+  var input_val = input.val();
+  
+  // don't validate empty input
+  if (input_val === "") { return; }
+  
+  // original length
+  var original_len = input_val.length;
 
-	// initial caret position 
-	var caret_pos = input.prop("selectionStart");
-		
-	// check for decimal
-	if (input_val.indexOf(".") >= 0) {
+  // initial caret position 
+  var caret_pos = input.prop("selectionStart");
+    
+  // check for decimal
+  if (input_val.indexOf(".") >= 0) {
 
-		// get position of first decimal
-		// this prevents multiple decimals from
-		// being entered
-		var decimal_pos = input_val.indexOf(".");
+    // get position of first decimal
+    // this prevents multiple decimals from
+    // being entered
+    var decimal_pos = input_val.indexOf(".");
 
-		// split number by decimal point
-		var left_side = input_val.substring(0, decimal_pos);
-		var right_side = input_val.substring(decimal_pos);
+    // split number by decimal point
+    var left_side = input_val.substring(0, decimal_pos);
+    var right_side = input_val.substring(decimal_pos);
 
-		// add commas to left side of number
-		left_side = formatNumber(left_side);
+    // add commas to left side of number
+    left_side = formatNumber(left_side);
 
-		// validate right side
-		right_side = formatNumber(right_side);
-		
-		// On blur make sure 2 numbers after decimal
-		if (blur === "blur") {
-		right_side += "00";
-		}
-		
-		// Limit decimal to only 2 digits
-		right_side = right_side.substring(0, 2);
+    // validate right side
+    right_side = formatNumber(right_side);
+    
+    // On blur make sure 2 numbers after decimal
+    if (blur === "blur") {
+      right_side += "00";
+    }
+    
+    // Limit decimal to only 2 digits
+    right_side = right_side.substring(0, 2);
 
-		// join number by .
-		input_val =  left_side + "." + right_side;
+    // join number by .
+    input_val =  left_side + "." + right_side;
 
-	} else {
-		// no decimal entered
-		// add commas to number
-		// remove all non-digits
-		input_val = formatNumber(input_val);
-		//input_val =  input_val;
-		
-		// final formatting
-		if (blur === "blur") {
-		input_val += ".00";
-		}
-	}
-	
-	// send updated string to input
-		input.val(input_val);
+  } else {
+    // no decimal entered
+    // add commas to number
+    // remove all non-digits
+    input_val = formatNumber(input_val);
+    //input_val =  input_val;
+    
+    // final formatting
+    if (blur === "blur") {
+      input_val += ".00";
+    }
+  }
+  
+  // send updated string to input
+  input.val(input_val);
 
-		// put caret back in the right position
-		var updated_len = input_val.length;
-		caret_pos = updated_len - original_len + caret_pos;
-		input[0].setSelectionRange(caret_pos, caret_pos);
-		}
+  // put caret back in the right position
+  var updated_len = input_val.length;
+  caret_pos = updated_len - original_len + caret_pos;
+  input[0].setSelectionRange(caret_pos, caret_pos);
+}
 	})
 </script>

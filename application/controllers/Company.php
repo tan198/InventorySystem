@@ -10,7 +10,19 @@ class Company extends Admin_Controller
 
 		$this->not_logged_in();
 
-		$this->data['page_title'] = 'Company';
+		$current_lang = $this->session->userdata('site_lang');
+
+        if (!$current_lang || $current_lang == 'english') {
+            $this->lang->load('form_validation', 'english');
+            $this->lang->load('content_lang','english');
+            
+        } 
+        elseif ($current_lang == 'vietnam') {
+            $this->lang->load('content_lang','vietnam');
+            $this->lang->load('form_validation', 'vietnam');
+        }
+
+		$this->data['page_title'] = $this->lang->line('Company');
 
 		$this->load->model('model_company');
 	}
@@ -27,8 +39,6 @@ class Company extends Admin_Controller
         }
         
 		$this->form_validation->set_rules('company_name', 'Company name', 'trim|required');
-		$this->form_validation->set_rules('service_charge_value', 'Charge Amount', 'trim|integer');
-		$this->form_validation->set_rules('vat_charge_value', 'Vat Charge', 'trim|integer');
 		$this->form_validation->set_rules('address', 'Address', 'trim|required');
 		$this->form_validation->set_rules('message', 'Message', 'trim|required');
 	
@@ -38,8 +48,6 @@ class Company extends Admin_Controller
 
         	$data = array(
         		'company_name' => $this->input->post('company_name'),
-        		'service_charge_value' => $this->input->post('service_charge_value'),
-        		'vat_charge_value' => $this->input->post('vat_charge_value'),
         		'address' => $this->input->post('address'),
         		'phone' => $this->input->post('phone'),
         		'country' => $this->input->post('country'),

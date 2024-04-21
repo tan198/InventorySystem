@@ -56,6 +56,8 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+
+
   
   <!-- jQuery 3 -->
   <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js') ?>"></script>
@@ -102,6 +104,8 @@
 
   <!-- ChartJS -->
   <script src="<?php echo base_url('assets/bower_components/Chart.js/Chart.js') ?>"></script>
+  <script type="text/javascript" src="https://cdnjs.com/libraries/Chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!-- icheck -->
   <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js') ?>"></script>

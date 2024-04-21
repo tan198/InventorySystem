@@ -85,8 +85,7 @@ class Model_expenditure extends CI_Model
 
         }
     }
-    public function create1($data = '', $data1 = '')
-    {
+    public function create1($data = '', $data1 = ''){
         if (!empty($data)) {
             // Thêm dữ liệu vào bảng 'taobangchi'
             $create = $this->db->insert('taobangchi', $data);
@@ -133,93 +132,95 @@ class Model_expenditure extends CI_Model
     
     public function update($id, $data) {
         if ($id){
+            $this->db->where('idBangChi', $id);
+            $update = $this->db->update('taobangchi', $data);
+            
             $this->db->select('idVatTu');
             $this->db->where('idBangChi', $id);
             $query = $this->db->get('material_item');
             $rows = $query->result();
 
-                $data1 = array();
-                $material_name = $this->input->post('material_name');
-                $type_material = $this->input->post('type_material');
-                $qty = $this->input->post('quantity');
-                $rate = $this->input->post('rate');
-                foreach ($rows as $index => $row) {
-                    $idVatTu = $row->idVatTu;
-                
-                    $data1[] = array(
-                        'idVatTu' => $idVatTu,
-                        'tenVatTu' => $material_name[$index], 
-                        'loaiVatTu' => $type_material[$index],
-                        'soLuong' => $qty[$index],
-                        'giaTien' => $rate[$index]
+            $data1 = array();
+            $material_name = $this->input->post('material_name');
+            $type_material = $this->input->post('type_material');
+            $qty = $this->input->post('quantity');
+            $rate = $this->input->post('rate');
+            foreach ($rows as $index => $row) {
+                $idVatTu = $row->idVatTu;
+            
+                $data1[] = array(
+                    'idVatTu' => $idVatTu,
+                    'tenVatTu' => $material_name[$index], 
+                    'loaiVatTu' => $type_material[$index],
+                    'soLuong' => $qty[$index],
+                    'giaTien' => $rate[$index]
+                );
+            }
+    
+            // Perform batch update for vatTu table
+            $this->db->update_batch('vattu', $data1, 'idVatTu');
+    
+            $material_item = array();
+            foreach ($data1 as $materials) {
+                $material_item[] = array(
+                    'idBangChi' => $id,
+                    'idVatTu' => $materials['idVatTu'],
+                    'loaiVatTu' => $materials['loaiVatTu'],
+                    'soLuong' => $materials['soLuong'],
+                    'rate' => $materials['giaTien'],
+                    'tongTien' =>(int) $materials['soLuong'] * (int) $materials['giaTien'],
+                );
+            }
+            // Update 'material_item' table
+            $this->db->update_batch('material_item', $material_item,'idVatTu');
+
+            //insert new row material
+            $data2 = array();
+
+            $material_name1 = $this->input->post('material_name1');
+            $type_material1 = $this->input->post('type_material1');
+            $qty1 = $this->input->post('quantity1');
+            $rate1 = $this->input->post('rate1');
+
+            if (
+                !is_array($material_name1) || 
+                !is_array($type_material1) || 
+                !is_array($qty1) || 
+                !is_array($rate1) ||
+                count($material_name1) !== count($type_material1) ||
+                count($material_name1) !== count($qty1) ||
+                count($material_name1) !== count($rate1)
+            ) {
+                // Handle error or return, depending on your application logic
+                // For demonstration purposes, let's log an error and exit
+                return true; // Or return an error message, redirect, etc.
+            }else{
+                for ($i = 0; $i < count($material_name1); $i++) {
+                    $data2[] = array(
+                        'tenVatTu' => $material_name1[$i],
+                        'loaiVatTu' => $type_material1[$i],
+                        'soLuong' => $qty1[$i],
+                        'giaTien' => $rate1[$i]
                     );
                 }
-        
-                // Perform batch update for vatTu table
-                $this->db->update_batch('vattu', $data1, 'idVatTu');
-        
-                $material_item = array();
-                foreach ($data1 as $materials) {
-                    $material_item[] = array(
-                        'idBangChi' => $id,
-                        'idVatTu' => $materials['idVatTu'],
-                        'loaiVatTu' => $materials['loaiVatTu'],
-                        'soLuong' => $materials['soLuong'],
-                        'rate' => $materials['giaTien'],
-                        'tongTien' =>(int) $materials['soLuong'] * (int) $materials['giaTien'],
+                $this->db->insert_batch('vattu', $data2);
+            
+                $material_item_new = array();
+                foreach ($data2 as $material) {
+                    $material_item_new[] = array(
+                        'idBangChi' => $id, 
+                        'idVatTu' => $this->db->insert_id(), // Assuming idVatTu is auto-incremented
+                        'loaiVatTu' => $material['loaiVatTu'],
+                        'soLuong' => $material['soLuong'],
+                        'rate' => $material['giaTien'],
+                        'tongTien' => $material['soLuong'] * $material['giaTien']
                     );
                 }
-                // Update 'material_item' table
-                $this->db->update_batch('material_item', $material_item,'idVatTu');
-
-                //insert new row material
-                $data2 = array();
-
-                $material_name1 = $this->input->post('material_name1');
-                $type_material1 = $this->input->post('type_material1');
-                $qty1 = $this->input->post('quantity1');
-                $rate1 = $this->input->post('rate1');
-
-                if (
-                    !is_array($material_name1) || 
-                    !is_array($type_material1) || 
-                    !is_array($qty1) || 
-                    !is_array($rate1) ||
-                    count($material_name1) !== count($type_material1) ||
-                    count($material_name1) !== count($qty1) ||
-                    count($material_name1) !== count($rate1)
-                ) {
-                    // Handle error or return, depending on your application logic
-                    // For demonstration purposes, let's log an error and exit
-                    return true; // Or return an error message, redirect, etc.
-                }else{
-                    for ($i = 0; $i < count($material_name1); $i++) {
-                        $data2[] = array(
-                            'tenVatTu' => $material_name1[$i],
-                            'loaiVatTu' => $type_material1[$i],
-                            'soLuong' => $qty1[$i],
-                            'giaTien' => $rate1[$i]
-                        );
-                    }
-                    $this->db->insert_batch('vattu', $data2);
-                
-                    $material_item_new = array();
-                    foreach ($data2 as $material) {
-                        $material_item_new[] = array(
-                            'idBangChi' => $id, 
-                            'idVatTu' => $this->db->insert_id(), // Assuming idVatTu is auto-incremented
-                            'loaiVatTu' => $material['loaiVatTu'],
-                            'soLuong' => $material['soLuong'],
-                            'rate' => $material['giaTien'],
-                            'tongTien' => $material['soLuong'] * $material['giaTien']
-                        );
-                    }
-                    $this->db->insert_batch('material_item', $material_item_new);
-                }
-            $this->db->where('idBangChi', $id);
-            $update = $this->db->update('taobangchi', $data);
-            return ($update == true) ? true : false;
+                $this->db->insert_batch('material_item', $material_item_new);
+            }
         }
+
+        return true;
     }
 
     public function update1($id,$data){

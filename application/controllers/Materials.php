@@ -10,7 +10,19 @@ class Materials extends Admin_Controller
 
 		$this->not_logged_in();
 
-		$this->data['page_title'] = 'Materials';
+		$current_lang = $this->session->userdata('site_lang');
+
+        if ($current_lang == 'english') {
+            $this->lang->load('form_validation', 'english');
+            $this->lang->load('content_lang','english');
+            
+        } 
+        elseif ($current_lang == 'vietnam') {
+            $this->lang->load('content_lang','vietnam');
+            $this->lang->load('form_validation', 'vietnam');
+        }
+
+		$this->data['page_title'] = $this->lang->line('Materials');
 
 		$this->load->model('model_materials');
 		$this->load->model('model_tmaterial');

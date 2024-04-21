@@ -38,11 +38,11 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <?php if(in_array('createUser', $user_permission)): ?>
+                <!--<?php if(in_array('createUser', $user_permission)): ?>
                 <li id="createUserNav"><a href="<?php echo base_url('users/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add User')?></a></li>
-                <?php endif; ?>
+                <?php endif; ?>-->
 
-                <?php if(in_array('updateUser', $user_permission) || in_array('viewUser', $user_permission) || in_array('deleteUser', $user_permission)): ?>
+                <?php if(in_array('updateUser', $user_permission) || in_array('viewUser', $user_permission) || in_array('createUser', $user_permission) || in_array('deleteUser', $user_permission)): ?>
                 <li id="manageUserNav"><a href="<?php echo base_url('users') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Users')?></a></li>
               <?php endif; ?>
               </ul>
@@ -59,10 +59,10 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <?php if(in_array('createGroup', $user_permission)): ?>
+                  <!--<?php if(in_array('createGroup', $user_permission)): ?>
                     <li id="addGroupNav"><a href="<?php echo base_url('groups/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Group')?> </a></li>
-                  <?php endif; ?>
-                  <?php if(in_array('updateGroup', $user_permission) || in_array('viewGroup', $user_permission) || in_array('deleteGroup', $user_permission)): ?>
+                  <?php endif; ?>-->
+                  <?php if(in_array('updateGroup', $user_permission) || in_array('viewGroup', $user_permission) || in_array('deleteGroup', $user_permission) || in_array('createGroup', $user_permission)): ?>
                   <li id="manageGroupNav"><a href="<?php echo base_url('groups') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Groups')?></a></li>
                   <?php endif; ?>
                 </ul>
@@ -83,10 +83,10 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <?php if(in_array('createFund', $user_permission)): ?>
+                <!--<?php if(in_array('createFund', $user_permission)): ?>
                   <li id="addFundNav"><a href="<?php echo base_url('fund/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Funds')?></a></li>
-                <?php endif; ?>
-                <?php if(in_array('updateFund', $user_permission) || in_array('viewFund', $user_permission) || in_array('deleteFund', $user_permission)): ?>
+                <?php endif; ?>-->
+                <?php if(in_array('updateFund', $user_permission) || in_array('createFund', $user_permission) || in_array('viewFund', $user_permission) || in_array('deleteFund', $user_permission)): ?>
                 <li id="manageFundNav"><a href="<?php echo base_url('fund') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Funds')?></a></li>
                 <?php endif; ?>
 
@@ -142,10 +142,10 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <?php if(in_array('createIncome', $user_permission)): ?>
+                <!--<?php if(in_array('createIncome', $user_permission)): ?>
                   <li id="addIncomeNav"><a href="<?php echo base_url('income/create') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Add Income')?></a></li>
-                <?php endif; ?>
-                <?php if(in_array('updateIncome', $user_permission) || in_array('viewIncome', $user_permission) || in_array('deleteIncome', $user_permission)): ?>
+                <?php endif; ?>-->
+                <?php if(in_array('createIncome', $user_permission) || in_array('updateIncome', $user_permission) || in_array('viewIncome', $user_permission) || in_array('deleteIncome', $user_permission)): ?>
                 <li id="manageIncomeNav"><a href="<?php echo base_url('income') ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line('Manage Income')?></a></li>
                 <?php endif; ?>
               </ul>

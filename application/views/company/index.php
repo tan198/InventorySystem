@@ -46,14 +46,6 @@
                   <input type="text" class="form-control" id="company_name" name="company_name" placeholder="<?php echo $this->lang->line('Enter Company Name')?>" value="<?php echo $company_data['company_name'] ?>" autocomplete="off">
                 </div>
                 <div class="form-group">
-                  <label for="service_charge_value"><?php echo $this->lang->line('Charge Amount (%)')?></label>
-                  <input type="text" class="form-control" id="service_charge_value" name="service_charge_value" placeholder="<?php echo $this->lang->line('Enter Charge Amount (%)')?>" value="<?php echo $company_data['service_charge_value'] ?>" autocomplete="off">
-                </div>
-                <div class="form-group">
-                  <label for="vat_charge_value"><?php echo $this->lang->line('Vat Charge (%)')?></label>
-                  <input type="text" class="form-control" id="vat_charge_value" name="vat_charge_value" placeholder="<?php echo $this->lang->line('Enter Vat Charge (%)')?>" value="<?php echo $company_data['vat_charge_value'] ?>" autocomplete="off">
-                </div>
-                <div class="form-group">
                   <label for="address"><?php echo $this->lang->line('Address')?></label>
                   <input type="text" class="form-control" id="address" name="address" placeholder="<?php echo $this->lang->line('Enter Address')?>" value="<?php echo $company_data['address'] ?>" autocomplete="off">
                 </div>
